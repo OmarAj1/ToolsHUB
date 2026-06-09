@@ -1,3 +1,4 @@
+import React, { Suspense, lazy } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Layout } from "./components/layout/Layout";
 import { ToolLayout } from "./components/layout/ToolLayout";
@@ -25,18 +26,21 @@ import {
   ProductCostCalculator 
 } from "./tools/seller/SellerCalculators";
 
-// New Dev Tools
-import { JsonValidator } from "./tools/dev/JsonValidator";
-import { RegexTester } from "./tools/dev/RegexTester";
-import { JwtDecoder, JwtInspector } from "./tools/dev/JwtTools";
-import { Base64Decoder } from "./tools/dev/Base64Decoder";
-import { UrlEncoderDecoder } from "./tools/dev/UrlEncoderDecoder";
-import { ColorConverter } from "./tools/dev/ColorConverter";
-import { ApiTester } from "./tools/dev/ApiTester";
-import { UuidGenerator } from "./tools/dev/UuidGenerator";
-import { HashGenerator } from "./tools/dev/HashGenerator";
-import { SqlFormatterTool, XmlFormatterTool } from "./tools/dev/Formatters";
-import { CsvToJson, JsonToCsv } from "./tools/dev/CsvJsonConverter";
+// New Dev Tools (Lazy Loaded Chunk)
+const JsonValidator = lazy(() => import("./tools/dev/JsonValidator").then(m => ({ default: m.JsonValidator })));
+const RegexTester = lazy(() => import("./tools/dev/RegexTester").then(m => ({ default: m.RegexTester })));
+const JwtDecoder = lazy(() => import("./tools/dev/JwtTools").then(m => ({ default: m.JwtDecoder })));
+const JwtInspector = lazy(() => import("./tools/dev/JwtTools").then(m => ({ default: m.JwtInspector })));
+const Base64Decoder = lazy(() => import("./tools/dev/Base64Decoder").then(m => ({ default: m.Base64Decoder })));
+const UrlEncoderDecoder = lazy(() => import("./tools/dev/UrlEncoderDecoder").then(m => ({ default: m.UrlEncoderDecoder })));
+const ColorConverter = lazy(() => import("./tools/dev/ColorConverter").then(m => ({ default: m.ColorConverter })));
+const ApiTester = lazy(() => import("./tools/dev/ApiTester").then(m => ({ default: m.ApiTester })));
+const UuidGenerator = lazy(() => import("./tools/dev/UuidGenerator").then(m => ({ default: m.UuidGenerator })));
+const HashGenerator = lazy(() => import("./tools/dev/HashGenerator").then(m => ({ default: m.HashGenerator })));
+const SqlFormatterTool = lazy(() => import("./tools/dev/Formatters").then(m => ({ default: m.SqlFormatterTool })));
+const XmlFormatterTool = lazy(() => import("./tools/dev/Formatters").then(m => ({ default: m.XmlFormatterTool })));
+const CsvToJson = lazy(() => import("./tools/dev/CsvJsonConverter").then(m => ({ default: m.CsvToJson })));
+const JsonToCsv = lazy(() => import("./tools/dev/CsvJsonConverter").then(m => ({ default: m.JsonToCsv })));
 
 // Student Toolkit Tools
 import { GpaCalculator, GradeCalculator, ReadingTimeCalculator } from "./tools/student/Calculators";
@@ -58,7 +62,15 @@ import { KdCalculator, EdpiCalculator, SensConverter, XpCalculator, AspectRatioC
 export default function App() {
   return (
     <Router>
-      <Routes>
+      <Suspense fallback={
+        <div className="flex h-screen w-full items-center justify-center text-slate-500 font-medium">
+          <div className="flex items-center gap-2">
+            <svg className="animate-spin h-5 w-5 text-indigo-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+            Loading toolkit...
+          </div>
+        </div>
+      }>
+        <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="category/:categoryId" element={<Category />} />
@@ -185,6 +197,7 @@ export default function App() {
           <Route path="*" element={<div className="container mx-auto p-20 text-center">Page not found</div>} />
         </Route>
       </Routes>
+      </Suspense>
     </Router>
   );
 }

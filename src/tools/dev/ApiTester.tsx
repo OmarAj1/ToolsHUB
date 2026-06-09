@@ -25,7 +25,11 @@ export function ApiTester() {
         data
       });
     } catch (e: any) {
-      setResponse({ error: e.message });
+      let errorMessage = e.message;
+      if (e.name === 'TypeError' && e.message === 'Failed to fetch') {
+        errorMessage = "CORS Error: Failed to fetch. Ensure the destination API allows cross-origin requests from this domain, or use a CORS proxy. Browsers block opaque responses by default.";
+      }
+      setResponse({ error: errorMessage });
     } finally {
       setLoading(false);
     }

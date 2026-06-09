@@ -22,8 +22,16 @@ export function useLocalStorage<T>(key: string, initialValue: T) {
         window.localStorage.setItem(key, JSON.stringify(valueToStore));
         window.dispatchEvent(new Event("local-storage"));
       }
-    } catch (error) {
-      console.warn(`Error setting localStorage key "${key}":`, error);
+    } catch (error: any) {
+      if (
+        error.name === 'QuotaExceededError' ||
+        error.name === 'NS_ERROR_DOM_QUOTA_REACHED'
+      ) {
+        console.warn(`[Storage Quota Exceeded] Unable to save to localStorage for key: "${key}". The 5MB browser limit may have been reached.`);
+        // Optionally notify the user or clear old states here.
+      } else {
+        console.warn(`Error setting localStorage key "${key}":`, error);
+      }
     }
   };
 
