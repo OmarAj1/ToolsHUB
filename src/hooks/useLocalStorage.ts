@@ -15,31 +15,52 @@ export function useLocalStorage<T>(key: string, initialValue: T) {
   });
 
   const setValue = (value: T | ((val: T) => T)) => {
-    try {
-      const valueToStore = value instanceof Function ? value(storedValue) : value;
-      setStoredValue(valueToStore);
-      if (typeof window !== "undefined") {
-        window.localStorage.setItem(key, JSON.stringify(valueToStore));
-        window.dispatchEvent(new Event("local-storage"));
+    setStoredValue((prevValue) => {
+      try {
+        const valueToStore = value instanceof Function ? value(prevValue) : value;
+        if (typeof window !== "undefined") {
+          window.localStorage.setItem(key, JSON.stringify(valueToStore));
+          window.dispatchEvent(new CustomEvent("local-storage", { detail: { key } }));
+        }
+        return valueToStore;
+      } catch (error: any) {
+        if (
+          error.name === 'QuotaExceededError' ||
+          error.name === 'NS_ERROR_DOM_QUOTA_REACHED'
+        ) {
+          console.warn(`[Storage Quota Exceeded] Unable to save to localStorage for key: "${key}". The 5MB browser limit may have been reached.`);
+        } else {
+          console.warn(`Error setting localStorage key "${key}":`, error);
+        }
+        const valueToStore = value instanceof Function ? value(prevValue) : value;
+        return valueToStore;
       }
-    } catch (error: any) {
-      if (
-        error.name === 'QuotaExceededError' ||
-        error.name === 'NS_ERROR_DOM_QUOTA_REACHED'
-      ) {
-        console.warn(`[Storage Quota Exceeded] Unable to save to localStorage for key: "${key}". The 5MB browser limit may have been reached.`);
-        // Optionally notify the user or clear old states here.
-      } else {
-        console.warn(`Error setting localStorage key "${key}":`, error);
-      }
-    }
+    });
   };
 
   useEffect(() => {
-    const handleStorageChange = () => {
+    const handleStorageChange = (e: Event | StorageEvent | CustomEvent) => {
+      if (e.type === "storage") {
+        const storageEvent = e as StorageEvent;
+        if (storageEvent.key && storageEvent.key !== key) return;
+      }
+      if (e.type === "local-storage") {
+        const customEvent = e as CustomEvent;
+        if (customEvent.detail && customEvent.detail.key !== key) {
+           return;
+        }
+      }
       try {
         const item = window.localStorage.getItem(key);
-        if (item) setStoredValue(JSON.parse(item));
+        if (item) {
+          const parsedItem = JSON.parse(item);
+          setStoredValue((prev) => {
+            if (JSON.stringify(prev) !== item) {
+              return parsedItem;
+            }
+            return prev;
+          });
+        }
       } catch (error) {}
     };
     window.addEventListener("local-storage", handleStorageChange);

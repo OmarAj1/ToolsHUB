@@ -14,7 +14,7 @@ export interface Tool {
   description: string;
   categoryId: string;
   path: string;
-  component: React.ComponentType;
+  component?: React.ComponentType;
   icon?: string;
   isPopular?: boolean;
 }

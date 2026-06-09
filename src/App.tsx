@@ -1,5 +1,6 @@
 import React, { Suspense, lazy } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { ErrorBoundary } from "./components/ErrorBoundary";
 import { Layout } from "./components/layout/Layout";
 import { ToolLayout } from "./components/layout/ToolLayout";
 
@@ -8,23 +9,33 @@ import { Home } from "./pages/Home";
 import { Category } from "./pages/Category";
 
 // Tools
-import { WordCounter } from "./tools/text/WordCounter";
-import { RemoveDuplicateLines, SortLines, ReverseLines, CaseConverter, ExtractEmails, ExtractUrls, RemoveEmptyLines, WhitespaceRemover } from "./tools/text/TextModifiers";
-import { TextCompare, FindAndReplace, CsvCleaner, TextFormatter } from "./tools/text/TextToolsExtra";
-import { JsonFormatter } from "./tools/dev/JsonFormatter";
-import { Base64Encoder } from "./tools/dev/Base64Encoder";
-import { ProfitCalculator } from "./tools/seller/ProfitCalculator";
-import { 
-  RoiCalculator, 
-  MarketplaceFeeCalculator, 
-  PricingCalculator, 
-  BreakEvenCalculator, 
-  MarginCalculator, 
-  DiscountCalculator, 
-  SalesTaxCalculator, 
-  RevenueForecastTool, 
-  ProductCostCalculator 
-} from "./tools/seller/SellerCalculators";
+const WordCounter = lazy(() => import("./tools/text/WordCounter").then(m => ({ default: m.WordCounter })));
+const RemoveDuplicateLines = lazy(() => import("./tools/text/TextModifiers").then(m => ({ default: m.RemoveDuplicateLines })));
+const SortLines = lazy(() => import("./tools/text/TextModifiers").then(m => ({ default: m.SortLines })));
+const ReverseLines = lazy(() => import("./tools/text/TextModifiers").then(m => ({ default: m.ReverseLines })));
+const CaseConverter = lazy(() => import("./tools/text/TextModifiers").then(m => ({ default: m.CaseConverter })));
+const ExtractEmails = lazy(() => import("./tools/text/TextModifiers").then(m => ({ default: m.ExtractEmails })));
+const ExtractUrls = lazy(() => import("./tools/text/TextModifiers").then(m => ({ default: m.ExtractUrls })));
+const RemoveEmptyLines = lazy(() => import("./tools/text/TextModifiers").then(m => ({ default: m.RemoveEmptyLines })));
+const WhitespaceRemover = lazy(() => import("./tools/text/TextModifiers").then(m => ({ default: m.WhitespaceRemover })));
+const TextCompare = lazy(() => import("./tools/text/TextToolsExtra").then(m => ({ default: m.TextCompare })));
+const FindAndReplace = lazy(() => import("./tools/text/TextToolsExtra").then(m => ({ default: m.FindAndReplace })));
+const CsvCleaner = lazy(() => import("./tools/text/TextToolsExtra").then(m => ({ default: m.CsvCleaner })));
+const TextFormatter = lazy(() => import("./tools/text/TextToolsExtra").then(m => ({ default: m.TextFormatter })));
+
+const JsonFormatter = lazy(() => import("./tools/dev/JsonFormatter").then(m => ({ default: m.JsonFormatter })));
+const Base64Encoder = lazy(() => import("./tools/dev/Base64Encoder").then(m => ({ default: m.Base64Encoder })));
+
+const ProfitCalculator = lazy(() => import("./tools/seller/ProfitCalculator").then(m => ({ default: m.ProfitCalculator })));
+const RoiCalculator = lazy(() => import("./tools/seller/SellerCalculators").then(m => ({ default: m.RoiCalculator })));
+const MarketplaceFeeCalculator = lazy(() => import("./tools/seller/SellerCalculators").then(m => ({ default: m.MarketplaceFeeCalculator })));
+const PricingCalculator = lazy(() => import("./tools/seller/SellerCalculators").then(m => ({ default: m.PricingCalculator })));
+const BreakEvenCalculator = lazy(() => import("./tools/seller/SellerCalculators").then(m => ({ default: m.BreakEvenCalculator })));
+const MarginCalculator = lazy(() => import("./tools/seller/SellerCalculators").then(m => ({ default: m.MarginCalculator })));
+const DiscountCalculator = lazy(() => import("./tools/seller/SellerCalculators").then(m => ({ default: m.DiscountCalculator })));
+const SalesTaxCalculator = lazy(() => import("./tools/seller/SellerCalculators").then(m => ({ default: m.SalesTaxCalculator })));
+const RevenueForecastTool = lazy(() => import("./tools/seller/SellerCalculators").then(m => ({ default: m.RevenueForecastTool })));
+const ProductCostCalculator = lazy(() => import("./tools/seller/SellerCalculators").then(m => ({ default: m.ProductCostCalculator })));
 
 // New Dev Tools (Lazy Loaded Chunk)
 const JsonValidator = lazy(() => import("./tools/dev/JsonValidator").then(m => ({ default: m.JsonValidator })));
@@ -43,26 +54,84 @@ const CsvToJson = lazy(() => import("./tools/dev/CsvJsonConverter").then(m => ({
 const JsonToCsv = lazy(() => import("./tools/dev/CsvJsonConverter").then(m => ({ default: m.JsonToCsv })));
 
 // Student Toolkit Tools
-import { GpaCalculator, GradeCalculator, ReadingTimeCalculator } from "./tools/student/Calculators";
-import { StudyScheduleGenerator, ExamCountdownTracker, AssignmentPlanner, SemesterPlanner } from "./tools/student/Planners";
-import { CitationFormatter, FlashcardExporter, NoteFormatter } from "./tools/student/Formatters";
+const GpaCalculator = lazy(() => import("./tools/student/Calculators").then(m => ({ default: m.GpaCalculator })));
+const GradeCalculator = lazy(() => import("./tools/student/Calculators").then(m => ({ default: m.GradeCalculator })));
+const ReadingTimeCalculator = lazy(() => import("./tools/student/Calculators").then(m => ({ default: m.ReadingTimeCalculator })));
+const StudyScheduleGenerator = lazy(() => import("./tools/student/Planners").then(m => ({ default: m.StudyScheduleGenerator })));
+const ExamCountdownTracker = lazy(() => import("./tools/student/Planners").then(m => ({ default: m.ExamCountdownTracker })));
+const AssignmentPlanner = lazy(() => import("./tools/student/Planners").then(m => ({ default: m.AssignmentPlanner })));
+const SemesterPlanner = lazy(() => import("./tools/student/Planners").then(m => ({ default: m.SemesterPlanner })));
+const CitationFormatter = lazy(() => import("./tools/student/Formatters").then(m => ({ default: m.CitationFormatter })));
+const FlashcardExporter = lazy(() => import("./tools/student/Formatters").then(m => ({ default: m.FlashcardExporter })));
+const NoteFormatter = lazy(() => import("./tools/student/Formatters").then(m => ({ default: m.NoteFormatter })));
 
 // PDF Tools
-import { MergePdf } from "./tools/pdf/MergePdf";
-import { RotatePdf, DeletePagesPdf, ExtractPagesPdf } from "./tools/pdf/PdfModifiers1";
-import { AddWatermarkPdf, AddPageNumbersPdf, ReorderPdf } from "./tools/pdf/PdfModifiers2";
-import { JpgToPdf, PngToPdf, PdfToJpg, PdfToPng, PdfToText, CompressPdf, ProtectPdf, UnlockPdf } from "./tools/pdf/PdfConverters";
-import { SplitPdf, PdfMetadataViewer } from "./tools/pdf/PdfAdvanced";
-import { AlternateMixPdf, SplitPdfByPages, SplitPdfByBookmarks, SplitPdfInHalf, SplitPdfBySize, SplitPdfByText, EditPdf, FillSignPdf, CreateFormsPdf, FlattenPdf, PdfToExcel, PdfToPpt, PdfToWord, HtmlToPdf, WordToPdf, BatesNumbering, CreateBookmarksPdf, CropPdf, ExtractImagesPdf, GrayscalePdf, HeaderFooterPdf, NUpPdf, RenamePdf, RepairPdf, ResizePdf, RemoveAnnotationsPdf, DeskewPdf, OcrPdf, AutomatePdf } from "./tools/pdf/PdfPlaceholders";
+const MergePdf = lazy(() => import("./tools/pdf/MergePdf").then(m => ({ default: m.MergePdf })));
+const RotatePdf = lazy(() => import("./tools/pdf/PdfModifiers1").then(m => ({ default: m.RotatePdf })));
+const DeletePagesPdf = lazy(() => import("./tools/pdf/PdfModifiers1").then(m => ({ default: m.DeletePagesPdf })));
+const ExtractPagesPdf = lazy(() => import("./tools/pdf/PdfModifiers1").then(m => ({ default: m.ExtractPagesPdf })));
+const AddWatermarkPdf = lazy(() => import("./tools/pdf/PdfModifiers2").then(m => ({ default: m.AddWatermarkPdf })));
+const AddPageNumbersPdf = lazy(() => import("./tools/pdf/PdfModifiers2").then(m => ({ default: m.AddPageNumbersPdf })));
+const ReorderPdf = lazy(() => import("./tools/pdf/PdfModifiers2").then(m => ({ default: m.ReorderPdf })));
+const JpgToPdf = lazy(() => import("./tools/pdf/PdfConverters").then(m => ({ default: m.JpgToPdf })));
+const PngToPdf = lazy(() => import("./tools/pdf/PdfConverters").then(m => ({ default: m.PngToPdf })));
+const PdfToJpg = lazy(() => import("./tools/pdf/PdfConverters").then(m => ({ default: m.PdfToJpg })));
+const PdfToPng = lazy(() => import("./tools/pdf/PdfConverters").then(m => ({ default: m.PdfToPng })));
+const PdfToText = lazy(() => import("./tools/pdf/PdfConverters").then(m => ({ default: m.PdfToText })));
+const CompressPdf = lazy(() => import("./tools/pdf/PdfConverters").then(m => ({ default: m.CompressPdf })));
+const ProtectPdf = lazy(() => import("./tools/pdf/PdfConverters").then(m => ({ default: m.ProtectPdf })));
+const UnlockPdf = lazy(() => import("./tools/pdf/PdfConverters").then(m => ({ default: m.UnlockPdf })));
+const SplitPdf = lazy(() => import("./tools/pdf/PdfAdvanced").then(m => ({ default: m.SplitPdf })));
+const PdfMetadataViewer = lazy(() => import("./tools/pdf/PdfAdvanced").then(m => ({ default: m.PdfMetadataViewer })));
+
+const AlternateMixPdf = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.AlternateMixPdf })));
+const SplitPdfByPages = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.SplitPdfByPages })));
+const SplitPdfByBookmarks = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.SplitPdfByBookmarks })));
+const SplitPdfInHalf = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.SplitPdfInHalf })));
+const SplitPdfBySize = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.SplitPdfBySize })));
+const SplitPdfByText = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.SplitPdfByText })));
+const EditPdf = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.EditPdf })));
+const FillSignPdf = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.FillSignPdf })));
+const CreateFormsPdf = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.CreateFormsPdf })));
+const FlattenPdf = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.FlattenPdf })));
+const PdfToExcel = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.PdfToExcel })));
+const PdfToPpt = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.PdfToPpt })));
+const PdfToWord = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.PdfToWord })));
+const HtmlToPdf = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.HtmlToPdf })));
+const WordToPdf = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.WordToPdf })));
+const BatesNumbering = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.BatesNumbering })));
+const CreateBookmarksPdf = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.CreateBookmarksPdf })));
+const CropPdf = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.CropPdf })));
+const ExtractImagesPdf = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.ExtractImagesPdf })));
+const GrayscalePdf = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.GrayscalePdf })));
+const HeaderFooterPdf = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.HeaderFooterPdf })));
+const NUpPdf = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.NUpPdf })));
+const RenamePdf = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.RenamePdf })));
+const RepairPdf = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.RepairPdf })));
+const ResizePdf = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.ResizePdf })));
+const RemoveAnnotationsPdf = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.RemoveAnnotationsPdf })));
+const DeskewPdf = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.DeskewPdf })));
+const OcrPdf = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.OcrPdf })));
+const AutomatePdf = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.AutomatePdf })));
 
 // Creator & Gaming
-import { YoutubeTitleChecker, HashtagGenerator, ReadTimeEstimator, SocialPostPreview, DescriptionGenerator } from "./tools/creator/CreatorTools";
-import { KdCalculator, EdpiCalculator, SensConverter, XpCalculator, AspectRatioCalc } from "./tools/gaming/GamingTools";
+const YoutubeTitleChecker = lazy(() => import("./tools/creator/CreatorTools").then(m => ({ default: m.YoutubeTitleChecker })));
+const HashtagGenerator = lazy(() => import("./tools/creator/CreatorTools").then(m => ({ default: m.HashtagGenerator })));
+const ReadTimeEstimator = lazy(() => import("./tools/creator/CreatorTools").then(m => ({ default: m.ReadTimeEstimator })));
+const SocialPostPreview = lazy(() => import("./tools/creator/CreatorTools").then(m => ({ default: m.SocialPostPreview })));
+const DescriptionGenerator = lazy(() => import("./tools/creator/CreatorTools").then(m => ({ default: m.DescriptionGenerator })));
+
+const KdCalculator = lazy(() => import("./tools/gaming/GamingTools").then(m => ({ default: m.KdCalculator })));
+const EdpiCalculator = lazy(() => import("./tools/gaming/GamingTools").then(m => ({ default: m.EdpiCalculator })));
+const SensConverter = lazy(() => import("./tools/gaming/GamingTools").then(m => ({ default: m.SensConverter })));
+const XpCalculator = lazy(() => import("./tools/gaming/GamingTools").then(m => ({ default: m.XpCalculator })));
+const AspectRatioCalc = lazy(() => import("./tools/gaming/GamingTools").then(m => ({ default: m.AspectRatioCalc })));
 
 export default function App() {
   return (
     <Router>
-      <Suspense fallback={
+      <ErrorBoundary>
+        <Suspense fallback={
         <div className="flex h-screen w-full items-center justify-center text-slate-500 font-medium">
           <div className="flex items-center gap-2">
             <svg className="animate-spin h-5 w-5 text-indigo-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
@@ -197,7 +266,8 @@ export default function App() {
           <Route path="*" element={<div className="container mx-auto p-20 text-center">Page not found</div>} />
         </Route>
       </Routes>
-      </Suspense>
+        </Suspense>
+      </ErrorBoundary>
     </Router>
   );
 }
