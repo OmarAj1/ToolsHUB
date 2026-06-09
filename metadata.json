@@ -1,0 +1,6 @@
+{
+  "name": "ToolHub",
+  "description": "A comprehensive collection of client-side web tools for developers, students, content creators, and sellers.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
