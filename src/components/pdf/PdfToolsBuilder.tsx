@@ -1,5 +1,8 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { UploadCloud, File as FileIcon, Trash2, FilePlus2, AlertCircle } from "lucide-react";
+import { usePdfPages, PdfPageInfo } from "../../hooks/usePdfPages";
+import { PdfPageGrid } from "./PdfPageGrid";
+import { PDFDocument } from "pdf-lib";
 
 export function downloadFile(buffer: Uint8Array | ArrayBuffer | Blob, filename: string, mime: string) {
   const blob = buffer instanceof Blob ? buffer : new Blob([buffer], { type: mime });
@@ -59,38 +62,18 @@ export function PdfDropzone({
   }
 
   return (
-    <div className="w-full bg-slate-50 rounded-2xl p-6 border border-slate-200 mb-6">
-      <div className="flex items-center justify-between mb-4">
-        <h3 className="font-bold text-slate-800 flex items-center">
-          <FileIcon className="w-5 h-5 mr-2 text-slate-400" /> {files.length} {files.length === 1 ? 'file' : 'files'} selected
-        </h3>
-        {multiple && (
-          <button 
-            onClick={() => inputRef.current?.click()}
-            className="text-sm font-bold text-blue-600 hover:text-blue-700 flex items-center"
-          >
-            <FilePlus2 className="w-4 h-4 mr-1" /> Add more
-          </button>
-        )}
-      </div>
-      <ul className="space-y-3">
-        {files.map((file, index) => (
-          <li key={`${file.name}-${index}`} className="flex items-center justify-between bg-white p-3 rounded-xl border border-slate-200 shadow-sm">
-            <div className="flex items-center truncate mr-4">
-              <div className="w-8 h-8 rounded-lg shrink-0 bg-blue-50 text-blue-600 flex items-center justify-center mr-3 font-bold text-xs uppercase">
-                {file.name.split('.').pop()}
-              </div>
-              <span className="text-sm font-medium text-slate-700 truncate">{file.name}</span>
-            </div>
-            <button 
-              onClick={() => onRemoveFile(index)}
-              className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-slate-100 rounded-md transition-colors"
-            >
-              <Trash2 className="w-4 h-4" />
-            </button>
-          </li>
-        ))}
-      </ul>
+    <div className="w-full bg-slate-50 rounded-2xl p-6 border border-slate-200 mb-6 flex items-center justify-between">
+      <h3 className="font-bold text-slate-800 flex items-center">
+        <FileIcon className="w-5 h-5 mr-2 text-slate-400" /> {files.length} {files.length === 1 ? 'file' : 'files'} uploaded
+      </h3>
+      {multiple && (
+        <button 
+          onClick={() => inputRef.current?.click()}
+          className="text-sm px-4 py-2 bg-white rounded-lg font-bold text-blue-600 border border-blue-200 hover:bg-blue-50 flex items-center shadow-sm"
+        >
+          <FilePlus2 className="w-4 h-4 mr-1" /> Add more files
+        </button>
+      )}
       <input type="file" multiple={multiple} accept={accept} ref={inputRef} onChange={handleFileChange} className="hidden" />
     </div>
   );
@@ -116,12 +99,44 @@ export function PdfActionContainer({
   const [files, setFiles] = useState<File[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  
+  const isPdfMode = accept === ".pdf";
+  const { pages, setPages, isLoading: isPagesLoading } = usePdfPages(isPdfMode ? files : []);
 
   const processAndDownload = async () => {
     setIsProcessing(true);
     setError(null);
     try {
-      await onProcess(files);
+      let finalFiles = files;
+
+      if (isPdfMode && files.length > 0 && pages.length > 0) {
+        // Rebuild the final PDF sequence based on the drag and drop arrangement
+        const mergedPdf = await PDFDocument.create();
+        const loadedDocs = new Map<number, PDFDocument>();
+
+        for (const page of pages) {
+          if (page.isExcluded) continue;
+
+          if (!loadedDocs.has(page.fileIndex)) {
+            const buffer = await files[page.fileIndex].arrayBuffer();
+            const doc = await PDFDocument.load(buffer);
+            loadedDocs.set(page.fileIndex, doc);
+          }
+          
+          const sourceDoc = loadedDocs.get(page.fileIndex)!;
+          const [copiedPage] = await mergedPdf.copyPages(sourceDoc, [page.pageIndex]);
+          mergedPdf.addPage(copiedPage);
+        }
+
+        const pdfBytes = await mergedPdf.save();
+        const blob = new Blob([pdfBytes], { type: "application/pdf" });
+        const rebuiltFile = new File([blob], "custom_arranged.pdf", { type: "application/pdf" });
+        finalFiles = [rebuiltFile];
+      } else if (isPdfMode && files.length > 0 && pages.length === 0 && !isPagesLoading) {
+        throw new Error("All pages were removed. Nothing to process.");
+      }
+
+      await onProcess(finalFiles);
     } catch (e: any) {
       setError(e.message || "An unknown error occurred.");
     } finally {
@@ -132,13 +147,13 @@ export function PdfActionContainer({
   return (
     <div className="p-6 md:p-8 flex flex-col items-center">
       {error && (
-         <div className="w-full max-w-2xl bg-red-50 text-red-600 border border-red-100 p-4 rounded-xl mb-6 flex items-start">
+         <div className="w-full max-w-4xl bg-red-50 text-red-600 border border-red-100 p-4 rounded-xl mb-6 flex items-start">
            <AlertCircle className="w-5 h-5 mr-3 shrink-0 mt-0.5" />
            <p className="text-sm font-medium">{error}</p>
          </div>
       )}
 
-      <div className="w-full max-w-2xl">
+      <div className="w-full max-w-4xl">
         <PdfDropzone 
           files={files} 
           onAddFiles={f => setFiles(multiple ? [...files, ...f] : [...f])} 
@@ -148,6 +163,10 @@ export function PdfActionContainer({
           title={title}
         />
 
+        {isPdfMode && files.length > 0 && (
+          <PdfPageGrid pages={pages} setPages={setPages} isLoading={isPagesLoading} />
+        )}
+
         {(files.length > 0 || allowEmpty) && (
           <>
             {optionsComponent && <div className="mb-6">{optionsComponent(files)}</div>}
@@ -155,7 +174,7 @@ export function PdfActionContainer({
             <div className="flex space-x-4">
               <button 
                 onClick={processAndDownload}
-                disabled={isProcessing || (files.length === 0 && !allowEmpty)}
+                disabled={isProcessing || isPagesLoading || (files.length === 0 && !allowEmpty)}
                 className="flex-1 py-4 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center shadow-md shadow-blue-500/20"
               >
                 {isProcessing ? "Processing locally..." : buttonText}

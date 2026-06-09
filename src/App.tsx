@@ -101,7 +101,7 @@ const HtmlToPdf = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ 
 const WordToPdf = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.WordToPdf })));
 const BatesNumbering = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.BatesNumbering })));
 const CreateBookmarksPdf = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.CreateBookmarksPdf })));
-const CropPdf = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.CropPdf })));
+const CropPdf = lazy(() => import("./tools/pdf/CropPdf").then(m => ({ default: m.CropPdf })));
 const ExtractImagesPdf = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.ExtractImagesPdf })));
 const GrayscalePdf = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.GrayscalePdf })));
 const HeaderFooterPdf = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.HeaderFooterPdf })));

@@ -132,7 +132,6 @@ export function HtmlToPdf() { return <BasicPdfPlaceholder title="HTML to PDF" de
 export function WordToPdf() { return <BasicPdfPlaceholder title="Word to PDF" description="Convert docx to PDF format." buttonText="Convert to PDF" />; }
 export function BatesNumbering() { return <BasicPdfPlaceholder title="Bates Numbering" description="Add Bates stamps to your documents." buttonText="Add Bates numbers" />; }
 export function CreateBookmarksPdf() { return <BasicPdfPlaceholder title="Create Bookmarks" description="Create generic bookmarks in PDF." buttonText="Create Bookmarks" />; }
-export function CropPdf() { return <BasicPdfPlaceholder title="Crop PDF" description="Crop Margins." buttonText="Crop PDF" />; }
 export function ExtractImagesPdf() { return <BasicPdfPlaceholder title="Extract Images" description="Extract all standard images." buttonText="Extract Images" />; }
 export function GrayscalePdf() { return <BasicPdfPlaceholder title="Grayscale PDF" description="Convert document to black and white." buttonText="Convert to Grayscale" />; }
 export function HeaderFooterPdf() { return <BasicPdfPlaceholder title="Header & Footer" description="Add generic headers and footers." buttonText="Add Header/Footer" />; }

@@ -126,46 +126,21 @@ export function AddPageNumbersPdf() {
 }
 
 export function ReorderPdf() {
-  const [order, setOrder] = useState("");
-
   return (
     <PdfActionContainer
       title="Upload PDF to reorder"
-      buttonText="Reorder Pages"
+      buttonText="Save Reordered Pages"
       onProcess={async (files) => {
         if (!files[0]) throw new Error("No file selected.");
-        if (!order.trim()) throw new Error("Please specify the new page order.");
         
+        // The visual grid already reconstructed the PDF in the exact order!
+        // We just need to save the final file.
         const buffer = await files[0].arrayBuffer();
-        const srcDoc = await PDFDocument.load(buffer);
-        const totalPages = srcDoc.getPageCount();
-        
-        const parts = order.split(',').map(s => Number(s.trim()));
-        if (parts.some(isNaN) || parts.some(p => p < 1 || p > totalPages)) {
-            throw new Error("Invalid page numbers in order sequence.");
-        }
-
-        const dstDoc = await PDFDocument.create();
-        const indices = parts.map(p => p - 1);
-        const copiedPages = await dstDoc.copyPages(srcDoc, indices);
-        for (const page of copiedPages) {
-          dstDoc.addPage(page);
-        }
-
-        const pdfBytes = await dstDoc.save();
-        downloadFile(pdfBytes, `reordered_${files[0].name}`, "application/pdf");
+        downloadFile(buffer, `reordered_${files[0].name}`, "application/pdf");
       }}
       optionsComponent={() => (
-        <div className="bg-white p-6 rounded-2xl border border-slate-200">
-          <label className="block font-bold text-slate-800 mb-2">New Page Order</label>
-          <input 
-            type="text" 
-            placeholder="e.g. 3, 1, 2, 5, 4" 
-            value={order}
-            onChange={(e) => setOrder(e.target.value)}
-            className="w-full border-2 border-slate-200 rounded-xl px-4 py-2 focus:border-blue-500 focus:outline-none"
-          />
-          <p className="text-xs text-slate-500 mt-2">Enter the new exact sequence using commas.</p>
+        <div className="bg-blue-50 text-blue-700 p-4 rounded-xl border border-blue-200">
+          <p className="text-sm font-medium">✨ Use the interactive grid above to drag, drop, and arrange your pages. When you are happy with the order, click save!</p>
         </div>
       )}
     />
