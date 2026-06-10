@@ -99,9 +99,10 @@ interface PdfPageGridProps {
   pages: PdfPageInfo[];
   setPages: React.Dispatch<React.SetStateAction<PdfPageInfo[]>>;
   isLoading: boolean;
+  progress: number;
 }
 
-export function PdfPageGrid({ pages, setPages, isLoading }: PdfPageGridProps) {
+export function PdfPageGrid({ pages, setPages, isLoading, progress }: PdfPageGridProps) {
   const [zoomLevel, setZoomLevel] = useState(3);
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -137,8 +138,16 @@ export function PdfPageGrid({ pages, setPages, isLoading }: PdfPageGridProps) {
   if (isLoading) {
     return (
       <div className="w-full py-12 flex flex-col items-center justify-center border-2 border-dashed border-stone-200 dark:border-stone-700 rounded-2xl bg-stone-50 dark:bg-stone-900/50 mb-6">
-        <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-4"></div>
-        <p className="text-stone-600 dark:text-stone-400 font-medium">Extracting document pages...</p>
+        <div className="w-64 max-w-full mb-6">
+          <div className="flex justify-between text-sm text-stone-600 dark:text-stone-400 mb-2 font-medium">
+            <span>Extracting Pages...</span>
+            <span>{progress}%</span>
+          </div>
+          <div className="w-full bg-stone-200 dark:bg-stone-700 rounded-full h-2.5 overflow-hidden">
+            <div className="bg-blue-600 h-2.5 rounded-full transition-all duration-300 ease-out" style={{ width: `${progress}%` }}></div>
+          </div>
+        </div>
+        <p className="text-stone-500 dark:text-stone-500 text-sm">Parsing PDF document layers securely in browser</p>
       </div>
     );
   }

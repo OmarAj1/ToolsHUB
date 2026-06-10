@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { Wrench, Moon, Sun, Menu, Terminal } from "lucide-react";
 import { useState, useEffect } from "react";
 
-export function Navbar() {
+export function Navbar({ onMenuClick }: { onMenuClick?: () => void }) {
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -48,13 +48,6 @@ export function Navbar() {
         </nav>
       </div>
       <div className="flex items-center gap-3 md:gap-4 relative">
-        <div className="hidden sm:flex items-center bg-slate-100 dark:bg-slate-900 rounded-lg px-2.5 py-1.5 border border-slate-200/50 dark:border-slate-800 transition-colors">
-          <div className="w-2 h-2 rounded-full bg-emerald-500 mr-2 shadow-[0_0_8px_rgba(16,185,129,0.4)]"></div>
-          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">Offline Ready</span>
-        </div>
-        
-        <div className="w-px h-6 bg-slate-200 dark:bg-slate-800 hidden sm:block mx-1"></div>
-
         <button 
           onClick={toggleDarkMode}
           className="p-2 rounded-full text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-900 transition-colors focus:outline-none"
@@ -64,8 +57,11 @@ export function Navbar() {
         </button>
         
         <button 
-          className="md:hidden p-2 rounded-full text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-900 transition-colors"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          className="lg:hidden p-2 rounded-full text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-900 transition-colors"
+          onClick={() => {
+            if (onMenuClick) onMenuClick();
+            else setIsMobileMenuOpen(!isMobileMenuOpen);
+          }}
         >
           <Menu className="w-5 h-5" />
         </button>

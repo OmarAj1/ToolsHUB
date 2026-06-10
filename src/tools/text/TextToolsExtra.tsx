@@ -5,14 +5,37 @@ import { TextToolBase } from "./TextToolBase";
 export function TextCompare() {
   const [text1, setText1] = useState("");
   const [text2, setText2] = useState("");
-  const [result, setResult] = useState<string | null>(null);
+  const [diff, setDiff] = useState<{ type: 'added' | 'removed' | 'unchanged', text: string }[] | null>(null);
 
   const compare = () => {
     if (text1 === text2) {
-      setResult("The texts are completely identical.");
-    } else {
-      setResult("Differences found. (Diff highlighting coming soon, or use line-by-line compare). Length 1: " + text1.length + " | Length 2: " + text2.length);
+      setDiff([{ type: 'unchanged', text: 'The texts are completely identical.' }]);
+      return;
     }
+    
+    // Very basic line-by-line comparison
+    const lines1 = text1.split('\n');
+    const lines2 = text2.split('\n');
+    const newDiff = [];
+    
+    const maxLines = Math.max(lines1.length, lines2.length);
+    for (let i = 0; i < maxLines; i++) {
+        const l1 = i < lines1.length ? lines1[i] : null;
+        const l2 = i < lines2.length ? lines2[i] : null;
+
+        if (l1 === l2) {
+            newDiff.push({ type: 'unchanged' as const, text: l1! });
+        } else {
+            if (l1 !== null) {
+                newDiff.push({ type: 'removed' as const, text: l1 });
+            }
+            if (l2 !== null) {
+                newDiff.push({ type: 'added' as const, text: l2 });
+            }
+        }
+    }
+    
+    setDiff(newDiff);
   };
 
   return (
@@ -40,9 +63,17 @@ export function TextCompare() {
             <ArrowRightLeft className="w-5 h-5"/> Compare Texts
         </button>
       </div>
-      {result && (
-        <div className="p-6 bg-slate-100 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 text-center font-bold text-slate-800 dark:text-white">
-          {result}
+      {diff && (
+        <div className="p-6 bg-slate-100 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 font-mono text-sm whitespace-pre-wrap text-left overflow-x-auto">
+          {diff.map((item, idx) => {
+            if (item.type === 'added') {
+              return <div key={idx} className="bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 px-2 py-0.5 rounded my-0.5">+ {item.text || ' '}</div>;
+            }
+            if (item.type === 'removed') {
+              return <div key={idx} className="bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300 px-2 py-0.5 rounded my-0.5 line-through">- {item.text || ' '}</div>;
+            }
+            return <div key={idx} className="text-slate-500 dark:text-slate-400 px-2 py-0.5 my-0.5">  {item.text || ' '}</div>;
+          })}
         </div>
       )}
     </div>

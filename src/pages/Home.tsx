@@ -144,26 +144,8 @@ export function Home() {
         </div>
       </section>
 
-      <div className="flex-1 p-4 md:p-8 max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-8">
-        {!query && (
-          <aside className="lg:col-span-3 space-y-6">
-            <div>
-              <h3 id="categories" className="text-[11px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-3 px-2 transition-colors">Categories</h3>
-              <ul className="space-y-1">
-                {CATEGORIES.map(category => (
-                  <li key={category.id}>
-                    <Link to={`/category/${category.id}`} className="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg text-sm transition-colors group">
-                      <DynamicIcon name={category.icon} className="w-4 h-4 text-slate-400 dark:text-slate-500 group-hover:text-indigo-500 dark:group-hover:text-indigo-400 transition-colors" />
-                      {category.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </aside>
-        )}
-
-        <div className={query ? "lg:col-span-12" : "lg:col-span-9 flex flex-col gap-8"}>
+      <div className="flex-1 p-4 md:p-8 max-w-7xl mx-auto w-full">
+        <div className="flex flex-col gap-8">
           {!query && (
             <>
               {favorites.length > 0 && (

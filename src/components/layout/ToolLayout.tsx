@@ -113,7 +113,6 @@ export function ToolLayout({ children, toolId, faq }: { children: React.ReactNod
                 <li>Wait for processing to complete or click the corresponding action button.</li>
                 <li>Instantly retrieve, copy, or download your results.</li>
               </ol>
-              <p>Bookmark this utility page for rapid offline-capable access anytime.</p>
             </div>
           </div>
 

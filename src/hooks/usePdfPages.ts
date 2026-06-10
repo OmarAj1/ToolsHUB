@@ -20,20 +20,35 @@ export interface PdfPageInfo {
 export function usePdfPages(files: File[]) {
   const [pages, setPages] = useState<PdfPageInfo[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     let active = true;
     
     async function load() {
       setIsLoading(true);
+      setProgress(0);
       const newPages: PdfPageInfo[] = [];
       try {
+        let totalPages = 0;
+        const loadedPdfs = [];
+        
+        // First pass: load PDFs to count total pages
         for (let fileIndex = 0; fileIndex < files.length; fileIndex++) {
           const file = files[fileIndex];
-          const fileId = `${file.name}-${fileIndex}-${file.size}`;
           const arrayBuffer = await file.arrayBuffer();
           const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
           const pdf = await loadingTask.promise;
+          totalPages += pdf.numPages;
+          loadedPdfs.push({ file, pdf, fileIndex });
+        }
+
+        setProgress(10);
+        let processedPages = 0;
+
+        // Second pass: render pages
+        for (const { file, pdf, fileIndex } of loadedPdfs) {
+          const fileId = `${file.name}-${fileIndex}-${file.size}`;
           
           for (let pageIndex = 0; pageIndex < pdf.numPages; pageIndex++) {
             if (!active) return;
@@ -58,6 +73,11 @@ export function usePdfPages(files: File[]) {
                 originalHeight: originalViewport.height
               });
             }
+            
+            processedPages++;
+            if (active) {
+              setProgress(10 + Math.round((processedPages / totalPages) * 90));
+            }
           }
         }
         if (active) {
@@ -66,7 +86,10 @@ export function usePdfPages(files: File[]) {
       } catch (err) {
         console.error("Error loading PDF pages", err);
       } finally {
-        if (active) setIsLoading(false);
+        if (active) {
+          setIsLoading(false);
+          setProgress(100);
+        }
       }
     }
     
@@ -81,5 +104,5 @@ export function usePdfPages(files: File[]) {
     };
   }, [files]);
 
-  return { pages, setPages, isLoading };
+  return { pages, setPages, isLoading, progress };
 }

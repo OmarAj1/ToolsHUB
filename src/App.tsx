@@ -127,6 +127,56 @@ const SensConverter = lazy(() => import("./tools/gaming/GamingTools").then(m => 
 const XpCalculator = lazy(() => import("./tools/gaming/GamingTools").then(m => ({ default: m.XpCalculator })));
 const AspectRatioCalc = lazy(() => import("./tools/gaming/GamingTools").then(m => ({ default: m.AspectRatioCalc })));
 
+// New Tool Placeholders
+const PdfMetadataEditor = lazy(() => import("./tools/pdf/PdfMetadataEditor").then(m => ({ default: m.PdfMetadataEditor })));
+const PdfRedactor = lazy(() => import("./tools/pdf/PdfRedactor").then(m => ({ default: m.PdfRedactor })));
+const ComparePdfs = lazy(() => import("./tools/pdf/ComparePdfs").then(m => ({ default: m.ComparePdfs })));
+
+const CronJobGenerator = lazy(() => import("./tools/dev/CronJobGenerator").then(m => ({ default: m.CronJobGenerator })));
+const YamlJsonConverter = lazy(() => import("./tools/dev/YamlJsonConverter").then(m => ({ default: m.YamlJsonConverter })));
+const JwtBuilder = lazy(() => import("./tools/dev/JwtBuilder").then(m => ({ default: m.JwtBuilder })));
+
+const MarkdownToHtml = lazy(() => import("./tools/text/MarkdownToHtml").then(m => ({ default: m.MarkdownToHtml })));
+const DiffViewer = lazy(() => import("./tools/text/DiffViewer").then(m => ({ default: m.DiffViewer })));
+const LoremIpsumGenerator = lazy(() => import("./tools/text/LoremIpsumGenerator").then(m => ({ default: m.LoremIpsumGenerator })));
+
+const FovConverter = lazy(() => import("./tools/gaming/FovConverter").then(m => ({ default: m.FovConverter })));
+const MousePollingChecker = lazy(() => import("./tools/gaming/MousePollingChecker").then(m => ({ default: m.MousePollingChecker })));
+const ReactionTimeTester = lazy(() => import("./tools/gaming/ReactionTimeTester").then(m => ({ default: m.ReactionTimeTester })));
+
+const PomodoroTimer = lazy(() => import("./tools/productivity/PomodoroTimer").then(m => ({ default: m.PomodoroTimer })));
+const SynonymSwapper = lazy(() => import("./tools/education/SynonymSwapper").then(m => ({ default: m.SynonymSwapper })));
+const InteractiveFlashcards = lazy(() => import("./tools/education/InteractiveFlashcards").then(m => ({ default: m.InteractiveFlashcards })));
+
+const LocalInvoiceGenerator = lazy(() => import("./tools/business/LocalInvoiceGenerator").then(m => ({ default: m.LocalInvoiceGenerator })));
+const QrBarcodeGenerator = lazy(() => import("./tools/business/QrBarcodeGenerator").then(m => ({ default: m.QrBarcodeGenerator })));
+const CpmCalculator = lazy(() => import("./tools/business/CpmCalculator").then(m => ({ default: m.CpmCalculator })));
+
+const ThumbnailSafeZone = lazy(() => import("./tools/creator/ThumbnailSafeZone").then(m => ({ default: m.ThumbnailSafeZone })));
+const ExifStripper = lazy(() => import("./tools/creator/ExifStripper").then(m => ({ default: m.ExifStripper })));
+
+const PasswordGenerator = lazy(() => import("./tools/security/PasswordGenerator").then(m => ({ default: m.PasswordGenerator })));
+const PasswordStrengthChecker = lazy(() => import("./tools/security/PasswordStrengthChecker").then(m => ({ default: m.PasswordStrengthChecker })));
+const LocalHashGenerator = lazy(() => import("./tools/security/LocalHashGenerator").then(m => ({ default: m.LocalHashGenerator })));
+const PgpEncryptDecrypt = lazy(() => import("./tools/security/PgpEncryptDecrypt").then(m => ({ default: m.PgpEncryptDecrypt })));
+
+const CidrSubnetCalculator = lazy(() => import("./tools/network/CidrSubnetCalculator").then(m => ({ default: m.CidrSubnetCalculator })));
+const UtmLinkBuilder = lazy(() => import("./tools/network/UtmLinkBuilder").then(m => ({ default: m.UtmLinkBuilder })));
+const UrlParser = lazy(() => import("./tools/network/UrlParser").then(m => ({ default: m.UrlParser })));
+
+const SvgOptimizer = lazy(() => import("./tools/media/SvgOptimizer").then(m => ({ default: m.SvgOptimizer })));
+const Base64ImageConverter = lazy(() => import("./tools/media/Base64ImageConverter").then(m => ({ default: m.Base64ImageConverter })));
+const WebpConverter = lazy(() => import("./tools/media/WebpConverter").then(m => ({ default: m.WebpConverter })));
+
+const GlassmorphismGenerator = lazy(() => import("./tools/design/GlassmorphismGenerator").then(m => ({ default: m.GlassmorphismGenerator })));
+const NeumorphismGenerator = lazy(() => import("./tools/design/NeumorphismGenerator").then(m => ({ default: m.NeumorphismGenerator })));
+const CssTriangleGenerator = lazy(() => import("./tools/design/CssTriangleGenerator").then(m => ({ default: m.CssTriangleGenerator })));
+const SvgBlobGenerator = lazy(() => import("./tools/design/SvgBlobGenerator").then(m => ({ default: m.SvgBlobGenerator })));
+const CssGradientGenerator = lazy(() => import("./tools/design/CssGradientGenerator").then(m => ({ default: m.CssGradientGenerator })));
+const ColorContrastChecker = lazy(() => import("./tools/design/ColorContrastChecker").then(m => ({ default: m.ColorContrastChecker })));
+const ColorPaletteGenerator = lazy(() => import("./tools/design/ColorPaletteGenerator").then(m => ({ default: m.ColorPaletteGenerator })));
+const ImageToColors = lazy(() => import("./tools/design/ImageToColors").then(m => ({ default: m.ImageToColors })));
+
 export default function App() {
   return (
     <Router>
@@ -263,6 +313,68 @@ export default function App() {
           <Route path="gaming/aspect-ratio" element={<ToolLayout toolId="aspect-ratio-calc"><AspectRatioCalc /></ToolLayout>} />
 
           {/* Catch all */}
+          
+          {/* Default Tool Routing Block for NEW tools */}
+          {/* PDF Tools */}
+          <Route path="pdf/metadata-editor" element={<ToolLayout toolId="pdf-metadata-editor"><PdfMetadataEditor /></ToolLayout>} />
+          <Route path="pdf/redactor" element={<ToolLayout toolId="pdf-redactor"><PdfRedactor /></ToolLayout>} />
+          <Route path="pdf/compare" element={<ToolLayout toolId="compare-pdfs"><ComparePdfs /></ToolLayout>} />
+          
+          {/* Dev Tools */}
+          <Route path="dev/cron-generator" element={<ToolLayout toolId="cron-job-generator"><CronJobGenerator /></ToolLayout>} />
+          <Route path="dev/yaml-json" element={<ToolLayout toolId="yaml-json-converter"><YamlJsonConverter /></ToolLayout>} />
+          <Route path="dev/jwt-builder" element={<ToolLayout toolId="jwt-builder"><JwtBuilder /></ToolLayout>} />
+          
+          {/* Text Tools */}
+          <Route path="text/markdown-html" element={<ToolLayout toolId="markdown-to-html"><MarkdownToHtml /></ToolLayout>} />
+          <Route path="text/diff-viewer" element={<ToolLayout toolId="diff-viewer"><DiffViewer /></ToolLayout>} />
+          <Route path="text/lorem-ipsum" element={<ToolLayout toolId="lorem-ipsum-generator"><LoremIpsumGenerator /></ToolLayout>} />
+          
+          {/* Gaming Tools */}
+          <Route path="gaming/fov-converter" element={<ToolLayout toolId="fov-converter"><FovConverter /></ToolLayout>} />
+          <Route path="gaming/mouse-polling" element={<ToolLayout toolId="mouse-polling-checker"><MousePollingChecker /></ToolLayout>} />
+          <Route path="gaming/reaction-time" element={<ToolLayout toolId="reaction-time-tester"><ReactionTimeTester /></ToolLayout>} />
+          
+          {/* Student Tools */}
+          <Route path="student/pomodoro" element={<ToolLayout toolId="pomodoro-timer"><PomodoroTimer /></ToolLayout>} />
+          <Route path="student/synonym-swapper" element={<ToolLayout toolId="synonym-swapper"><SynonymSwapper /></ToolLayout>} />
+          <Route path="student/flashcards" element={<ToolLayout toolId="interactive-flashcards"><InteractiveFlashcards /></ToolLayout>} />
+
+          {/* Seller Tools */}
+          <Route path="seller/invoice-generator" element={<ToolLayout toolId="local-invoice-generator"><LocalInvoiceGenerator /></ToolLayout>} />
+          <Route path="seller/qr-barcode" element={<ToolLayout toolId="qr-barcode-generator"><QrBarcodeGenerator /></ToolLayout>} />
+          <Route path="seller/cpm-calculator" element={<ToolLayout toolId="cpm-calculator"><CpmCalculator /></ToolLayout>} />
+
+          {/* Creator Tools */}
+          <Route path="creator/thumbnail-safe-zone" element={<ToolLayout toolId="thumbnail-safe-zone"><ThumbnailSafeZone /></ToolLayout>} />
+          <Route path="creator/exif-stripper" element={<ToolLayout toolId="exif-stripper"><ExifStripper /></ToolLayout>} />
+
+          {/* Security & Privacy Tools */}
+          <Route path="security/password-generator" element={<ToolLayout toolId="password-generator"><PasswordGenerator /></ToolLayout>} />
+          <Route path="security/password-strength" element={<ToolLayout toolId="password-strength-checker"><PasswordStrengthChecker /></ToolLayout>} />
+          <Route path="security/hash-generator" element={<ToolLayout toolId="local-hash-generator"><LocalHashGenerator /></ToolLayout>} />
+          <Route path="security/pgp" element={<ToolLayout toolId="pgp-encrypt-decrypt"><PgpEncryptDecrypt /></ToolLayout>} />
+
+          {/* Network & Webmaster Tools */}
+          <Route path="network/cidr-calculator" element={<ToolLayout toolId="cidr-subnet-calculator"><CidrSubnetCalculator /></ToolLayout>} />
+          <Route path="network/utm-builder" element={<ToolLayout toolId="utm-link-builder"><UtmLinkBuilder /></ToolLayout>} />
+          <Route path="network/url-parser" element={<ToolLayout toolId="url-parser"><UrlParser /></ToolLayout>} />
+
+          {/* Media & Image Tools */}
+          <Route path="media/svg-optimizer" element={<ToolLayout toolId="svg-optimizer"><SvgOptimizer /></ToolLayout>} />
+          <Route path="media/base64-converter" element={<ToolLayout toolId="base64-image-converter"><Base64ImageConverter /></ToolLayout>} />
+          <Route path="media/webp-converter" element={<ToolLayout toolId="webp-converter"><WebpConverter /></ToolLayout>} />
+
+          {/* Design & UI Tools */}
+          <Route path="design/glassmorphism" element={<ToolLayout toolId="glassmorphism-generator"><GlassmorphismGenerator /></ToolLayout>} />
+          <Route path="design/neumorphism" element={<ToolLayout toolId="neumorphism-generator"><NeumorphismGenerator /></ToolLayout>} />
+          <Route path="design/css-triangle" element={<ToolLayout toolId="css-triangle-generator"><CssTriangleGenerator /></ToolLayout>} />
+          <Route path="design/svg-blob" element={<ToolLayout toolId="svg-blob-generator"><SvgBlobGenerator /></ToolLayout>} />
+          <Route path="design/css-gradient" element={<ToolLayout toolId="css-gradient-generator"><CssGradientGenerator /></ToolLayout>} />
+          <Route path="design/color-contrast" element={<ToolLayout toolId="color-contrast-checker"><ColorContrastChecker /></ToolLayout>} />
+          <Route path="design/color-palette" element={<ToolLayout toolId="color-palette-generator"><ColorPaletteGenerator /></ToolLayout>} />
+          <Route path="design/image-to-colors" element={<ToolLayout toolId="image-to-colors"><ImageToColors /></ToolLayout>} />
+
           <Route path="*" element={<div className="container mx-auto p-20 text-center">Page not found</div>} />
         </Route>
       </Routes>

@@ -101,7 +101,7 @@ export function PdfActionContainer({
   const [error, setError] = useState<string | null>(null);
   
   const isPdfMode = accept === ".pdf";
-  const { pages, setPages, isLoading: isPagesLoading } = usePdfPages(isPdfMode ? files : []);
+  const { pages, setPages, isLoading: isPagesLoading, progress } = usePdfPages(isPdfMode ? files : []);
 
   const processAndDownload = async () => {
     setIsProcessing(true);
@@ -164,7 +164,7 @@ export function PdfActionContainer({
         />
 
         {isPdfMode && files.length > 0 && (
-          <PdfPageGrid pages={pages} setPages={setPages} isLoading={isPagesLoading} />
+          <PdfPageGrid pages={pages} setPages={setPages} isLoading={isPagesLoading} progress={progress} />
         )}
 
         {(files.length > 0 || allowEmpty) && (

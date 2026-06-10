@@ -8,7 +8,7 @@ import { AlertCircle, MousePointer2, Copy } from 'lucide-react';
 
 export function CropPdf() {
   const [files, setFiles] = useState<File[]>([]);
-  const { pages, isLoading } = usePdfPages(files);
+  const { pages, isLoading, progress } = usePdfPages(files);
   const [crops, setCrops] = useState<Record<string, PercentCrop>>({});
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -90,9 +90,17 @@ export function CropPdf() {
         />
 
         {isLoading && (
-          <div className="w-full py-12 flex flex-col items-center rounded-2xl bg-stone-50 border border-stone-200 mt-6">
-            <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-4"></div>
-            <p className="text-stone-600 font-medium">Extracting pages for cropping preview...</p>
+          <div className="w-full py-12 flex flex-col items-center justify-center border-2 border-dashed border-stone-200 dark:border-stone-700 rounded-2xl bg-stone-50 dark:bg-stone-900/50 mt-6">
+            <div className="w-64 max-w-full mb-6">
+              <div className="flex justify-between text-sm text-stone-600 dark:text-stone-400 mb-2 font-medium">
+                <span>Extracting Pages...</span>
+                <span>{progress}%</span>
+              </div>
+              <div className="w-full bg-stone-200 dark:bg-stone-700 rounded-full h-2.5 overflow-hidden">
+                <div className="bg-blue-600 h-2.5 rounded-full transition-all duration-300 ease-out" style={{ width: `${progress}%` }}></div>
+              </div>
+            </div>
+            <p className="text-stone-500 dark:text-stone-500 text-sm">Parsing PDF document layers securely in browser</p>
           </div>
         )}
 

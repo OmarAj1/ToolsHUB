@@ -20,7 +20,9 @@ export function useLocalStorage<T>(key: string, initialValue: T) {
         const valueToStore = value instanceof Function ? value(prevValue) : value;
         if (typeof window !== "undefined") {
           window.localStorage.setItem(key, JSON.stringify(valueToStore));
-          window.dispatchEvent(new CustomEvent("local-storage", { detail: { key } }));
+          queueMicrotask(() => {
+            window.dispatchEvent(new CustomEvent("local-storage", { detail: { key } }));
+          });
         }
         return valueToStore;
       } catch (error: any) {

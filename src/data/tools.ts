@@ -140,5 +140,67 @@ export const TOOLS = [
   { id: "reading-time", name: "Reading Time Calculator", description: "Estimate how long it will take to read a text or book chapter.", categoryId: "student", path: "/student/reading-time", icon: "BookOpen" },
   { id: "assignment-planner", name: "Assignment Planner", description: "Break down large assignments into manageable steps.", categoryId: "student", path: "/student/assignment-planner", icon: "CheckSquare" },
   { id: "note-formatter", name: "Note Formatter", description: "Format and clean up your raw text or unstructured notes.", categoryId: "student", path: "/student/note-formatter", icon: "AlignLeft" },
-  { id: "semester-planner", name: "Semester Planner", description: "Plan your courses and milestones for the semester.", categoryId: "student", path: "/student/semester-planner", icon: "Map" }
+  { id: "semester-planner", name: "Semester Planner", description: "Plan your courses and milestones for the semester.", categoryId: "student", path: "/student/semester-planner", icon: "Map" },
+
+  // --- NEWLY ADDED TOOLS ---
+
+  // 1. PDF Tools
+  { id: "pdf-metadata-editor", name: "PDF Metadata Editor", description: "Strip or edit author, title, and creation date for privacy.", categoryId: "pdf", path: "/pdf/metadata-editor", icon: "UserMinus" },
+  { id: "pdf-redactor", name: "PDF Redactor", description: "Permanently draw black boxes over sensitive PDF info.", categoryId: "pdf", path: "/pdf/redactor", icon: "PaintHover" },
+  { id: "compare-pdfs", name: "Compare PDFs", description: "A visual diff tool that overlays two PDFs.", categoryId: "pdf", path: "/pdf/compare", icon: "Layers" },
+
+  // 2. Developer Tools
+  { id: "cron-job-generator", name: "Cron Job Generator", description: "Translate complex Cron syntax into plain English.", categoryId: "developer", path: "/dev/cron-generator", icon: "Clock" },
+  { id: "yaml-json-converter", name: "YAML <> JSON", description: "Convert between YAML and JSON formats.", categoryId: "developer", path: "/dev/yaml-json", icon: "FileCode2" },
+  { id: "jwt-builder", name: "JWT Builder", description: "Create and sign custom JWTs locally for testing.", categoryId: "developer", path: "/dev/jwt-builder", icon: "KeyRound" },
+
+  // 3. Text Tools
+  { id: "markdown-to-html", name: "Markdown to HTML", description: "Real-time previewer and converter.", categoryId: "text", path: "/text/markdown-html", icon: "Code" },
+  { id: "diff-viewer", name: "Diff Viewer", description: "Side-by-side text comparison tool.", categoryId: "text", path: "/text/diff-viewer", icon: "Split" },
+  { id: "lorem-ipsum-generator", name: "Lorem Ipsum Generator", description: "Generate placeholder text easily.", categoryId: "text", path: "/text/lorem-ipsum", icon: "AlignLeft" },
+
+  // 4. Gaming Tools
+  { id: "fov-converter", name: "FOV Converter", description: "Match FOV perfectly across different game engines.", categoryId: "gaming", path: "/gaming/fov-converter", icon: "Eye" },
+  { id: "mouse-polling-checker", name: "Mouse Polling Rate", description: "Measure the Hz polling rate of your mouse.", categoryId: "gaming", path: "/gaming/mouse-polling", icon: "MousePointer2" },
+  { id: "reaction-time-tester", name: "Reaction Time Tester", description: "Click when green to test your reflexes.", categoryId: "gaming", path: "/gaming/reaction-time", icon: "Zap" },
+
+  // 5. Student Tools
+  { id: "pomodoro-timer", name: "Pomodoro Timer", description: "Customizable study timer with browser notifications.", categoryId: "student", path: "/student/pomodoro", icon: "Timer" },
+  { id: "synonym-swapper", name: "Word Synonym Swapper", description: "Help rewrite sentences using local libraries.", categoryId: "student", path: "/student/synonym-swapper", icon: "WholeWord" },
+  { id: "interactive-flashcards", name: "Interactive Flashcards", description: "Auto-generates flip-cards from text.", categoryId: "student", path: "/student/flashcards", icon: "GalleryHorizontalEnd" },
+
+  // 6. Seller / Business Tools
+  { id: "local-invoice-generator", name: "Local Invoice Generator", description: "Generate PDF invoices offline.", categoryId: "seller", path: "/seller/invoice-generator", icon: "ReceiptText" },
+  { id: "qr-barcode-generator", name: "QR & Barcode Generator", description: "Generate scannable codes for links or VCards.", categoryId: "seller", path: "/seller/qr-barcode", icon: "QrCode" },
+  { id: "cpm-calculator", name: "CPM Calculator", description: "Calculate Cost Per Mille ad spend.", categoryId: "seller", path: "/seller/cpm-calculator", icon: "Calculator" },
+
+  // 7. Creator Tools
+  { id: "thumbnail-safe-zone", name: "Thumbnail Safe-Zone", description: "Check if text is blocked by YouTube UI elements.", categoryId: "creator", path: "/creator/thumbnail-safe-zone", icon: "Image" },
+  { id: "exif-stripper", name: "EXIF Data Stripper", description: "Remove location and camera data from images.", categoryId: "creator", path: "/creator/exif-stripper", icon: "CameraOff" },
+
+  // 8. Security & Privacy Tools
+  { id: "password-generator", name: "Password Generator", description: "Customizable random password creator.", categoryId: "security", path: "/security/password-generator", icon: "Key" },
+  { id: "password-strength-checker", name: "Password Strength", description: "Estimate time-to-crack locally.", categoryId: "security", path: "/security/password-strength", icon: "ShieldAlert" },
+  { id: "local-hash-generator", name: "Local Hash Generator", description: "Instantly generate MD5, SHA-256, or Bcrypt hashes.", categoryId: "security", path: "/security/hash-generator", icon: "Fingerprint" },
+  { id: "pgp-encrypt-decrypt", name: "PGP Encrypt/Decrypt", description: "Securely lock or unlock messages locally.", categoryId: "security", path: "/security/pgp", icon: "Lock" },
+
+  // 9. Network & Webmaster Tools
+  { id: "cidr-subnet-calculator", name: "CIDR / Subnet Calculator", description: "Calculate IP subnets and masks.", categoryId: "network", path: "/network/cidr-calculator", icon: "Network" },
+  { id: "utm-link-builder", name: "UTM Link Builder", description: "Generate tracking URLs for campaigns.", categoryId: "network", path: "/network/utm-builder", icon: "Link" },
+  { id: "url-parser", name: "URL Parser", description: "Break down massive dirty URLs into query parameters.", categoryId: "network", path: "/network/url-parser", icon: "ListTree" },
+
+  // 10. Media & Image Tools
+  { id: "svg-optimizer", name: "SVG Optimizer", description: "Clean up and minify SVG code offline.", categoryId: "media", path: "/media/svg-optimizer", icon: "CodeXml" },
+  { id: "base64-image-converter", name: "Base64 <> Image", description: "Convert between base64 strings and images.", categoryId: "media", path: "/media/base64-converter", icon: "ImagePlus" },
+  { id: "webp-converter", name: "WebP Converter", description: "Compress PNGs/JPGs into WebP instantly.", categoryId: "media", path: "/media/webp-converter", icon: "FileImage" },
+
+  // 11. Design & UI Tools
+  { id: "glassmorphism-generator", name: "Glassmorphism Generator", description: "Generate CSS glassmorphism effect.", categoryId: "design", path: "/design/glassmorphism", icon: "BoxSelect" },
+  { id: "neumorphism-generator", name: "Neumorphism Generator", description: "Generate CSS neumorphism effect.", categoryId: "design", path: "/design/neumorphism", icon: "Box" },
+  { id: "css-triangle-generator", name: "CSS Triangle Generator", description: "Generate CSS triangles easily.", categoryId: "design", path: "/design/css-triangle", icon: "Triangle" },
+  { id: "svg-blob-generator", name: "SVG Blob Generator", description: "Generate organic SVG blobs.", categoryId: "design", path: "/design/svg-blob", icon: "Hexagon" },
+  { id: "css-gradient-generator", name: "Gradient Generator", description: "Visual builder for complex CSS gradients.", categoryId: "design", path: "/design/css-gradient", icon: "Paintbrush" },
+  { id: "color-contrast-checker", name: "Color Contrast Checker", description: "Check color contrast against WCAG guidelines.", categoryId: "design", path: "/design/color-contrast", icon: "Contrast" },
+  { id: "color-palette-generator", name: "Color Palette Generator", description: "Suggest color schemes based on a hex code.", categoryId: "design", path: "/design/color-palette", icon: "Palette" },
+  { id: "image-to-colors", name: "Image to Colors", description: "Extract dominant color palette from image.", categoryId: "design", path: "/design/image-to-colors", icon: "Image" }
 ];
