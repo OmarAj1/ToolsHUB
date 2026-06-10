@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Copy, Upload, Image as ImageIcon } from 'lucide-react';
+import { Copy, Upload, Image as ImageIcon, Check } from 'lucide-react';
 
 export function ImageToColors() {
   const [imageSrc, setImageSrc] = useState<string | null>(null);

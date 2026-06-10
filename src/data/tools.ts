@@ -148,6 +148,7 @@ export const TOOLS = [
   { id: "pdf-metadata-editor", name: "PDF Metadata Editor", description: "Strip or edit author, title, and creation date for privacy.", categoryId: "pdf", path: "/pdf/metadata-editor", icon: "UserMinus" },
   { id: "pdf-redactor", name: "PDF Redactor", description: "Permanently draw black boxes over sensitive PDF info.", categoryId: "pdf", path: "/pdf/redactor", icon: "PaintHover" },
   { id: "compare-pdfs", name: "Compare PDFs", description: "A visual diff tool that overlays two PDFs.", categoryId: "pdf", path: "/pdf/compare", icon: "Layers" },
+  { id: "pdf-editor", name: "PDF Editor", description: "Add text, draw, and sign PDFs directly in your browser.", categoryId: "pdf", path: "/pdf/editor", icon: "PenTool" },
 
   // 2. Developer Tools
   { id: "cron-job-generator", name: "Cron Job Generator", description: "Translate complex Cron syntax into plain English.", categoryId: "developer", path: "/dev/cron-generator", icon: "Clock" },

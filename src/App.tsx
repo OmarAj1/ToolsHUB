@@ -7,6 +7,8 @@ import { ToolLayout } from "./components/layout/ToolLayout";
 // Pages
 import { Home } from "./pages/Home";
 import { Category } from "./pages/Category";
+import { PrivacyPolicy } from "./pages/PrivacyPolicy";
+import { TermsOfService } from "./pages/TermsOfService";
 
 // Tools
 const WordCounter = lazy(() => import("./tools/text/WordCounter").then(m => ({ default: m.WordCounter })));
@@ -131,6 +133,7 @@ const AspectRatioCalc = lazy(() => import("./tools/gaming/GamingTools").then(m =
 const PdfMetadataEditor = lazy(() => import("./tools/pdf/PdfMetadataEditor").then(m => ({ default: m.PdfMetadataEditor })));
 const PdfRedactor = lazy(() => import("./tools/pdf/PdfRedactor").then(m => ({ default: m.PdfRedactor })));
 const ComparePdfs = lazy(() => import("./tools/pdf/ComparePdfs").then(m => ({ default: m.ComparePdfs })));
+const PdfEditor = lazy(() => import("./tools/pdf/PdfEditor").then(m => ({ default: m.PdfEditor })));
 
 const CronJobGenerator = lazy(() => import("./tools/dev/CronJobGenerator").then(m => ({ default: m.CronJobGenerator })));
 const YamlJsonConverter = lazy(() => import("./tools/dev/YamlJsonConverter").then(m => ({ default: m.YamlJsonConverter })));
@@ -193,6 +196,8 @@ export default function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="category/:categoryId" element={<Category />} />
+          <Route path="privacy" element={<PrivacyPolicy />} />
+          <Route path="terms" element={<TermsOfService />} />
           
           {/* Tools Routes */}
           <Route path="text/word-counter" element={<ToolLayout toolId="word-counter"><WordCounter /></ToolLayout>} />
@@ -274,7 +279,7 @@ export default function App() {
           <Route path="pdf/split-in-half" element={<ToolLayout toolId="split-in-half"><SplitPdfInHalf /></ToolLayout>} />
           <Route path="pdf/split-by-size" element={<ToolLayout toolId="split-by-size"><SplitPdfBySize /></ToolLayout>} />
           <Route path="pdf/split-by-text" element={<ToolLayout toolId="split-by-text"><SplitPdfByText /></ToolLayout>} />
-          <Route path="pdf/edit" element={<ToolLayout toolId="edit-pdf"><EditPdf /></ToolLayout>} />
+          <Route path="pdf/edit" element={<ToolLayout toolId="edit-pdf"><PdfEditor /></ToolLayout>} />
           <Route path="pdf/fill-sign" element={<ToolLayout toolId="fill-sign-pdf"><FillSignPdf /></ToolLayout>} />
           <Route path="pdf/create-forms" element={<ToolLayout toolId="create-forms-pdf"><CreateFormsPdf /></ToolLayout>} />
           <Route path="pdf/flatten" element={<ToolLayout toolId="flatten-pdf"><FlattenPdf /></ToolLayout>} />
@@ -319,6 +324,7 @@ export default function App() {
           <Route path="pdf/metadata-editor" element={<ToolLayout toolId="pdf-metadata-editor"><PdfMetadataEditor /></ToolLayout>} />
           <Route path="pdf/redactor" element={<ToolLayout toolId="pdf-redactor"><PdfRedactor /></ToolLayout>} />
           <Route path="pdf/compare" element={<ToolLayout toolId="compare-pdfs"><ComparePdfs /></ToolLayout>} />
+          <Route path="pdf/editor" element={<ToolLayout toolId="pdf-editor"><PdfEditor /></ToolLayout>} />
           
           {/* Dev Tools */}
           <Route path="dev/cron-generator" element={<ToolLayout toolId="cron-job-generator"><CronJobGenerator /></ToolLayout>} />
