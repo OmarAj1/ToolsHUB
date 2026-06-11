@@ -9,7 +9,7 @@ export function TermsOfService() {
         <section>
           <h2 className="text-xl font-semibold mb-3 text-slate-800 dark:text-slate-100">1. Acceptance of Terms</h2>
           <p>
-            By accessing and using ToolHub Interactive ("our website" or "the Service"), you accept and agree to 
+            By accessing and using ToolHub ("our website" or "the Service"), you accept and agree to 
             be bound by the terms and provision of this agreement.
           </p>
         </section>
@@ -34,7 +34,7 @@ export function TermsOfService() {
         <section>
           <h2 className="text-xl font-semibold mb-3 text-slate-800 dark:text-slate-100">4. Intellectual Property</h2>
           <p>
-            The website design, text, graphics, and layout are owned by ToolHub Interactive and are protected by 
+            The website design, text, graphics, and layout are owned by ToolHub and are protected by 
             copyright laws. You may not reproduce, modify, or distribute any part of this site without our permission.
           </p>
         </section>
@@ -42,7 +42,7 @@ export function TermsOfService() {
         <section>
           <h2 className="text-xl font-semibold mb-3 text-slate-800 dark:text-slate-100">5. Limitation of Liability</h2>
           <p>
-            In no event shall ToolHub Interactive be liable for any direct, indirect, incidental, consequential, 
+            In no event shall ToolHub be liable for any direct, indirect, incidental, consequential, 
             or exemplary damages, including but not loss of data, loss of business, or other intangible losses resulting 
             from the use of or inability to use the service.
           </p>

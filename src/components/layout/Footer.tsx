@@ -13,7 +13,7 @@ export function Footer() {
       <div className="flex items-center gap-2">
         <span className="font-medium text-slate-500 dark:text-slate-400 transition-colors">Built for the Web.</span>
         <span className="text-slate-300 dark:text-slate-700 transition-colors">|</span>
-        <span className="transition-colors">&copy; {new Date().getFullYear()} ToolHub Interactive</span>
+        <span className="transition-colors">&copy; {new Date().getFullYear()} ToolHub</span>
       </div>
     </footer>
   );

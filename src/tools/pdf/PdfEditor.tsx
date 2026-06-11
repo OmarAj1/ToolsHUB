@@ -106,7 +106,7 @@ export function PdfEditor() {
       setFile(f);
     } catch (err) {
       console.error(err);
-      alert("Failed to load PDF.");
+      console.error("Failed to load PDF.");
     }
     setIsLoading(false);
   };
@@ -203,7 +203,7 @@ export function PdfEditor() {
       document.body.removeChild(link);
     } catch (e) {
       console.error(e);
-      alert("Failed to export PDF.");
+      console.error("Failed to export PDF.");
     }
     setIsExporting(false);
   };
@@ -765,7 +765,7 @@ const DraggableImage = ({ ann, scale, isSelected, onSelect, onUpdate, onRemove }
            </div>
       )}
 
-      <img src={ann.dataUrl} className="w-full h-full object-contain pointer-events-none" />
+      <img src={ann.dataUrl} alt="Annotation preview" className="w-full h-full object-contain pointer-events-none" />
     </div>
   );
 };

@@ -1,35 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import QRCodeStyling, { DotType, CornerSquareType, CornerDotType } from 'qr-code-styling';
-import { Download, Image as ImageIcon, Link, Type as TypeIcon, Wifi, Mail, MessageSquare, Phone, Contact, Palette, Shapes, SlidersHorizontal, Sparkles, ImagePlus, X, Music, Shield, Tv, Heart } from 'lucide-react';
+import { Download, Image as ImageIcon, Link, Type as TypeIcon, Wifi, Mail, MessageSquare, Phone, Contact, Palette, Shapes, SlidersHorizontal, Sparkles, ImagePlus, X, Music, Shield, Tv, Heart, ChevronLeft, ChevronRight } from 'lucide-react';
+import { QrType, paths, SHAPE_KEYS, ShapeMode, MOCK_QR_PATTERN } from './qr-constants';
+import { QrDataTab } from './components/QrDataTab';
+import { QrColorsTab } from './components/QrColorsTab';
 
-type QrType = 'URL' | 'Text' | 'Email' | 'SMS' | 'Phone' | 'WiFi' | 'vCard';
-
-const paths: Record<string, string> = {
-  heart: "M 50 90 C 50 90 10 60 10 30 C 10 10 40 10 50 30 C 60 10 90 10 90 30 C 90 60 50 90 50 90 Z",
-  balloon: "M 50 78 C 45 78, 41 74, 37 68 C 12 52, 5 32, 12 16 C 18 2, 38 2, 50 16 C 62 2, 82 2, 88 16 C 95 32, 88 52, 63 68 C 59 74, 55 78, 50 78 Z M 50 78 L 45 84 L 55 84 Z",
-  woman: "M 32 95 C 32 88, 38 82, 38 76 C 38 70, 32 68, 25 68 C 21 68, 17 64, 18 59 C 19 55, 23 54, 21 51 C 18 47, 13 46, 12 43 C 10 39, 16 37, 18 32 C 20 26, 25 16, 35 13 C 45 10, 57 8, 69 13 C 79 18, 85 30, 85 43 C 85 56, 77 66, 73 72 C 67 80, 65 86, 67 93 Z",
-  paw: "M 25 35 C 20 35 15 25 20 15 C 25 5 35 5 40 15 C 45 25 35 35 25 35 Z M 75 35 C 80 35 85 25 80 15 C 75 5 65 5 60 15 C 55 25 65 35 75 35 Z M 50 25 C 45 25 40 15 45 5 C 50 -5 60 -5 60 5 C 65 15 55 25 50 25 Z M 50 90 C 25 90 10 75 15 55 C 20 35 40 45 50 45 C 60 45 80 35 85 55 C 90 75 75 90 50 90 Z",
-  bunny: "M 50 95 C 30 95 20 80 20 65 C 20 50 30 45 40 45 C 35 25 25 10 30 5 C 35 0 45 15 50 30 C 55 15 65 0 70 5 C 75 10 65 25 60 45 C 70 45 80 50 80 65 C 80 80 70 95 50 95 Z",
-  star: "M 50 5 L 61 35 L 95 35 L 67 55 L 78 85 L 50 65 L 22 85 L 33 55 L 5 35 L 39 35 Z",
-  shield: "M 10 10 L 90 10 L 90 40 C 90 70 50 95 50 95 C 50 95 10 70 10 40 Z",
-  diamond: "M 50 5 L 95 50 L 50 95 L 5 50 Z",
-  hexagon: "M 50 5 L 90 27.5 L 90 72.5 L 50 95 L 10 72.5 L 10 27.5 Z",
-  leaf: "M 90 10 C 90 60 50 90 10 90 C 10 40 50 10 90 10 Z",
-  cat: "M 10 10 L 30 30 C 40 25 60 25 70 30 L 90 10 L 90 50 C 90 80 70 90 50 90 C 30 90 10 80 10 50 Z",
-  house: "M 50 5 L 10 40 L 10 90 L 90 90 L 90 40 Z",
-  camera: "M 20 30 L 30 20 L 70 20 L 80 30 L 90 30 C 95 30 95 35 95 40 L 95 80 C 95 90 85 90 80 90 L 20 90 C 10 90 5 85 5 80 L 5 40 C 5 35 5 30 10 30 Z M 50 45 C 35 45 35 75 50 75 C 65 75 65 45 50 45 Z"
-};
-
-const SHAPE_KEYS = ['default', 'circle', 'heart', 'balloon', 'woman', 'paw', 'bunny', 'star', 'shield', 'diamond', 'hexagon', 'leaf', 'cat', 'house', 'camera'];
-type ShapeMode = typeof SHAPE_KEYS[number];
-
-const MOCK_QR_PATTERN = (
-  <pattern id="qr-pattern" x="0" y="0" width="10" height="10" patternUnits="userSpaceOnUse">
-     <rect x="0" y="0" width="4" height="4" fill="currentColor" opacity="0.4"/>
-     <rect x="5" y="5" width="4" height="4" fill="currentColor" opacity="0.4"/>
-     <rect x="0" y="5" width="3" height="3" fill="currentColor" opacity="0.4"/>
-  </pattern>
-);
+import { QrPatternsTab } from './components/QrPatternsTab';
+import { QrPresetsTab } from './components/QrPresetsTab';
+import { QrLogosTab } from './components/QrLogosTab';
+import { QrShapesTab } from './components/QrShapesTab';
 
 export function QrBarcodeGenerator() {
   const [activeTab, setActiveTab] = useState('QR SHAPES');
@@ -54,7 +33,7 @@ export function QrBarcodeGenerator() {
   const [eclPercent, setEclPercent] = useState(30);
 
   // Sticker options
-  const [stickerMode, setStickerMode] = useState<'sticker' | 'silhouette'>('sticker');
+  const [stickerMode, setStickerMode] = useState<'sticker' | 'silhouette' | 'container'>('sticker');
   const [stickerTemplate, setStickerTemplate] = useState<'polaroid' | 'balloon' | 'speech' | 'computer' | 'shield' | 'cat' | 'music'>('polaroid');
   const [stickerCaption, setStickerCaption] = useState('SCAN ME!');
   const [sticker3D, setSticker3D] = useState(true);
@@ -80,6 +59,13 @@ export function QrBarcodeGenerator() {
   const [vcOrg, setVcOrg] = useState('');
   const [vcTitle, setVcTitle] = useState('');
   const [vcUrl, setVcUrl] = useState('');
+
+  const tabsScrollRef = useRef<HTMLDivElement>(null);
+  const scrollTabs = (direction: 'left' | 'right') => {
+    if (tabsScrollRef.current) {
+      tabsScrollRef.current.scrollBy({ left: direction === 'left' ? -200 : 200, behavior: 'smooth' });
+    }
+  };
 
   // Update underlying QR string data when forms change
   useEffect(() => {
@@ -499,7 +485,205 @@ export function QrBarcodeGenerator() {
                 ctx.clearRect(0, 0, size, size);
             }
 
-            if (stickerMode === 'sticker') {
+            if (stickerMode === 'container') {
+                ctx.save();
+                ctx.scale(size / 500, size / 500);
+                
+                if (sticker3D) {
+                    ctx.shadowColor = 'rgba(0, 0, 0, 0.14)';
+                    ctx.shadowBlur = 12;
+                    ctx.shadowOffsetY = 8;
+                }
+                
+                const getContainerPath = () => {
+                    const p = new Path2D();
+                    if (stickerTemplate === 'cat') {
+                        p.arc(250, 250, 180, 0, 2*Math.PI);
+                        p.moveTo(110, 160); p.lineTo(100, 40); p.lineTo(210, 130); p.closePath();
+                        p.moveTo(390, 160); p.lineTo(400, 40); p.lineTo(290, 130); p.closePath();
+                    } else if (stickerTemplate === 'shield') {
+                        p.moveTo(250, 50);
+                        p.lineTo(400, 90);
+                        p.quadraticCurveTo(400, 270, 250, 430);
+                        p.quadraticCurveTo(100, 270, 100, 90);
+                        p.closePath();
+                    } else {
+                        p.arc(250, 250, 180, 0, 2*Math.PI);
+                    }
+                    return p;
+                };
+                
+                const path = getContainerPath();
+
+                // Drop shadow is drawn by filling the path once
+                if (!useTransparentBg) {
+                    // Fill with explicit background color
+                    ctx.fillStyle = bgColor || '#ffffff';
+                    ctx.fill(path);
+                } else { // Transparent BG
+                    // Fill with white so it acts as standard white container
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fill(path);
+                }
+                
+                // Clear shadow for subsequent drawing
+                ctx.shadowColor = 'transparent';
+                ctx.shadowBlur = 0;
+                ctx.shadowOffsetY = 0;
+
+                // Clip all future drawing to our container shape
+                ctx.clip(path);
+                
+                // Determine module context dynamically from original instance 
+                // so sizes align perfectly natively.
+                const qrInst = (qrCode as any)._qr;
+                const moduleCount = qrInst ? (qrInst as any).getModuleCount() : 33;
+                const dCell = 220 / moduleCount; 
+                const dummyGridRows = Math.ceil(500 / dCell);
+                const dummyGridCols = Math.ceil(500 / dCell);
+                
+                // Support gradient inside dummy patterns
+                if (gradient) {
+                    const g = ctx.createLinearGradient(0, 0, 500, 500); 
+                    g.addColorStop(0, gradient.colorStops[0].color);
+                    g.addColorStop(1, gradient.colorStops[1].color);
+                    ctx.fillStyle = g;
+                } else {
+                    ctx.fillStyle = dotsColor || '#000000';
+                }
+
+                const drawPatternDot = (targetCtx: CanvasRenderingContext2D, px: number, py: number, s: number) => {
+                    const cx = px + s/2;
+                    const cy = py + s/2;
+                    const NATIVE_PATTERNS = ['square', 'dots', 'rounded', 'extra-rounded', 'classy', 'classy-rounded'];
+                    const isCustom = !NATIVE_PATTERNS.includes(customPattern);
+                    
+                    if (isCustom) {
+                        targetCtx.beginPath();
+                        if (customPattern === 'vertical') {
+                            targetCtx.fillRect(px + s*0.1, py, s*0.8, s + 0.5);
+                        } else if (customPattern === 'horizontal') {
+                            targetCtx.fillRect(px, py + s*0.1, s + 0.5, s*0.8);
+                        } else if (customPattern === 'cross') {
+                            targetCtx.fillRect(px + s*0.2, py + s*0.4, s*0.6, s*0.2);
+                            targetCtx.fillRect(px + s*0.4, py + s*0.2, s*0.2, s*0.6);
+                        } else if (customPattern === 'diamond') {
+                            targetCtx.moveTo(cx, py + s*0.1); targetCtx.lineTo(px + s*0.9, cy); targetCtx.lineTo(cx, py + s*0.9); targetCtx.lineTo(px + s*0.1, cy);
+                        } else if (customPattern === 'heart') {
+                            const hs = s * 0.9; const hx = px + s * 0.05; const hy = py + s * 0.15;
+                            targetCtx.moveTo(hx + hs/2, hy + hs*0.25);
+                            targetCtx.bezierCurveTo(hx + hs/2, hy, hx, hy, hx, hy + hs*0.25);
+                            targetCtx.bezierCurveTo(hx, hy + hs*0.5, hx + hs/2, hy + hs*0.75, hx + hs/2, hy + hs);
+                            targetCtx.bezierCurveTo(hx + hs/2, hy + hs*0.75, hx + hs, hy + hs*0.5, hx + hs, hy + hs*0.25);
+                            targetCtx.bezierCurveTo(hx + hs, hy, hx + hs/2, hy, hx + hs/2, hy + hs*0.25);
+                        } else if (customPattern === 'leaf') {
+                            targetCtx.moveTo(px, cy);
+                            targetCtx.bezierCurveTo(px + s*0.1, py, px + s*0.9, py, px + s, cy);
+                            targetCtx.bezierCurveTo(px + s*0.9, py + s, px + s*0.1, py + s, px, cy);
+                        } else if (customPattern === 'circle-clusters') {
+                            targetCtx.moveTo(px + s*0.25 + s*0.15, py + s*0.25); targetCtx.arc(px + s*0.25, py + s*0.25, s*0.15, 0, Math.PI*2);
+                            targetCtx.moveTo(px + s*0.75 + s*0.15, py + s*0.25); targetCtx.arc(px + s*0.75, py + s*0.25, s*0.15, 0, Math.PI*2);
+                            targetCtx.moveTo(px + s*0.25 + s*0.15, py + s*0.75); targetCtx.arc(px + s*0.25, py + s*0.75, s*0.15, 0, Math.PI*2);
+                            targetCtx.moveTo(px + s*0.75 + s*0.15, py + s*0.75); targetCtx.arc(px + s*0.75, py + s*0.75, s*0.15, 0, Math.PI*2);
+                        } else if (customPattern === 'target') {
+                            targetCtx.moveTo(cx + s*0.4, cy); targetCtx.arc(cx, cy, s*0.4, 0, Math.PI*2);
+                            targetCtx.moveTo(cx + s*0.15, cy); targetCtx.arc(cx, cy, s*0.15, 0, Math.PI*2);
+                        } else if (customPattern === 'ninja') {
+                            targetCtx.moveTo(cx, py); targetCtx.quadraticCurveTo(px + s*0.6, py + s*0.4, px + s, cy); targetCtx.quadraticCurveTo(px + s*0.6, py + s*0.6, cx, py + s); targetCtx.quadraticCurveTo(px + s*0.4, py + s*0.6, px, cy); targetCtx.quadraticCurveTo(px + s*0.4, py + s*0.4, cx, py);
+                        }
+                        targetCtx.fill();
+                    } else {
+                        targetCtx.beginPath();
+                        if (dotsType === 'rounded' || dotsType === 'extra-rounded') {
+                            if (targetCtx.roundRect) { targetCtx.roundRect(px, py, s, s, s*0.5); targetCtx.fill(); }
+                            else { targetCtx.arc(px+s/2, py+s/2, s/2, 0, 2*Math.PI); targetCtx.fill(); }
+                        } else if (dotsType === 'dots') {
+                            targetCtx.arc(px+s/2, py+s/2, s/2 * 0.8, 0, 2*Math.PI); targetCtx.fill();
+                        } else if (dotsType === 'classy' || dotsType === 'classy-rounded') {
+                            if (targetCtx.roundRect) { targetCtx.roundRect(px, py, s, s, s*0.3); targetCtx.fill(); }
+                            else { targetCtx.fillRect(px,py, s, s); }
+                        } else {
+                            targetCtx.fillRect(px, py, s, s);
+                        }
+                    }
+                }
+
+                // Draw condensed dummy dots
+                for(let r=0; r<dummyGridRows; r++) {
+                    for(let c=0; c<dummyGridCols; c++) {
+                        const px = c * dCell;
+                        const py = r * dCell;
+                        
+                        // Protect middle QR area (which is at 120->380, but give some breathing room: 105->395)
+                        if (px > 105 && px < 400 && py > 105 && py < 400) continue;
+                        
+                        // Fake locators mask (avoid drawing dots inside the fake top-left, top-right, bottom-left finders)
+                        const isFakeFinder1 = px < dCell * 10 && py < dCell * 10;
+                        const isFakeFinder2 = px > 500 - dCell * 10 && py < dCell * 10;
+                        const isFakeFinder3 = px < dCell * 10 && py > 500 - dCell * 10;
+                        if (isFakeFinder1 || isFakeFinder2 || isFakeFinder3) continue;
+
+                        // Density check: 85% filled instead of just 55%
+                        if ((Math.sin(r * 12.345 + c * 67.89) * 10000) % 1 > 0.15) {
+                            // Slight variation to make dummy dots less rigid
+                            drawPatternDot(ctx, px, py, dCell);
+                        }
+                    }
+                }
+                
+                // Fake Locator Eyes for dramatic effect
+                // They need to be snapped to grid using the proper modular sizing
+                const drawFakeFinder = (fCol: number, fRow: number) => {
+                    const fx = fCol * dCell;
+                    const fy = fRow * dCell;
+                    const fSize = dCell * 7;
+                    ctx.fillStyle = cornersColor || dotsColor || '#000000';
+                    if (ctx.roundRect) {
+                        ctx.beginPath(); ctx.roundRect(fx, fy, fSize, fSize, dCell); ctx.fill();
+                        ctx.fillStyle = useTransparentBg ? '#ffffff' : (bgColor || '#ffffff');
+                        ctx.beginPath(); ctx.roundRect(fx+dCell, fy+dCell, fSize-dCell*2, fSize-dCell*2, dCell*0.5); ctx.fill();
+                        ctx.fillStyle = customEyeBall || cornersColor || dotsColor || '#000000';
+                        ctx.beginPath(); ctx.roundRect(fx+dCell*2, fy+dCell*2, fSize-dCell*4, fSize-dCell*4, dCell*0.3); ctx.fill();
+                    } else {
+                        ctx.fillRect(fx, fy, fSize, fSize);
+                        ctx.fillStyle = useTransparentBg ? '#ffffff' : (bgColor || '#ffffff');
+                        ctx.fillRect(fx+dCell, fy+dCell, fSize-dCell*2, fSize-dCell*2);
+                        ctx.fillStyle = customEyeBall || cornersColor || dotsColor || '#000000';
+                        ctx.fillRect(fx+dCell*2, fy+dCell*2, fSize-dCell*4, fSize-dCell*4);
+                    }
+                };
+                
+                drawFakeFinder(2, 2);
+                drawFakeFinder(dummyGridCols - 9, 2);
+                drawFakeFinder(2, dummyGridRows - 9);
+
+                ctx.restore();
+
+                // Draw Real QR with white padding
+                ctx.save();
+                ctx.scale(size / 500, size / 500);
+                ctx.fillStyle = '#ffffff';
+                if (sticker3D) {
+                    ctx.shadowColor = 'rgba(0,0,0,0.1)';
+                    ctx.shadowBlur = 10;
+                    ctx.shadowOffsetY = 4;
+                }
+                if (ctx.roundRect) {
+                    ctx.beginPath();
+                    ctx.roundRect(120, 120, 260, 260, 24);
+                    ctx.fill();
+                } else {
+                    ctx.fillRect(120, 120, 260, 260);
+                }
+                
+                ctx.shadowColor = 'transparent';
+                ctx.shadowBlur = 0;
+                ctx.shadowOffsetY = 0;
+                
+                ctx.drawImage(sourceImg, 140, 140, 220, 220);
+
+                ctx.restore();
+            } else if (stickerMode === 'sticker') {
                 ctx.save();
                 // Normalize drawing space to 500x500
                 ctx.scale(size / 500, size / 500);
@@ -941,7 +1125,8 @@ export function QrBarcodeGenerator() {
                         mCtx.fillStyle = 'black';
                         
                         // Calculate shape padding based on the 1-30% ECL percentage budget slider
-                        const computedPadding = (30 - eclPercent) * (size / 150);
+                        // Reduce padding for a larger container silhouette
+                        const computedPadding = (30 - eclPercent) * (size / 300);
                         const innerSize = size - computedPadding * 2;
                         const scale = innerSize / 100;
                         
@@ -1027,7 +1212,7 @@ export function QrBarcodeGenerator() {
                     ctx.drawImage(qrCanvas, 0, 0);
                     
                     // Outline Stroke overlay
-                    const computedPadding = (30 - eclPercent) * (size / 150);
+                    const computedPadding = (30 - eclPercent) * (size / 300);
                     if (shapeMode === 'circle') {
                         ctx.beginPath();
                         ctx.arc(size/2, size/2, (size - computedPadding*2)/2, 0, 2*Math.PI);
@@ -1054,6 +1239,10 @@ export function QrBarcodeGenerator() {
             }
             
             // Update DOM
+            canvas.style.maxWidth = '100%';
+            canvas.style.height = 'auto';
+            canvas.style.maxHeight = '550px';
+            canvas.style.objectFit = 'contain';
             qrRef.current.innerHTML = '';
             qrRef.current.appendChild(canvas);
         };
@@ -1144,421 +1333,135 @@ export function QrBarcodeGenerator() {
   };
 
   return (
-    <div className="w-full mx-auto p-4 md:p-6 lg:p-8 flex flex-col items-center">
-      <div className="w-full max-w-[1600px] bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800/80 rounded-3xl shadow-xl flex flex-col xl:flex-row overflow-hidden">
+    <div className="min-h-screen bg-[#FDFDFD] dark:bg-[#0A0A0A] p-2 md:p-6 lg:p-10 flex flex-col font-sans transition-colors duration-500 selection:bg-indigo-500/30">
+      
+      <div className="w-full max-w-[1800px] w-[95vw] mx-auto bg-white dark:bg-[#121212] rounded-[3rem] shadow-[0_12px_60px_-10px_rgba(0,0,0,0.05)] dark:shadow-[0_20px_60px_-10px_rgba(0,0,0,0.5)] border border-slate-100 dark:border-[#222] flex flex-col xl:flex-row overflow-hidden relative backdrop-blur-xl">
         
         {/* LEFT PANEL: Customize Options */}
-        <div className="w-full xl:w-[70%] border-b xl:border-b-0 xl:border-r border-slate-200 dark:border-slate-800/80 bg-slate-50/50 dark:bg-slate-900/30 flex flex-col pt-2 pb-6">
+        <div className="w-full xl:w-[70%] flex flex-col border-b xl:border-b-0 xl:border-r border-slate-100 dark:border-[#222] bg-white/50 dark:bg-transparent z-10 relative">
            
-           <div className="flex overflow-x-auto border-b border-slate-200 dark:border-slate-800/80 px-4 pt-2 pb-[2px] gap-2 lg:gap-6 flex-nowrap scrollbar-hide">
-              {['DATA', 'QR SHAPES', 'COLORS', 'PATTERNS', 'LOGOS', 'PRESETS'].map(t => (
-                 <button 
-                    key={t}
-                    onClick={() => setActiveTab(t)}
-                    className={`px-5 py-3 text-[11px] lg:text-[12px] font-extrabold tracking-widest uppercase whitespace-nowrap transition-all duration-200 border-b-[2px] ${activeTab === t ? 'border-indigo-500 text-indigo-400' : 'border-transparent text-slate-500 hover:text-slate-300'}`}
-                 >
-                    {t}
+           {/* HEADER / BRANDING */}
+           <div className="px-6 md:px-12 pt-10 pb-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+              <div>
+                 <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white flex items-center gap-3 tracking-tight">
+                    <Sparkles className="w-8 h-8 text-indigo-500 drop-shadow-sm" /> Matrix QR Studio
+                 </h1>
+                 <p className="text-sm text-slate-500 dark:text-slate-400 mt-2 font-medium tracking-wide">Design stunning, highly scannable QR widgets tailored for your brand.</p>
+              </div>
+           </div>
+
+           {/* SCROLLABLE PILL TABS */}
+           <div className="px-6 md:px-12 py-3 border-b border-slate-100 dark:border-[#222] bg-slate-50/50 dark:bg-[#0c0c0c]/50">
+              <div className="flex items-center gap-2">
+                 <button onClick={() => scrollTabs('left')} className="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-[#222] text-slate-500 dark:text-slate-400 transition-colors shrink-0">
+                    <ChevronLeft className="w-5 h-5" />
                  </button>
-              ))}
+                 <div ref={tabsScrollRef} className="flex overflow-x-auto gap-3 pb-2 scrollbar-hide items-center flex-1">
+                    {['DATA', 'PRESETS', 'COLORS', 'PATTERNS', 'QR SHAPES', 'LOGOS'].map(t => (
+                       <button 
+                          key={t}
+                          onClick={() => setActiveTab(t)}
+                          className={`px-6 py-2.5 text-[13px] font-bold rounded-full whitespace-nowrap transition-all duration-300 tracking-wide border ${activeTab === t ? 'bg-indigo-600 text-white border-indigo-600 shadow-lg shadow-indigo-500/25 scale-105' : 'bg-white dark:bg-[#1A1A1A] text-slate-600 dark:text-slate-400 border-slate-200 dark:border-[#2A2A2A] hover:bg-slate-50 dark:hover:bg-[#222] hover:scale-105'}`}
+                       >
+                          {t}
+                       </button>
+                    ))}
+                 </div>
+                 <button onClick={() => scrollTabs('right')} className="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-[#222] text-slate-500 dark:text-slate-400 transition-colors shrink-0">
+                    <ChevronRight className="w-5 h-5" />
+                 </button>
+              </div>
            </div>
            
            {/* TAB CONTENT AREAS */}
-           <div className="p-6 md:p-8 flex-1 overflow-y-auto scrollbar-hide">
+           <div className="p-6 md:p-12 flex-1 overflow-y-auto scrollbar-hide min-h-[500px]">
               {activeTab === 'DATA' && (
-                 <div className="space-y-8 max-w-2xl">
-                    <div className="flex flex-wrap gap-3 mb-8">
-                       {(['URL', 'Text', 'Email', 'SMS', 'Phone', 'WiFi', 'vCard'] as QrType[]).map(t => (
-                         <button key={t} onClick={() => setQrType(t)} className={`px-5 py-3 rounded-2xl text-[13px] font-bold transition-all border ${qrType === t ? 'bg-indigo-600 border-indigo-600 text-white shadow-md shadow-indigo-500/20 ring-2 ring-indigo-500/30 ring-offset-1 dark:ring-offset-[#1A1A1A] scale-[1.02]' : 'bg-white border-slate-200 text-slate-600 dark:bg-[#1A1A1A] dark:border-[#2A2A2A] dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-[#222] hover:scale-105'}`}>
-                           {t === 'URL' && <Link className="w-4 h-4 inline mr-2 opacity-80" />}
-                           {t === 'Text' && <TypeIcon className="w-4 h-4 inline mr-2 opacity-80" />}
-                           {t === 'Email' && <Mail className="w-4 h-4 inline mr-2 opacity-80" />}
-                           {t === 'SMS' && <MessageSquare className="w-4 h-4 inline mr-2 opacity-80" />}
-                           {t === 'Phone' && <Phone className="w-4 h-4 inline mr-2 opacity-80" />}
-                           {t === 'WiFi' && <Wifi className="w-4 h-4 inline mr-2 opacity-80" />}
-                           {t === 'vCard' && <Contact className="w-4 h-4 inline mr-2 opacity-80" />}
-                           {t}
-                         </button>
-                       ))}
-                    </div>
-
-                    <div className="bg-slate-50 dark:bg-[#1A1A1A] p-6 rounded-[2rem] border border-slate-100 dark:border-[#2A2A2A]">
-                    {qrType === 'URL' && (
-                      <div className="animate-in fade-in zoom-in-95 duration-300">
-                        <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-3 ml-1">Website URL</label>
-                        <input type="url" value={url} onChange={e => setUrl(e.target.value)} placeholder="https://example.com" className="w-full bg-white dark:bg-[#111111] border border-slate-200 dark:border-[#333] px-5 py-4 rounded-2xl text-slate-900 dark:text-white font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all shadow-sm placeholder:text-slate-400 dark:placeholder:text-slate-600" />
-                      </div>
-                    )}
-                    {qrType === 'Text' && (
-                      <div className="animate-in fade-in zoom-in-95 duration-300">
-                        <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-3 ml-1">Plain Text</label>
-                        <textarea value={text} onChange={e => setText(e.target.value)} placeholder="Enter any text you want to encode..." className="w-full bg-white dark:bg-[#111111] border border-slate-200 dark:border-[#333] px-5 py-4 rounded-2xl text-slate-900 dark:text-white font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all shadow-sm min-h-[160px] placeholder:text-slate-400 dark:placeholder:text-slate-600" />
-                      </div>
-                    )}
-                    </div>
-                 </div>
+                 <QrDataTab 
+                   state={{ qrType, url, text, emailTo, emailSub, emailBody, smsPhone, smsMsg, telPhone, wifiSsid, wifiPass, wifiEnc, wifiHidden, vcFirst, vcLast, vcPhone, vcEmail, vcOrg, vcTitle, vcUrl }}
+                   setters={{ setQrType, setUrl, setText, setEmailTo, setEmailSub, setEmailBody, setSmsPhone, setSmsMsg, setTelPhone, setWifiSsid, setWifiPass, setWifiEnc, setWifiHidden, setVcFirst, setVcLast, setVcPhone, setVcEmail, setVcOrg, setVcTitle, setVcUrl }}
+                 />
               )}
 
                   {activeTab === 'QR SHAPES' && (
-                 <div className="animate-in fade-in zoom-in-95 duration-400 space-y-8">
-                    {/* High-end Segmented Switch */}
-                    <div className="flex bg-slate-100 dark:bg-[#111111] p-1.5 rounded-full max-w-lg shadow-inner border border-slate-200/50 dark:border-[#2A2A2A]">
-                      <button
-                        onClick={() => setStickerMode('sticker')}
-                        className={`flex-1 flex items-center justify-center gap-2 py-3 text-[13px] font-bold tracking-wide uppercase rounded-full transition-all duration-300 ${stickerMode === 'sticker' ? 'bg-white dark:bg-[#222] text-indigo-600 dark:text-indigo-400 shadow-[0_4px_12px_rgba(0,0,0,0.05)] dark:shadow-[0_4px_12px_rgba(0,0,0,0.4)] scale-[1.02]' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'}`}
-                      >
-                         ✨ Graphic Sticker Frames
-                      </button>
-                      <button
-                        onClick={() => setStickerMode('silhouette')}
-                        className={`flex-1 flex items-center justify-center gap-2 py-3 text-[13px] font-bold tracking-wide uppercase rounded-full transition-all duration-300 ${stickerMode === 'silhouette' ? 'bg-white dark:bg-[#222] text-indigo-600 dark:text-indigo-400 shadow-[0_4px_12px_rgba(0,0,0,0.05)] dark:shadow-[0_4px_12px_rgba(0,0,0,0.4)] scale-[1.02]' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'}`}
-                      >
-                         👤 Silhouette Cut Masks
-                      </button>
-                    </div>
-
-                    {stickerMode === 'sticker' ? (
-                       <div className="space-y-8 animate-in fade-in duration-300">
-                          <div className="bg-amber-50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-500/20 px-6 py-5 rounded-[2rem] flex items-start md:items-center gap-4 text-amber-900 dark:text-amber-200 shadow-sm">
-                             <div className="bg-amber-100 dark:bg-amber-500/20 p-2.5 rounded-2xl flex-shrink-0">
-                                <Sparkles className="w-5 h-5 text-amber-600 dark:text-amber-400" />
-                             </div>
-                             <span className="text-sm leading-relaxed font-medium">Embed your complete QR code safely inside creative, themed sticker frame vector silhouettes! This ensures 100% data preservation and professional physical print quality.</span>
-                          </div>
-
-                          {/* Grid of Sticker types */}
-                          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                             {[
-                               { id: 'polaroid', label: 'Vintage Polaroid', icon: ImageIcon, desc: 'Classic retro card featuring an elegant serif caption label' },
-                               { id: 'balloon', label: 'Heart Balloon', icon: Heart, desc: 'Puffy pink heart balloon with gloss cartoon highlights and string' },
-                               { id: 'speech', label: 'Chat Dialog Box', icon: MessageSquare, desc: 'Sleek communication bubble complete with dialogue tip' },
-                               { id: 'computer', label: 'Retro Computer', icon: Tv, desc: 'Classic vintage PC terminal monitor enclosing the QR code' },
-                               { id: 'shield', label: 'Golden Shield', icon: Shield, desc: 'Premium verified protection badge with golden sashes' },
-                               { id: 'cat', label: 'Cute Kitty Cat', icon: Sparkles, desc: 'Playful orange feline template with whiskers and ears' },
-                               { id: 'music', label: 'Vinyl Track Player', icon: Music, desc: 'Modern audio layout with linear scrubber line and media controllers' }
-                             ].map(t => {
-                                const IconComp = t.icon;
-                                const isSelected = stickerTemplate === t.id;
-                                return (
-                                   <button
-                                     key={t.id}
-                                     onClick={() => { setStickerTemplate(t.id as any); if (t.id === 'balloon') { setStickerCaption('TAP ME!'); } else if (t.id === 'cat') { setStickerCaption('MEOW!'); } else if (t.id === 'music') { setStickerCaption('PLAY MUSIC!'); } }}
-                                     className={`p-5 rounded-[2rem] border-[2px] text-left flex flex-col justify-between transition-all duration-300 outline-none hover:-translate-y-1 ${isSelected ? 'border-indigo-500 bg-indigo-50/50 shadow-lg shadow-indigo-500/10 dark:border-indigo-500 dark:bg-[#111111]' : 'border-slate-100 dark:border-[#2A2A2A] bg-[#FAFAFA] hover:bg-white hover:border-slate-300 hover:shadow-md dark:bg-[#161616] dark:hover:bg-[#1A1A1A] dark:hover:border-[#333]'}`}
-                                   >
-                                      <div className="flex items-center gap-4 mb-3">
-                                         <div className={`p-3 rounded-2xl flex items-center justify-center transition-colors ${isSelected ? 'bg-indigo-600 text-white dark:bg-indigo-500' : 'bg-slate-200 text-slate-600 dark:bg-[#2A2A2A] dark:text-slate-400'}`}>
-                                            <IconComp className="w-5 h-5" />
-                                         </div>
-                                         <span className="font-bold text-sm text-slate-900 dark:text-slate-100">{t.label}</span>
-                                      </div>
-                                      <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-medium">{t.desc}</p>
-                                   </button>
-                                );
-                             })}
-                          </div>
-
-                          {/* Dynamic Custom parameters for Stickers */}
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pt-4">
-                             <div className="bg-[#FAFAFA] dark:bg-[#161616] border border-slate-100 dark:border-[#2A2A2A] p-6 rounded-[2rem] shadow-sm">
-                                <label className="block text-[11px] font-bold uppercase text-slate-500 dark:text-slate-400 mb-3 tracking-wider">Sticker Caption Text</label>
-                                <input
-                                  type="text"
-                                  value={stickerCaption}
-                                  onChange={e => setStickerCaption(e.target.value)}
-                                  placeholder="SCAN ME!"
-                                  className="w-full bg-white dark:bg-[#111111] border border-slate-200 dark:border-[#333] px-5 py-4 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500/50 dark:text-white font-bold text-[13px] shadow-sm transition-all text-center tracking-wide uppercase"
-                                  maxLength={22}
-                                />
-                                <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-3 font-medium">Personalize the text written on the sticker plate template.</p>
-                             </div>
-
-                             <div className="bg-[#FAFAFA] dark:bg-[#161616] border border-slate-100 dark:border-[#2A2A2A] p-6 rounded-[2rem] shadow-sm flex flex-col justify-center">
-                                <label className="flex items-center gap-4 cursor-pointer select-none group">
-                                   <div className="relative inline-block w-12 h-6 rounded-full bg-slate-200 dark:bg-slate-700 transition duration-300 ease-in-out shrink-0">
-                                      <input type="checkbox" checked={sticker3D} onChange={e => setSticker3D(e.target.checked)} className="peer absolute left-0 w-full h-full opacity-0 z-10 cursor-pointer" />
-                                      <span className={`absolute left-0 w-full h-full rounded-full transition-colors duration-300 ${sticker3D ? 'bg-indigo-600' : 'bg-slate-200 dark:bg-[#333]'}`}></span>
-                                      <span className={`absolute top-1 left-1 w-4 h-4 bg-white rounded-full transition-transform duration-300 cubic-bezier(0.4,0.0,0.2,1) shadow-sm ${sticker3D ? 'transform translate-x-6' : ''}`}></span>
-                                   </div>
-                                   <div className="flex flex-col">
-                                      <span className="text-[13px] font-bold text-slate-800 dark:text-slate-200 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">Enable 3D Silhouette Outline</span>
-                                      <span className="text-xs text-slate-500 dark:text-slate-400 font-medium mt-1">Adds a sleek, physical die-cut white contour border and drop shadow.</span>
-                                   </div>
-                                </label>
-                             </div>
-                          </div>
-                       </div>
-                    ) : (
-                       <div className="space-y-8 animate-in fade-in duration-300">
-                          <div className="bg-indigo-50 dark:bg-indigo-900/10 border border-indigo-200 dark:border-indigo-500/20 px-6 py-5 rounded-[2rem] flex items-start md:items-center gap-4 text-indigo-900 dark:text-indigo-200 shadow-sm">
-                             <div className="bg-indigo-100 dark:bg-indigo-500/20 p-2.5 rounded-2xl flex-shrink-0">
-                                <Shapes className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
-                             </div>
-                             <span className="text-sm leading-relaxed font-medium">Shape your QR code's actual pixel grid into a unique silhouette profile. Sets the ECL level to Maximum (H-30%) and shields finder squares for optimal scans.</span>
-                          </div>
-
-                          <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-7 gap-4 mb-4">
-                            {SHAPE_KEYS.map(s => (
-                               <button 
-                                 key={s} 
-                                 title={s}
-                                 onClick={() => setShapeMode(s as any)}
-                                 className={`aspect-square rounded-[1.5rem] border-2 flex items-center justify-center p-3 sm:p-4 transition-all duration-300 outline-none hover:-translate-y-1 ${shapeMode === s ? 'border-indigo-600 bg-indigo-50 shadow-lg shadow-indigo-500/20 scale-[1.05] dark:bg-[#111111] dark:border-indigo-500' : 'border-slate-100 dark:border-[#2A2A2A] hover:border-slate-300 dark:hover:border-[#333] bg-[#FAFAFA] dark:bg-[#161616] hover:bg-white hover:shadow-md'}`}
-                               >
-                                  <svg viewBox="0 0 100 100" className={`w-full h-full drop-shadow-sm transition-colors ${shapeMode === s ? 'text-indigo-600 dark:text-indigo-400' : 'text-slate-800 dark:text-slate-300'}`}>
-                                    <defs>{MOCK_QR_PATTERN}</defs>
-                                    {s === 'default' && <rect x="5" y="5" width="90" height="90" fill="url(#qr-pattern)" stroke="currentColor" strokeWidth="4" rx="4" />}
-                                    {s === 'circle' && <circle cx="50" cy="50" r="45" fill="url(#qr-pattern)" stroke="currentColor" strokeWidth="4" />}
-                                    {s !== 'default' && s !== 'circle' && paths[s] && (
-                                       <path d={paths[s]} fill="url(#qr-pattern)" stroke="currentColor" strokeWidth="4" strokeLinejoin="round" />
-                                    )}
-                                  </svg>
-                               </button>
-                            ))}
-                          </div>
-
-                          {shapeMode !== 'default' && (
-                             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                               <div className="bg-[#FAFAFA] dark:bg-[#1A1A1A] border border-slate-100 dark:border-[#2A2A2A] p-6 rounded-[2rem] shadow-sm">
-                                 <label className="flex justify-between items-center text-xs font-bold uppercase text-slate-500 dark:text-slate-400 mb-4 tracking-wider">
-                                   <span>Shape Outer Margin</span>
-                                   <span className="text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-[#111111] px-3 py-1 rounded-full">{shapePadding}px</span>
-                                 </label>
-                                 <input type="range" min="0" max="40" step="1" value={shapePadding} onChange={e => setShapePadding(Number(e.target.value))} className="w-full h-2 bg-slate-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-indigo-600" />
-                                 <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-4 leading-relaxed font-medium">Adjust space around the outer silhouette boundary.</p>
-                               </div>
-
-                               <div className="bg-[#FAFAFA] dark:bg-[#1A1A1A] border border-slate-100 dark:border-[#2A2A2A] p-6 rounded-[2rem] shadow-sm">
-                                 <label className="flex justify-between items-center text-[11px] font-extrabold uppercase text-slate-500 dark:text-slate-400 mb-4 tracking-wider">
-                                   <span>ECL Max Masking Budget</span>
-                                   <span className="text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-[#111111] px-3 py-1 rounded-full">H-{eclPercent}%</span>
-                                 </label>
-                                 <input type="range" min="1" max="30" step="1" value={eclPercent} onChange={e => setEclPercent(Number(e.target.value))} className="w-full h-2 bg-slate-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-indigo-600" />
-                                 <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-4 leading-relaxed font-medium">Allows you to scale error correction level from 1% to 30% for ultimate mask detail control.</p>
-                               </div>
-                             </div>
-                          )}
-                       </div>
-                    )}
-                 </div>
+                 <QrShapesTab 
+                   state={{ stickerMode, stickerTemplate, stickerCaption, sticker3D, shapeMode, shapePadding, eclPercent }}
+                   setters={{ setStickerMode, setStickerTemplate, setStickerCaption, setSticker3D, setShapeMode, setShapePadding, setEclPercent }}
+                 />
               )}
 
               {activeTab === 'COLORS' && (
-                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-2xl animate-in fade-in zoom-in-95 duration-400">
-                    <div className="md:col-span-2">
-                      <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-3 ml-1">Export Resolution Limit</label>
-                      <div className="flex bg-white dark:bg-[#1A1A1A] rounded-3xl border border-slate-200 dark:border-[#2A2A2A] overflow-hidden outline-none focus-within:ring-2 focus-within:ring-indigo-500/50 focus-within:border-indigo-500 transition-all shadow-sm">
-                         <div className="px-6 py-4 bg-slate-50 dark:bg-[#111111] border-r border-slate-200 dark:border-[#2A2A2A] text-sm font-bold text-slate-500 dark:text-slate-400 min-w-[80px] text-center shrink-0 flex items-center justify-center">{size}px</div>
-                         <div className="flex-1 px-6 flex items-center relative py-4">
-                            <input type="range" min="100" max="2000" step="10" value={size} onChange={e => setSize(Number(e.target.value))} className="w-full h-2 bg-slate-100 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-indigo-600 relative z-10" />
-                         </div>
-                      </div>
-                    </div>
-                    
-                    <div className="bg-slate-50 dark:bg-[#1A1A1A] p-6 rounded-[2rem] border border-slate-100 dark:border-[#2A2A2A]">
-                       <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-3 ml-1">Foreground Color</label>
-                       <div className="flex bg-white dark:bg-[#111111] rounded-2xl border border-slate-200 dark:border-[#333] overflow-hidden outline-none focus-within:ring-2 focus-within:ring-indigo-500/50 focus-within:border-indigo-500 transition-all shadow-sm p-1">
-                         <input type="color" value={dotsColor} onChange={e => { setDotsColor(e.target.value); setGradient(null); setCornersColor(e.target.value); }} className="w-12 h-12 rounded-xl border-2 border-white dark:border-[#111111] shadow-sm cursor-pointer p-0" style={{minWidth: "48px"}} />
-                         <input type="text" value={dotsColor} onChange={e => { setDotsColor(e.target.value); setGradient(null); setCornersColor(e.target.value); }} className="w-full bg-transparent px-4 text-sm font-bold uppercase tracking-wider outline-none text-slate-700 dark:text-slate-200" />
-                       </div>
-                    </div>
-                    <div className="bg-slate-50 dark:bg-[#1A1A1A] p-6 rounded-[2rem] border border-slate-100 dark:border-[#2A2A2A]">
-                       <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-3 ml-1">Canvas Background</label>
-                       <div className="flex bg-white dark:bg-[#111111] rounded-2xl border border-slate-200 dark:border-[#333] overflow-hidden outline-none focus-within:ring-2 focus-within:ring-indigo-500/50 focus-within:border-indigo-500 transition-all shadow-sm p-1">
-                         <input type="color" value={bgColor} onChange={e => setBgColor(e.target.value)} className="w-12 h-12 rounded-xl border-2 border-white dark:border-[#111111] shadow-sm cursor-pointer p-0" style={{minWidth: "48px"}} />
-                         <input type="text" value={bgColor} onChange={e => setBgColor(e.target.value)} className="w-full bg-transparent px-4 text-sm font-bold uppercase tracking-wider outline-none text-slate-700 dark:text-slate-200" />
-                       </div>
-                    </div>
-                 </div>
+                 <QrColorsTab 
+                   state={{ size, dotsColor, bgColor }}
+                   setters={{ setSize, setDotsColor, setGradient, setCornersColor, setBgColor }}
+                 />
               )}
 
               {activeTab === 'PATTERNS' && (
-                 <div className="space-y-10 max-w-4xl animate-in fade-in zoom-in-95 duration-400">
-                    <div>
-                      <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-4 ml-1">Data Pixel Matrix Style</label>
-                      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4">
-                         {[
-                           { id: 'square', icon: <rect x="3" y="3" width="18" height="18" rx="2" fill="currentColor"/>, label: 'Square' },
-                           { id: 'dots', icon: <circle cx="12" cy="12" r="8" fill="currentColor"/>, label: 'Dots' },
-                           { id: 'rounded', icon: <rect x="3" y="3" width="18" height="18" rx="6" fill="currentColor"/>, label: 'Rounded' },
-                           { id: 'extra-rounded', icon: <rect x="3" y="3" width="18" height="18" rx="9" fill="currentColor"/>, label: 'Smooth' },
-                           { id: 'classy', icon: <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" fill="currentColor"/>, label: 'Classy' },
-                           { id: 'classy-rounded', icon: <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 15a5 5 0 1 1 5-5 5 5 0 0 1-5 5z" fill="currentColor"/>, label: 'Classy Round' },
-                           { id: 'vertical', icon: <rect x="6" y="2" width="12" height="20" rx="3" fill="currentColor"/>, label: 'Vertical' },
-                           { id: 'horizontal', icon: <rect x="2" y="6" width="20" height="12" rx="3" fill="currentColor"/>, label: 'Horizontal' },
-                           { id: 'cross', icon: <path d="M16 8h-2V6c0-1.1-.9-2-2-2s-2 .9-2 2v2H8c-1.1 0-2 .9-2 2s.9 2 2 2h2v2c0 1.1.9 2 2 2s2-.9 2-2v-2h2c1.1 0 2-.9 2-2s-.9-2-2-2z" fill="currentColor"/>, label: 'Cross' },
-                           { id: 'diamond', icon: <path d="M12 2L2 12l10 10 10-10L12 2z" fill="currentColor"/>, label: 'Diamond' },
-                           { id: 'heart', icon: <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="currentColor"/>, label: 'Heart' },
-                           { id: 'leaf', icon: <path d="M17 3H7c-1.1 0-2 .9-2 2v14l7-3 7 3V5c0-1.1-.9-2-2-2z" fill="currentColor"/>, label: 'Leaf' },
-                           { id: 'circle-clusters', icon: <g fill="currentColor"><circle cx="7" cy="7" r="3.5"/><circle cx="17" cy="7" r="3.5"/><circle cx="7" cy="17" r="3.5"/><circle cx="17" cy="17" r="3.5"/></g>, label: 'Clusters' },
-                           { id: 'target', icon: <g fill="currentColor"><circle cx="12" cy="12" r="10" fillOpacity="0.3"/><circle cx="12" cy="12" r="5"/></g>, label: 'Target' },
-                           { id: 'ninja', icon: <path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" fill="currentColor"/>, label: 'Ninja' }
-                         ].map(pat => (
-                            <button
-                               key={pat.id}
-                               onClick={() => setCustomPattern(pat.id as any)}
-                               className={`flex flex-col items-center justify-center p-4 md:p-5 rounded-[1.5rem] border-[2px] transition-all duration-300 group outline-none hover:-translate-y-1 hover:shadow-lg ${customPattern === pat.id ? 'border-indigo-600 bg-indigo-50 shadow-indigo-500/20 text-indigo-600 dark:border-indigo-500 dark:bg-indigo-500/10 dark:text-indigo-400 scale-[1.05]' : 'border-slate-100 dark:border-[#2A2A2A] bg-[#FAFAFA] dark:bg-[#161616] hover:border-slate-300 dark:hover:border-[#444] text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'}`}
-                            >
-                               <svg viewBox="0 0 24 24" className="w-8 h-8 md:w-10 md:h-10 mb-3 drop-shadow-sm transition-transform group-hover:scale-110">
-                                  {pat.icon}
-                               </svg>
-                               <span className="text-[11px] font-bold uppercase tracking-widest">{pat.label}</span>
-                            </button>
-                         ))}
-                      </div>
-                    </div>
-                    <div>
-                      <label className="flex items-center gap-2 text-[13px] font-extrabold uppercase text-slate-800 dark:text-slate-200 mb-5 tracking-widest pl-2">Outer Eye Frame Border</label>
-                      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                         {[
-                           { id: 'square', icon: <path d="M3 3h18v18H3V3zm4 4v10h10V7H7z" fill="currentColor"/>, label: 'Square' },
-                           { id: 'dot', icon: <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 16c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z" fill="currentColor"/>, label: 'Circle' },
-                           { id: 'extra-rounded', icon: <path d="M7 3h10a4 4 0 014 4v10a4 4 0 01-4 4H7a4 4 0 01-4-4V7a4 4 0 014-4zm0 4v10h10V7H7z" fill="currentColor"/>, label: 'Rounded' },
-                           { id: 'leaf', icon: <path d="M3 12c0-4.97 4.03-9 9-9 0 0 9 0 9 9s-4.03 9-9 9c0 0-9 0-9-9zM7 12c0 2.76 2.24 5 5 5h5c0-2.76-2.24-5-5-5H7z" fill="currentColor"/>, label: 'Leaf' },
-                           { id: 'shield', icon: <path d="M3 3h18v9c0 4.97-4.03 9-9 9s-9-4.03-9-9V3zm4 4v5c0 2.76 2.24 5 5 5s5-2.24 5-5V7H7z" fill="currentColor"/>, label: 'Shield' },
-                           { id: 'octagon', icon: <path d="M8 2h8l6 6v8l-6 6H8l-6-6V8l6-6zm1.66 4L6 9.66v4.68L9.66 18h4.68L18 14.34V9.66L14.34 6H9.66z" fill="currentColor"/>, label: 'Octagon' },
-                           { id: 'rotate-square', icon: <path d="M12 2L2 12l10 10 10-10L12 2zm0 5.66L18.34 12 12 18.34 5.66 12 12 7.66z" fill="currentColor"/>, label: 'Diamond' },
-                           { id: 'double-ring', icon: <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 2c4.41 0 8 3.59 8 8s-3.59 8-8 8-8-3.59-8-8 3.59-8 8-8zm0 2c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6z" fill="currentColor"/>, label: 'Double Ring' },
-                           { id: 'stitched', icon: <path d="M3 3h4v4H3V3zm7 0h4v4h-4V3zm7 0h4v4h-4V3zM3 10h4v4H3v-4zm14 0h4v4h-4v-4zM3 17h4v4H3v-4zm7 0h4v4h-4v-4zm7 0h4v4h-4v-4z" fill="currentColor"/>, label: 'Stitched' },
-                           { id: 'brackets', icon: <path d="M9 3H5v18h4v-4H7V7h2V3zm6 0h4v18h-4v-4h2V7h-2V3z" fill="currentColor"/>, label: 'Brackets' },
-                           { id: 'fluid', icon: <path d="M12 2v20c-5.52 0-10-4.48-10-10S6.48 2 12 2zm-6 10c0 3.31 2.69 6 6 6V6c-3.31 0-6 2.69-6 6z" fill="currentColor"/>, label: 'Fluid' },
-                           { id: 'minimalist', icon: <path d="M5 5h14v14H5V5zm2 2v10h10V7H7z" fill="currentColor"/>, label: 'Minimalist' },
-                           { id: 'microwave', icon: <path d="M4 4h16v16H4V4zm4 4v8h8V8H8z" fill="currentColor"/>, label: 'Microwave' }
-                         ].map(cor => (
-                            <button
-                               key={cor.id}
-                               onClick={() => setCustomEyeFrame(cor.id)}
-                               className={`flex items-center gap-3 p-4 md:p-5 rounded-[1.5rem] border-[2px] transition-all duration-300 group outline-none hover:-translate-y-1 hover:shadow-lg ${customEyeFrame === cor.id ? 'border-indigo-600 bg-indigo-50 shadow-indigo-500/20 text-indigo-600 dark:border-indigo-500 dark:bg-indigo-500/10 dark:text-indigo-400 scale-[1.05]' : 'border-slate-100 dark:border-[#2A2A2A] bg-[#FAFAFA] dark:bg-[#161616] hover:border-slate-300 dark:hover:border-[#444] text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'}`}
-                            >
-                               <svg viewBox="0 0 24 24" className="w-8 h-8 md:w-10 md:h-10 flex-shrink-0 drop-shadow-sm transition-transform group-hover:scale-110">
-                                  {cor.icon}
-                               </svg>
-                               <span className="text-[11px] font-bold uppercase tracking-widest text-left leading-tight">{cor.label}</span>
-                            </button>
-                         ))}
-                      </div>
-                    </div>
-                    <div>
-                      <label className="flex items-center gap-2 text-[13px] font-extrabold uppercase text-slate-800 dark:text-slate-200 mb-5 tracking-widest pl-2 mt-6">Inner Eye Ball Shape</label>
-                      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4">
-                         {[
-                           { id: 'square', icon: <path d="M6 6h12v12H6z" fill="currentColor"/>, label: 'Square' },
-                           { id: 'dot', icon: <circle cx="12" cy="12" r="6" fill="currentColor"/>, label: 'Circle' },
-                           { id: 'rounded', icon: <rect x="6" y="6" width="12" height="12" rx="3" fill="currentColor"/>, label: 'Rounded' },
-                           { id: 'diamond', icon: <path d="M12 4L4 12l8 8 8-8-8-8z" fill="currentColor"/>, label: 'Diamond' },
-                           { id: 'leaf', icon: <path d="M6 12c0-3.3 2.7-6 6-6s6 2.7 6 6-2.7 6-6 6c0 0-6 0-6-6z" fill="currentColor"/>, label: 'Leaf' },
-                           { id: 'pillow', icon: <path d="M12 4c-1.1 2.2-2.8 3.9-5 5 2.2 1.1 3.9 2.8 5 5 1.1-2.2 2.8-3.9 5-5-2.2-1.1-3.9-2.8-5-5z" fill="currentColor"/>, label: 'Pillow' },
-                           { id: 'vertical-capsule', icon: <rect x="8" y="4" width="8" height="16" rx="4" fill="currentColor"/>, label: 'Vertical' },
-                           { id: 'horizontal-capsule', icon: <rect x="4" y="8" width="16" height="8" rx="4" fill="currentColor"/>, label: 'Horizontal' },
-                           { id: 'right-triangle', icon: <path d="M8 5v14l11-7z" fill="currentColor"/>, label: 'Right Tri' },
-                           { id: 'up-triangle', icon: <path d="M12 5l-7 11h14z" fill="currentColor"/>, label: 'Up Tri' },
-                           { id: 'heart', icon: <path d="M12 20.1l-1.2-1.1C6.4 15.1 3.6 12.5 3.6 9.3 3.6 6.8 5.6 4.8 8.1 4.8c1.4 0 2.8.7 3.9 1.7 1-.9 2.4-1.7 3.9-1.7 2.5 0 4.5 2 4.5 4.5 0 3.2-2.8 5.8-7.2 9.7L12 20.1z" fill="currentColor"/>, label: 'Heart' },
-                           { id: 'star', icon: <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" fill="currentColor"/>, label: 'Star' },
-                           { id: 'cross', icon: <path d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z" fill="currentColor"/>, label: 'Cross' },
-                           { id: 'fluid', icon: <path d="M12 3S5 9 5 14.5C5 18.09 8.13 21 12 21s7-2.91 7-6.5C19 9 12 3 12 3z" fill="currentColor"/>, label: 'Drop' },
-                           { id: 'target', icon: <g fill="currentColor"><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2" fill="white"/></g>, label: 'Target' },
-                           { id: 'sliced', icon: <path d="M12 4v7h7c0-3.87-3.13-7-7-7zM5 12h7v7c-3.87 0-7-3.13-7-7zM19 13h-6v6h6v-6zM11 5H5v6h6V5z" fill="currentColor"/>, label: 'Sliced' },
-                           { id: 'ninja', icon: <path d="M12 4C9 8 8 9 4 12C8 15 9 16 12 20C15 16 16 15 20 12C16 9 15 8 12 4Z" fill="currentColor"/>, label: 'Ninja' },
-                           { id: 'teardrop', icon: <path d="M12 4C12 4 6 10.36 6 14.5C6 17.54 8.69 20 12 20C15.31 20 18 17.54 18 14.5C18 10.36 12 4 12 4Z" fill="currentColor"/>, label: 'Teardrop' },
-                           { id: 'heavy-plus', icon: <path d="M18 10h-4V6c0-1.1-.9-2-2-2s-2 .9-2 2v4H6c-1.1 0-2 .9-2 2s.9 2 2 2h4v4c0 1.1.9 2 2 2s2-.9 2-2v-4h4c1.1 0 2-.9 2-2s-.9-2-2-2z" fill="currentColor"/>, label: 'Heavy+' }
-                         ].map(cor => (
-                            <button
-                               key={cor.id}
-                               onClick={() => setCustomEyeBall(cor.id)}
-                               className={`flex flex-col items-center justify-center p-4 md:p-5 rounded-[1.5rem] border-[2px] transition-all duration-300 group outline-none hover:-translate-y-1 hover:shadow-lg ${customEyeBall === cor.id ? 'border-indigo-600 bg-indigo-50 shadow-indigo-500/20 text-indigo-600 dark:border-indigo-500 dark:bg-indigo-500/10 dark:text-indigo-400 scale-[1.05]' : 'border-slate-100 dark:border-[#2A2A2A] bg-[#FAFAFA] dark:bg-[#161616] hover:border-slate-300 dark:hover:border-[#444] text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'}`}
-                            >
-                               <svg viewBox="0 0 24 24" className="w-8 h-8 md:w-10 md:h-10 mb-3 drop-shadow-sm transition-transform group-hover:scale-110">
-                                  {cor.icon}
-                               </svg>
-                               <span className="text-[11px] font-bold uppercase tracking-widest leading-tight">{cor.label}</span>
-                            </button>
-                         ))}
-                      </div>
-                    </div>
-                 </div>
+                 <QrPatternsTab 
+                   state={{ customPattern, customEyeFrame, customEyeBall }}
+                   setters={{ setCustomPattern, setCustomEyeFrame, setCustomEyeBall }}
+                 />
               )}
 
               {activeTab === 'PRESETS' && (
-                 <div className="grid grid-cols-2 md:grid-cols-3 gap-5 animate-in fade-in zoom-in-95 duration-400">
-                   <button onClick={() => applyPreset('standard')} className="px-6 py-8 bg-[#FAFAFA] dark:bg-[#1A1A1A] rounded-[2rem] font-extrabold border-[2px] border-slate-100 dark:border-[#2A2A2A] hover:shadow-xl hover:-translate-y-1 hover:border-indigo-500 transition-all text-slate-800 dark:text-slate-200 text-sm tracking-wide">Standard Light</button>
-                   <button onClick={() => applyPreset('ocean')} className="px-6 py-8 rounded-[2rem] font-extrabold text-white shadow-lg hover:shadow-2xl hover:shadow-cyan-500/30 hover:-translate-y-1 transition-all border-0 text-sm tracking-wide relative overflow-hidden group" style={{ background: 'linear-gradient(135deg, #2193b0, #6dd5ed)' }}>
-                      <span className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />Midnight Ocean
-                   </button>
-                   <button onClick={() => applyPreset('sunset')} className="px-6 py-8 rounded-[2rem] font-extrabold text-white shadow-lg hover:shadow-2xl hover:shadow-orange-500/30 hover:-translate-y-1 transition-all border-0 text-sm tracking-wide relative overflow-hidden group" style={{ background: 'linear-gradient(135deg, #ff7e5f, #feb47b)' }}>
-                      <span className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />Sunset Vibes
-                   </button>
-                   <button onClick={() => applyPreset('cyberpunk')} className="px-6 py-8 rounded-[2rem] font-extrabold text-white shadow-lg hover:shadow-2xl hover:shadow-pink-500/30 hover:-translate-y-1 transition-all border-0 text-sm tracking-wide relative overflow-hidden group" style={{ background: 'linear-gradient(135deg, #f953c6, #0f0c29)' }}>
-                      <span className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />Cyberpunk
-                   </button>
-                   <button onClick={() => applyPreset('leafy')} className="px-6 py-8 rounded-[2rem] font-extrabold text-white shadow-lg hover:shadow-2xl hover:shadow-emerald-500/30 hover:-translate-y-1 transition-all border-0 text-sm tracking-wide relative overflow-hidden group" style={{ background: 'linear-gradient(135deg, #11998e, #38ef7d)' }}>
-                      <span className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />Forest Canopy
-                   </button>
-                   <button onClick={() => applyPreset('cosmic')} className="px-6 py-8 rounded-[2rem] font-extrabold text-white shadow-lg hover:shadow-2xl hover:shadow-purple-500/30 hover:-translate-y-1 transition-all border-0 text-sm tracking-wide relative overflow-hidden group" style={{ background: 'linear-gradient(135deg, #8A2387, #E94057)' }}>
-                      <span className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />Cosmic Nova
-                   </button>
-                 </div>
+                 <QrPresetsTab handlers={{ applyPreset }} />
               )}
 
               {activeTab === 'LOGOS' && (
-                 <div className="max-w-2xl animate-in fade-in duration-300">
-                   <div className="flex flex-col sm:flex-row gap-6 items-start">
-                     {!logoImage ? (
-                       <label className="flex flex-col items-center justify-center w-full sm:w-40 h-40 border-2 border-dashed border-slate-300 dark:border-slate-700 bg-[#FAFAFA] dark:bg-[#161616] rounded-3xl hover:border-indigo-500 dark:hover:border-indigo-500 hover:bg-white dark:hover:bg-[#1A1A1A] cursor-pointer transition-all hover:shadow-md">
-                         <div className="w-12 h-12 bg-indigo-50 dark:bg-indigo-900/30 rounded-full flex items-center justify-center mb-3">
-                           <ImageIcon className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
-                         </div>
-                         <span className="text-xs text-slate-500 dark:text-slate-400 font-extrabold uppercase tracking-widest">Upload Logo</span>
-                         <input type="file" accept="image/*" className="hidden" onChange={handleLogoUpload} />
-                       </label>
-                     ) : (
-                       <div className="relative w-full sm:w-40 h-40 border border-slate-200 dark:border-[#2A2A2A] rounded-3xl overflow-hidden bg-white dark:bg-[#111111] flex items-center justify-center p-4 group shadow-sm">
-                         <img src={logoImage} alt="Logo" className="max-w-full max-h-full object-contain" />
-                         <div className="absolute inset-0 bg-slate-900/60 dark:bg-slate-950/80 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                           <button onClick={() => setLogoImage(null)} className="bg-white text-slate-900 p-3 rounded-full mb-2 hover:bg-red-500 hover:text-white transition-colors shadow-lg">
-                             <X className="w-6 h-6" />
-                           </button>
-                         </div>
-                       </div>
-                     )}
-
-                     {logoImage && (
-                       <div className="flex-1 w-full bg-[#FAFAFA] dark:bg-[#1A1A1A] border border-slate-100 dark:border-[#2A2A2A] p-6 rounded-3xl shadow-sm">
-                         <label className="flex justify-between items-center text-xs font-bold uppercase text-slate-500 dark:text-slate-400 mb-5 tracking-wider">
-                           <span>Logo Edge Margin</span>
-                           <span className="text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-[#111111] px-3 py-1 rounded-full">{logoMargin}px</span>
-                         </label>
-                         <input type="range" min="0" max="40" value={logoMargin} onChange={e => setLogoMargin(Number(e.target.value))} className="w-full h-2 bg-slate-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-indigo-600" />
-                         <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-4 leading-relaxed font-medium">Adjust margin to cut a clear hole around your logo, ensuring that the QR matrix doesn't overlap and break scannability.</p>
-                       </div>
-                     )}
-                   </div>
-                 </div>
+                 <QrLogosTab 
+                   state={{ logoImage, logoMargin }}
+                   setters={{ setLogoImage, setLogoMargin }}
+                   handlers={{ handleLogoUpload }}
+                 />
               )}
            </div>
         </div>
 
         {/* RIGHT PANEL: Live Preview */}
-        <div className="w-full xl:w-[30%] bg-slate-100/50 dark:bg-black/40 flex flex-col items-center justify-center p-8 lg:p-12 border-l border-white dark:border-slate-800/50 shrink-0">
-           {/* QR Output */}
-           <div className="w-full max-w-[400px] aspect-square relative flex justify-center items-center rounded-3xl bg-white dark:bg-slate-900 p-4 lg:p-6 shadow-[0_8px_30px_rgb(0,0,0,0.08)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.5)] border border-slate-200/50 dark:border-slate-700/50 mb-8 transition-transform hover:scale-[1.02] duration-300">
-              <div className="absolute inset-4 rounded-2xl z-0 opacity-5 dark:opacity-10 pointer-events-none" style={{ backgroundImage: 'linear-gradient(45deg, #000 25%, transparent 25%), linear-gradient(-45deg, #000 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #000 75%), linear-gradient(-45deg, transparent 75%, #000 75%)', backgroundSize: '20px 20px', backgroundPosition: '0 0, 0 10px, 10px -10px, -10px 0px' }} />
-              <div ref={qrRef} className="relative z-10 w-full h-full flex justify-center items-center pointer-events-none drop-shadow-xl [&>svg]:!w-full [&>svg]:!h-full [&>canvas]:!w-full [&>canvas]:!h-full" />
-           </div>
+        <div className="w-full xl:w-[30%] bg-slate-50/80 dark:bg-[#0A0A0A] border-l border-slate-100 dark:border-[#222] p-8 md:p-12 flex flex-col items-center justify-center relative overflow-hidden">
+           
+           {/* Decorative background grid and gradients */}
+           <div className="absolute top-0 left-0 w-full h-[500px] bg-[radial-gradient(ellipse_100%_100%_at_50%_-20%,rgba(99,102,241,0.15),transparent)] z-0 pointer-events-none" />
+           <div className="absolute inset-0 z-0 bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)] bg-[size:32px_32px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,#000_20%,transparent_100%)] dark:bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] pointer-events-none" />
 
-           <div className="w-full max-w-[400px] flex flex-col gap-4">
-               <label className="flex items-center gap-3 cursor-pointer select-none border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
-                  <input type="checkbox" checked={useTransparentBg} onChange={e => setUseTransparentBg(e.target.checked)} className="w-5 h-5 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500 bg-slate-50 dark:bg-slate-800 dark:border-slate-600" />
-                  <div className="flex flex-col">
-                     <span className="text-sm font-bold text-slate-700 dark:text-slate-300">Transparent Background</span>
-                     <span className="text-[10px] text-slate-500 dark:text-slate-400 uppercase tracking-wider">For PNG output</span>
-                  </div>
-               </label>
+           <div className="sticky top-12 w-full flex flex-col items-center z-10 space-y-8 overflow-y-auto pb-4 max-h-screen">
+              
+              {/* STAGE & QR CANVAS */}
+              <div className="w-fit h-fit relative flex justify-center items-center rounded-[3rem] bg-white dark:bg-[#161616] p-6 shadow-[0_20px_50px_rgba(0,0,0,0.08)] dark:shadow-[0_20px_60px_rgba(0,0,0,0.6)] border border-slate-100 dark:border-[#333] transition-transform duration-500 hover:scale-[1.03] group mx-auto max-w-full">
+                 {/* Internal grid to show transparency clearly */}
+                 <div className="absolute inset-6 rounded-[2.5rem] z-0 opacity-[0.04] dark:opacity-[0.08] overflow-hidden pointer-events-none" style={{ backgroundImage: 'linear-gradient(45deg, #000 25%, transparent 25%), linear-gradient(-45deg, #000 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #000 75%), linear-gradient(-45deg, transparent 75%, #000 75%)', backgroundSize: '24px 24px', backgroundPosition: '0 0, 0 12px, 12px -12px, -12px 0px' }} />
+                 <div className="max-w-full max-h-[600px] overflow-auto relative z-10 rounded-[2rem] bg-transparent">
+                    <div ref={qrRef} className="relative flex justify-center items-center pointer-events-none drop-shadow-2xl transition-all duration-300 group-hover:drop-shadow-[0_20px_30px_rgba(79,70,229,0.2)]" />
+                 </div>
+              </div>
+              
+              {/* Controls */}
+              <div className="w-full max-w-[420px] space-y-4 pt-2">
+                 {/* Transparency Toggle */}
+                 <label className="group relative flex items-center justify-between p-4 rounded-3xl bg-white dark:bg-[#161616] border border-slate-100 dark:border-[#222] cursor-pointer hover:border-indigo-200 dark:hover:border-indigo-500/50 transition-all shadow-sm">
+                    <div className="flex flex-col text-left mr-4 relative z-10">
+                       <span className="text-[13px] font-bold text-slate-800 dark:text-slate-200">Transparent Base</span>
+                       <span className="text-[11px] text-slate-500 dark:text-slate-400 font-medium mt-1 leading-relaxed">Remove solid canvas fill for die-cut assets.</span>
+                    </div>
+                    <div className="relative inline-block w-12 h-6 rounded-full bg-slate-200 dark:bg-slate-700 transition duration-300 ease-in-out shrink-0">
+                       <input type="checkbox" checked={useTransparentBg} onChange={e => setUseTransparentBg(e.target.checked)} className="peer absolute left-0 w-full h-full opacity-0 z-10 cursor-pointer" />
+                       <span className={`absolute left-0 w-full h-full rounded-full transition-colors duration-300 ${useTransparentBg ? 'bg-indigo-600' : 'bg-slate-200 dark:bg-[#333]'}`}></span>
+                       <span className={`absolute top-1 left-1 w-4 h-4 bg-white rounded-full transition-transform duration-300 shadow-sm ${useTransparentBg ? 'transform translate-x-6' : ''}`}></span>
+                    </div>
+                 </label>
 
-              <button 
-                 onClick={onDownload}
-                 disabled={!data}
-                 className="w-full flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 px-6 rounded-2xl shadow-lg shadow-indigo-500/30 transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                 <Download className="w-5 h-5" /> Export QR Code
-              </button>
+                 {/* Download Action */}
+                 <button 
+                    onClick={onDownload}
+                    disabled={!data}
+                    className="w-full flex items-center justify-center gap-3 bg-slate-900 hover:bg-slate-800 dark:bg-indigo-600 dark:hover:bg-indigo-500 text-white font-bold py-4 md:py-5 px-6 rounded-3xl transition-all shadow-xl shadow-slate-900/10 dark:shadow-indigo-500/20 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed text-sm overflow-hidden relative group"
+                 >
+                    <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 pointer-events-none" />
+                    <Download className="w-5 h-5 flex-shrink-0 relative z-10 stroke-[2.5]" /> 
+                    <span className="relative z-10 tracking-widest text-[13px]">EXPORT QUALITY ASSET</span>
+                 </button>
+              </div>
+
            </div>
         </div>
 

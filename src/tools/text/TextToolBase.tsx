@@ -1,5 +1,5 @@
 import React, { useState, useRef, useCallback } from "react";
-import { Copy, Download, Upload, FileText, Trash2 } from "lucide-react";
+import { Copy, Download, Upload, Trash2, Check } from "lucide-react";
 
 interface TextToolBaseProps {
   title: string;
@@ -9,6 +9,7 @@ interface TextToolBaseProps {
   actionButtonText: string;
   onProcess: (input: string) => string;
   allowBatch?: boolean; // If true, can process a list of files or something, but text tools usually operate on lines.
+  extraControls?: React.ReactNode;
 }
 
 export function TextToolBase({
@@ -17,7 +18,8 @@ export function TextToolBase({
   inputLabel = "Input Text",
   outputLabel = "Result",
   actionButtonText,
-  onProcess
+  onProcess,
+  extraControls
 }: TextToolBaseProps) {
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
@@ -29,7 +31,7 @@ export function TextToolBase({
       const res = onProcess(input);
       setOutput(res);
     } catch (err) {
-      alert("Error processing text");
+      console.error("Error processing text");
     }
   };
 
@@ -127,7 +129,8 @@ export function TextToolBase({
           placeholder="Type, paste, or drag & drop a text file here..."
         />
         
-        <div className="mt-4 flex justify-center">
+        <div className="mt-4 flex flex-col md:flex-row gap-4 items-center justify-center">
+          {extraControls}
           <button 
             onClick={handleProcess}
             className="px-6 py-3 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700 transition-colors shadow-sm shadow-indigo-500/20"
@@ -144,9 +147,9 @@ export function TextToolBase({
             <div className="flex gap-2">
               <button 
                 onClick={handleCopy}
-                className="px-3 py-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition flex items-center gap-1"
+                className={`px-3 py-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-bold transition flex items-center gap-1 ${isCopied ? 'text-green-600 dark:text-green-400 border-green-200 bg-green-50 dark:bg-green-900/30' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700'}`}
               >
-                <Copy className="w-3 h-3" /> {isCopied ? "Copied!" : "Copy"}
+                {isCopied ? <><Check className="w-3 h-3" /> Copied!</> : <><Copy className="w-3 h-3" /> Copy</>}
               </button>
               <button 
                 onClick={handleDownload}

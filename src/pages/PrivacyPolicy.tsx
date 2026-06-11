@@ -9,7 +9,7 @@ export function PrivacyPolicy() {
         <section>
           <h2 className="text-xl font-semibold mb-3 text-slate-800 dark:text-slate-100">1. Introduction</h2>
           <p>
-            Welcome to ToolHub Interactive. We respect your privacy and are committed to protecting it. 
+            Welcome to ToolHub. We respect your privacy and are committed to protecting it. 
             This Privacy Policy explains that our tools are designed to process data locally in your browser.
           </p>
         </section>

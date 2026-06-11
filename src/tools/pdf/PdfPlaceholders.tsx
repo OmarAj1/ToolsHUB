@@ -24,7 +24,7 @@ function BasicPdfPlaceholder({ title, description, buttonText }: { title: string
 export function AlternateMixPdf() {
   const handleProcess = async (files: File[]) => {
     if (files.length < 2) {
-      alert("Please upload at least 2 PDF files to mix.");
+      console.error("Please upload at least 2 PDF files to mix.");
       return;
     }
     const pdfDoc = await PDFDocument.create();
@@ -74,14 +74,14 @@ export function SplitPdfByPages() {
     try {
       const [start, end] = range.split("-").map(n => parseInt(n.trim(), 10));
       if (isNaN(start) || isNaN(end) || start < 1 || end < start) {
-        alert("Invalid page range. Use format like '1-3'.");
+        console.error("Invalid page range. Use format like '1-3'.");
         return;
       }
       
       const file = files[0];
       const srcDoc = await PDFDocument.load(await file.arrayBuffer());
       if (end > srcDoc.getPageCount()) {
-        alert(`Document only has ${srcDoc.getPageCount()} pages.`);
+        console.error(`Document only has ${srcDoc.getPageCount()} pages.`);
         return;
       }
 
@@ -94,7 +94,7 @@ export function SplitPdfByPages() {
       const pdfBytes = await pdfDoc.save();
       downloadFile(pdfBytes, `split_${start}_to_${end}_${file.name}`, "application/pdf");
     } catch(e) {
-      alert("Error parsing document.");
+      console.error("Error parsing document.");
     }
   };
 

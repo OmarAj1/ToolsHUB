@@ -47,7 +47,7 @@ export function LocalInvoiceGenerator() {
       pdf.save(`invoice-${invoiceId}.pdf`);
     } catch (err) {
       console.error('Failed to generate PDF', err);
-      alert('Failed to generate PDF. Please try again.');
+      console.error('Failed to generate PDF. Please try again.');
     } finally {
       setIsGenerating(false);
     }

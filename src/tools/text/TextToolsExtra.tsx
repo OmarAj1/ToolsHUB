@@ -93,7 +93,7 @@ export function FindAndReplace() {
         const res = input.replace(new RegExp(escapedFind, 'g'), replace);
         setOutput(res);
       } catch (e) {
-        alert("Error executing replace.");
+        console.error("Error executing replace.");
       }
   };
 

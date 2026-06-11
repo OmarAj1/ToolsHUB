@@ -62,6 +62,8 @@ export function Navbar({ onMenuClick }: { onMenuClick?: () => void }) {
             if (onMenuClick) onMenuClick();
             else setIsMobileMenuOpen(!isMobileMenuOpen);
           }}
+          aria-label="Toggle menu"
+          aria-expanded={isMobileMenuOpen}
         >
           <Menu className="w-5 h-5" />
         </button>

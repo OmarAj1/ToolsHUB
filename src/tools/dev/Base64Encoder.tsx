@@ -10,9 +10,10 @@ export function Base64Encoder() {
     if (!input) return "";
     try {
       if (mode === "encode") {
-        return btoa(input);
+        // Support unicode by encoding URI components first
+        return btoa(unescape(encodeURIComponent(input)));
       } else {
-        return atob(input);
+        return decodeURIComponent(escape(atob(input)));
       }
     } catch (e) {
       return "Invalid Base64 string";

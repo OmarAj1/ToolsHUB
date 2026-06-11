@@ -51,7 +51,14 @@ export function CitationFormatter() {
              Formatted Citation ({style})
            </div>
            
-           <div className="font-serif text-xl text-white leading-relaxed tracking-wide pr-12 min-h-[4rem]" dangerouslySetInnerHTML={{ __html: citation.replace(/\*(.*?)\*/g, '<em class="opacity-80">$1</em>') }} />
+           <div className="font-serif text-xl text-white leading-relaxed tracking-wide pr-12 min-h-[4rem]">
+             {citation.split(/(\*.*?\*)/).map((part, i) => {
+               if (part.startsWith('*') && part.endsWith('*') && part.length > 1) {
+                 return <em key={i} className="opacity-80">{part.slice(1, -1)}</em>;
+               }
+               return <span key={i}>{part}</span>;
+             })}
+           </div>
            
            <button 
              onClick={() => {

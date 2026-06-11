@@ -87,10 +87,15 @@ export function ToolLayout({ children, toolId, faq }: { children: React.ReactNod
                 className="flex items-center px-4 py-2 text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-white dark:hover:bg-slate-800 rounded-lg transition-all"
                 onClick={() => {
                   navigator.clipboard.writeText(window.location.href);
-                  alert('Link copied to clipboard!');
+                  const btn = document.getElementById('share-btn-text');
+                  if (btn) {
+                    const original = btn.innerText;
+                    btn.innerText = 'Copied!';
+                    setTimeout(() => btn.innerText = original, 2000);
+                  }
                 }}
               >
-                <Share2 className="w-4 h-4 mr-2" /> Share
+                <Share2 className="w-4 h-4 mr-2" /> <span id="share-btn-text">Share</span>
               </button>
             </div>
           </div>

@@ -61,7 +61,7 @@ export function PdfRedactor() {
       setDownloadUrl(url);
     } catch (err) {
       console.error(err);
-      alert('Error redacting PDF.');
+      console.error('Error redacting PDF.');
     } finally {
       setIsProcessing(false);
     }

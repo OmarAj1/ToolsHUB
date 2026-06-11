@@ -40,7 +40,7 @@ export function PdfMetadataEditor() {
       });
     } catch (err) {
       console.error(err);
-      alert('Could not parse PDF. It might be encrypted.');
+      console.error('Could not parse PDF. It might be encrypted.');
       setFile(null);
     } finally {
       setIsProcessing(false);
@@ -65,7 +65,7 @@ export function PdfMetadataEditor() {
       setDownloadUrl(url);
     } catch (err) {
       console.error(err);
-      alert('Error saving metadata.');
+      console.error('Error saving metadata.');
     } finally {
       setIsProcessing(false);
     }

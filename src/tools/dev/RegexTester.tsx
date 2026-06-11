@@ -19,22 +19,27 @@ export function RegexTester() {
     }
   }, [regex, flags, testString]);
 
-  const previewHtml = useMemo(() => {
+  const previewNodes = useMemo(() => {
     if (!regex || matches.length === 0) return testString;
     try {
       const re = new RegExp(regex, flags);
-      const split = testString.split(re);
-      const output = [];
-      let matchIdx = 0;
-      
-      let cursor = 0;
-      for (let i = 0; i < testString.length; ) {
-          // just use standard replace with callback
-          break;
+      const result: React.ReactNode[] = [];
+      let lastIndex = 0;
+      testString.replace(re, (...args) => {
+        const match = args[0];
+        const offset = args[args.length - 2];
+        
+        if (offset > lastIndex) {
+          result.push(<span key={`text-${lastIndex}`}>{testString.slice(lastIndex, offset)}</span>);
+        }
+        result.push(<mark key={`match-${offset}`} className="bg-blue-200 dark:bg-blue-900/50 text-blue-900 dark:text-blue-200 rounded-sm px-0.5">{match}</mark>);
+        lastIndex = offset + match.length;
+        return match;
+      });
+      if (lastIndex < testString.length) {
+        result.push(<span key={`text-${lastIndex}`}>{testString.slice(lastIndex)}</span>);
       }
-      
-      // Easier way:
-      return testString.replace(re, (match) => `<mark class="bg-blue-200 text-blue-900 rounded-sm px-0.5">${match}</mark>`);
+      return result.length > 0 ? result : testString;
     } catch (e) {
       return testString;
     }
@@ -76,11 +81,12 @@ export function RegexTester() {
         </div>
 
         <div>
-          <label className="block text-sm font-bold text-slate-700 mb-2">Match Result ({matches.length})</label>
+          <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Match Result ({matches.length})</label>
           <div 
-            className="w-full min-h-[10rem] p-4 font-mono text-sm border-2 border-slate-200 rounded-xl bg-slate-50 whitespace-pre-wrap break-all"
-            dangerouslySetInnerHTML={{ __html: regex ? previewHtml : testString }}
-          />
+            className="w-full min-h-[10rem] p-4 font-mono text-sm border-2 border-slate-200 dark:border-slate-800 rounded-xl bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 whitespace-pre-wrap break-all transition-colors"
+          >
+            {regex ? previewNodes : testString}
+          </div>
         </div>
       </div>
     </div>

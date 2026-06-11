@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { AlertCircle } from "lucide-react";
+import { ToolContainer } from "@/components/ui/Layouts";
+import { TextArea } from "@/components/ui/TextArea";
 
 export function Base64Decoder() {
   const [input, setInput] = useState("");
@@ -14,7 +16,7 @@ export function Base64Decoder() {
       return;
     }
     try {
-      setOutput(atob(val));
+      setOutput(decodeURIComponent(escape(atob(val))));
       setError(null);
     } catch {
       setOutput("");
@@ -23,35 +25,30 @@ export function Base64Decoder() {
   };
 
   return (
-    <div className="p-6 md:p-8 flex flex-col items-center">
-      <div className="w-full max-w-4xl space-y-6">
-        <div>
-          <label className="block text-sm font-bold text-slate-700 mb-2">Base64 Encoded Text</label>
-          <textarea
-            value={input}
-            onChange={(e) => handleDecode(e.target.value)}
-            className="w-full h-40 p-4 font-mono text-sm border-2 border-slate-200 rounded-xl focus:border-blue-500 focus:outline-none"
-            placeholder="SGVsbG8gV29ybGQ="
-            spellCheck={false}
-          />
-        </div>
+    <ToolContainer>
+      <TextArea
+        label="Base64 Encoded Text"
+        value={input}
+        onChange={(e) => handleDecode(e.target.value)}
+        className="h-40"
+        placeholder="SGVsbG8gV29ybGQ="
+        spellCheck={false}
+      />
 
-        {error && (
-          <div className="p-4 bg-red-50 text-red-700 border border-red-200 rounded-xl flex items-center text-sm font-medium">
-            <AlertCircle className="w-5 h-5 mr-3 shrink-0" /> {error}
-          </div>
-        )}
-
-        <div>
-           <label className="block text-sm font-bold text-slate-700 mb-2">Decoded Text</label>
-           <textarea
-             readOnly
-             value={output}
-             className="w-full h-40 p-4 font-mono text-sm border-2 border-slate-200 rounded-xl bg-slate-50 outline-none"
-             placeholder="Decoded text will appear here..."
-           />
+      {error && (
+        <div className="p-4 bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-900/50 rounded-xl flex items-center text-sm font-medium">
+          <AlertCircle className="w-5 h-5 mr-3 shrink-0" /> {error}
         </div>
-      </div>
-    </div>
+      )}
+
+      <TextArea
+        label="Decoded Text"
+        readOnly
+        value={output}
+        className="h-40"
+        placeholder="Decoded text will appear here..."
+      />
+    </ToolContainer>
   );
 }
+
