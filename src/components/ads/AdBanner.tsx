@@ -1,4 +1,6 @@
 import React, { useEffect, useRef } from 'react';
+import { flags } from '../../config/flags';
+import { Coffee } from 'lucide-react';
 
 interface AdBannerProps {
   className?: string;
@@ -8,6 +10,17 @@ interface AdBannerProps {
 }
 
 export function AdBanner({ className = '', adSlot, format = 'auto', responsive = true }: AdBannerProps) {
+  if (!flags.showAds) {
+    return (
+      <div className={`overflow-hidden rounded-xl flex items-center justify-center bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 ${className} min-h-[90px] min-w-[250px]`}>
+        <a href="https://buymeacoffee.com" target="_blank" rel="noreferrer" className="flex items-center gap-2 px-6 py-3 bg-amber-500 hover:bg-amber-600 text-white rounded-lg transition-colors font-medium shadow-sm">
+          <Coffee className="w-5 h-5" />
+          <span>Buy me a coffee to support the project!</span>
+        </a>
+      </div>
+    );
+  }
+
   const adClient = (import.meta as any).env.VITE_GOOGLE_ADSENSE_CLIENT || "ca-pub-8230840732478158";
   const isDev = (import.meta as any).env.DEV;
   const insRef = useRef<HTMLModElement>(null);

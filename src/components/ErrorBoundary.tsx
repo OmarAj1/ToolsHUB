@@ -25,6 +25,10 @@ export class ErrorBoundary extends Component<Props, State> {
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.error("Uncaught error:", error, errorInfo);
+    // Automatically reload the page on chunk load errors (often happens after a new deployment)
+    if (error.name === 'ChunkLoadError' || error.message.includes('dynamically imported module') || error.message.includes('fetch')) {
+      window.location.reload();
+    }
   }
 
   public render() {

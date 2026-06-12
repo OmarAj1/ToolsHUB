@@ -36,8 +36,10 @@ export function Home() {
   const filteredTools = useMemo(() => {
     if (!query.trim()) return [];
     return TOOLS.filter(t => 
-      t.name.toLowerCase().includes(query.toLowerCase()) || 
-      t.description.toLowerCase().includes(query.toLowerCase())
+      t.isWorking && (
+        t.name.toLowerCase().includes(query.toLowerCase()) || 
+        t.description.toLowerCase().includes(query.toLowerCase())
+      )
     );
   }, [query]);
 
@@ -203,15 +205,39 @@ export function Home() {
               {/* Popular Tools / All Categories */}
               <div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {TOOLS.filter(t => t.isPopular).map(tool => (
-                    <Link key={tool.id} to={tool.path} className="p-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl hover:shadow-md dark:hover:shadow-slate-900 transition-all group cursor-pointer block">
-                      <div className="w-10 h-10 bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 rounded-xl flex items-center justify-center mb-4 group-hover:bg-indigo-100 dark:group-hover:bg-indigo-900/50 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
-                        <DynamicIcon name={tool.icon || "Hash"} className="w-5 h-5" />
-                      </div>
-                      <h3 className="font-bold text-slate-800 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">{tool.name}</h3>
-                      <p className="text-xs text-slate-400 dark:text-slate-500 mt-1 transition-colors">{tool.description}</p>
-                    </Link>
-                  ))}
+                  {TOOLS.filter(t => t.isPopular || !t.isWorking).map(tool => {
+                    const isWorking = tool.isWorking;
+                    const innerContent = (
+                      <>
+                        <div className="flex justify-between items-start mb-4">
+                          <div className={`w-10 h-10 bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 rounded-xl flex items-center justify-center transition-colors ${isWorking ? 'group-hover:bg-indigo-100 dark:group-hover:bg-indigo-900/50 group-hover:text-indigo-600 dark:group-hover:text-indigo-400' : ''}`}>
+                            <DynamicIcon name={tool.icon || "Hash"} className="w-5 h-5" />
+                          </div>
+                          {!isWorking && (
+                            <span className="text-[10px] font-bold px-2 py-1 bg-amber-100 dark:bg-amber-900/50 text-amber-600 dark:text-amber-400 rounded-md uppercase tracking-wider">
+                              Under Maintenance
+                            </span>
+                          )}
+                        </div>
+                        <h3 className={`font-bold transition-colors ${isWorking ? 'text-slate-800 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400' : 'text-slate-500 dark:text-slate-400'}`}>{tool.name}</h3>
+                        <p className="text-xs text-slate-400 dark:text-slate-500 mt-1 transition-colors">{tool.description}</p>
+                      </>
+                    );
+
+                    if (isWorking) {
+                      return (
+                        <Link key={tool.id} to={tool.path} className="p-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl transition-all group block hover:shadow-md dark:hover:shadow-slate-900 cursor-pointer">
+                          {innerContent}
+                        </Link>
+                      );
+                    } else {
+                      return (
+                        <div key={tool.id} className="p-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl transition-all group block opacity-70 cursor-not-allowed">
+                          {innerContent}
+                        </div>
+                      );
+                    }
+                  })}
                 </div>
               </div>
             </>

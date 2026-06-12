@@ -20,22 +20,42 @@ export function PdfDropzone({
   files, 
   onAddFiles, 
   onRemoveFile, 
+  onError,
   accept = ".pdf", 
   multiple = false,
-  title = "Upload files"
+  title = "Upload files",
+  maxSizeMB = 10
 }: { 
   files: File[], 
   onAddFiles: (f: File[]) => void, 
-  onRemoveFile: (i: number) => void, 
+  onRemoveFile: (i: number) => void,
+  onError?: (msg: string) => void,
   accept?: string, 
   multiple?: boolean,
-  title?: string
+  title?: string,
+  maxSizeMB?: number
 }) {
   const inputRef = useRef<HTMLInputElement>(null);
   
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.length) {
-      onAddFiles(Array.from(e.target.files));
+      const selectedFiles = Array.from(e.target.files);
+      const validFiles: File[] = [];
+      const MAX_SIZE_BYTES = maxSizeMB * 1024 * 1024;
+      
+      let hasError = false;
+      for (const file of selectedFiles) {
+        if (file.size > MAX_SIZE_BYTES) {
+          hasError = true;
+          if (onError) onError(`File "${file.name}" exceeds the ${maxSizeMB}MB limit.`);
+        } else {
+          validFiles.push(file);
+        }
+      }
+      
+      if (validFiles.length > 0) {
+        onAddFiles(validFiles);
+      }
       if (inputRef.current) inputRef.current.value = "";
     }
   };
@@ -98,6 +118,7 @@ export function PdfActionContainer({
 }) {
   const [files, setFiles] = useState<File[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [mergeProgress, setMergeProgress] = useState(0);
   const [error, setError] = useState<string | null>(null);
   
   const isPdfMode = accept === ".pdf";
@@ -105,6 +126,7 @@ export function PdfActionContainer({
 
   const processAndDownload = async () => {
     setIsProcessing(true);
+    setMergeProgress(0);
     setError(null);
     try {
       let finalFiles = files;
@@ -114,9 +136,10 @@ export function PdfActionContainer({
         const mergedPdf = await PDFDocument.create();
         const loadedDocs = new Map<number, PDFDocument>();
 
-        for (const page of pages) {
-          if (page.isExcluded) continue;
+        const includedPages = pages.filter(p => !p.isExcluded);
+        let processedCount = 0;
 
+        for (const page of includedPages) {
           if (!loadedDocs.has(page.fileIndex)) {
             const buffer = await files[page.fileIndex].arrayBuffer();
             const doc = await PDFDocument.load(buffer);
@@ -126,6 +149,9 @@ export function PdfActionContainer({
           const sourceDoc = loadedDocs.get(page.fileIndex)!;
           const [copiedPage] = await mergedPdf.copyPages(sourceDoc, [page.pageIndex]);
           mergedPdf.addPage(copiedPage);
+
+          processedCount++;
+          setMergeProgress(Math.round((processedCount / includedPages.length) * 100));
         }
 
         const pdfBytes = await mergedPdf.save();
@@ -141,6 +167,7 @@ export function PdfActionContainer({
       setError(e.message || "An unknown error occurred.");
     } finally {
       setIsProcessing(false);
+      setMergeProgress(0);
     }
   };
 
@@ -156,11 +183,13 @@ export function PdfActionContainer({
       <div className="w-full max-w-4xl">
         <PdfDropzone 
           files={files} 
-          onAddFiles={f => setFiles(multiple ? [...files, ...f] : [...f])} 
+          onAddFiles={f => { setFiles(multiple ? [...files, ...f] : [...f]); setError(null); }} 
           onRemoveFile={i => setFiles(files.filter((_, idx) => idx !== i))}
+          onError={msg => setError(msg)}
           accept={accept}
           multiple={multiple}
           title={title}
+          maxSizeMB={10}
         />
 
         {isPdfMode && files.length > 0 && (
@@ -171,20 +200,33 @@ export function PdfActionContainer({
           <>
             {optionsComponent && <div className="mb-6">{optionsComponent(files)}</div>}
             
-            <div className="flex space-x-4">
-              <button 
-                onClick={processAndDownload}
-                disabled={isProcessing || isPagesLoading || (files.length === 0 && !allowEmpty)}
-                className="flex-1 py-4 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center shadow-md shadow-blue-500/20"
-              >
-                {isProcessing ? "Processing locally..." : buttonText}
-              </button>
-              <button 
-                onClick={() => { setFiles([]); setError(null); }}
-                className="px-6 border border-slate-200 dark:border-slate-800 font-bold rounded-xl hover:bg-slate-50 dark:hover:bg-slate-900 transition-colors text-slate-600 dark:text-slate-400"
-              >
-                Cancel
-              </button>
+            <div className="flex flex-col space-y-4">
+              {isProcessing && mergeProgress > 0 && (
+                <div className="w-full">
+                  <div className="flex justify-between text-sm text-stone-600 dark:text-stone-400 mb-1 font-medium">
+                    <span>Merging Pages...</span>
+                    <span>{mergeProgress}%</span>
+                  </div>
+                  <div className="w-full bg-stone-200 dark:bg-stone-700 rounded-full h-2.5 overflow-hidden">
+                    <div className="bg-blue-600 h-2.5 rounded-full transition-all duration-300 ease-out" style={{ width: `${mergeProgress}%` }}></div>
+                  </div>
+                </div>
+              )}
+              <div className="flex space-x-4">
+                <button 
+                  onClick={processAndDownload}
+                  disabled={isProcessing || isPagesLoading || (files.length === 0 && !allowEmpty)}
+                  className="flex-1 py-4 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center shadow-md shadow-blue-500/20"
+                >
+                  {isProcessing ? "Processing locally..." : buttonText}
+                </button>
+                <button 
+                  onClick={() => { setFiles([]); setError(null); }}
+                  className="px-6 border border-slate-200 dark:border-slate-800 font-bold rounded-xl hover:bg-slate-50 dark:hover:bg-slate-900 transition-colors text-slate-600 dark:text-slate-400"
+                >
+                  Cancel
+                </button>
+              </div>
             </div>
           </>
         )}

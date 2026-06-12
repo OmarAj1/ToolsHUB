@@ -6,18 +6,39 @@ export function JsonFormatter() {
   const [output, setOutput] = useState("");
   const [error, setError] = useState<string | null>(null);
 
-  const formatJson = (spaces: number) => {
+  const processJson = (action: 'format' | 'minify') => {
     if (!input.trim()) {
       setError(null);
       setOutput("");
       return;
     }
     try {
+      // We strictly use JSON.parse() for validation as requested
       const parsed = JSON.parse(input);
+      const spaces = action === 'format' ? 2 : 0;
       setOutput(JSON.stringify(parsed, null, spaces));
       setError(null);
     } catch (e: any) {
-      setError(e.message);
+      let customError = e.message;
+      
+      try {
+        // Strip valid double-quoted strings out to safely regex search for syntax issues
+        const stripped = input.replace(/"(?:[^"\\]|\\.)*"/g, '""');
+        
+        if (stripped.match(/,\s*[}\]]/)) {
+          customError = "Syntax Error: Trailing comma found. JSON does not allow trailing commas.";
+        } else if (stripped.match(/['][^']*[']\s*:/)) {
+          customError = "Syntax Error: Property keys must be enclosed in double quotes, not single quotes.";
+        } else if (stripped.match(/:\s*['][^']*[']/)) {
+          customError = "Syntax Error: String values must be enclosed in double quotes, not single quotes.";
+        } else if (stripped.match(/([{,]\s*)([a-zA-Z_$][a-zA-Z0-9_$]*)(\s*:)/)) {
+          customError = "Syntax Error: Property keys must be enclosed in double quotes.";
+        }
+      } catch (err) {
+        // Fallback to original error if regex fails
+      }
+      
+      setError(customError);
     }
   };
 
@@ -46,9 +67,8 @@ export function JsonFormatter() {
       <div className="w-full md:w-1/2 flex flex-col bg-stone-50 dark:bg-stone-900/10">
         <div className="p-3 border-b border-stone-200 dark:border-stone-800 bg-stone-50 dark:bg-stone-900/50 flex justify-between items-center">
           <div className="flex space-x-2">
-            <button onClick={() => formatJson(2)} className="px-3 py-1 bg-white border border-stone-200 rounded text-sm text-stone-600 hover:text-stone-900 dark:bg-stone-950 dark:border-stone-800 dark:text-stone-300">2 Spaces</button>
-            <button onClick={() => formatJson(4)} className="px-3 py-1 bg-white border border-stone-200 rounded text-sm text-stone-600 hover:text-stone-900 dark:bg-stone-950 dark:border-stone-800 dark:text-stone-300">4 Spaces</button>
-            <button onClick={() => formatJson(0)} className="px-3 py-1 bg-white border border-stone-200 rounded text-sm text-stone-600 hover:text-stone-900 dark:bg-stone-950 dark:border-stone-800 dark:text-stone-300">Minify</button>
+            <button onClick={() => processJson('format')} className="px-3 py-1 bg-white border border-stone-200 rounded text-sm text-stone-600 hover:text-stone-900 dark:bg-stone-950 dark:border-stone-800 dark:text-stone-300">Format</button>
+            <button onClick={() => processJson('minify')} className="px-3 py-1 bg-white border border-stone-200 rounded text-sm text-stone-600 hover:text-stone-900 dark:bg-stone-950 dark:border-stone-800 dark:text-stone-300">Minify</button>
           </div>
           <button 
             onClick={() => navigator.clipboard.writeText(output)}

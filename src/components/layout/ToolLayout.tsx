@@ -1,10 +1,13 @@
 import React, { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import { ArrowLeft, Star, Share2 } from "lucide-react";
 import { TOOLS } from "../../data/tools";
 import { CATEGORIES } from "../../data/categories";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { AdBanner } from "../ads/AdBanner";
+import { analytics } from "../../lib/analytics";
+import { ErrorBoundary } from "../../lib/ErrorBoundary";
 
 export function ToolLayout({ children, toolId, faq }: { children: React.ReactNode, toolId: string, faq?: { question: string, answer: string }[] }) {
   const tool = TOOLS.find(t => t.id === toolId);
@@ -13,14 +16,22 @@ export function ToolLayout({ children, toolId, faq }: { children: React.ReactNod
 
   useEffect(() => {
     if (tool) {
+      analytics.logOpen(tool.id);
       setRecent(prev => {
         const filtered = prev.filter(id => id !== tool.id);
         return [tool.id, ...filtered].slice(0, 6);
       });
     }
-  }, [toolId]);
+  }, [toolId, tool]);
 
   if (!tool) return <div>Tool not found</div>;
+  if (!tool.isWorking) return (
+    <div className="flex-1 flex flex-col bg-slate-50 dark:bg-slate-950 px-4 md:px-8 py-32 items-center justify-center text-center">
+        <h1 className="text-3xl font-extrabold text-slate-800 dark:text-slate-200 mb-4 italic">Under Maintenance</h1>
+        <p className="text-slate-500 dark:text-slate-400 max-w-md mb-8">This tool has been temporarily disabled while we stabilize the platform. Please check back later.</p>
+        <Link to="/" className="px-6 py-3 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 font-bold transition">Return to Homepage</Link>
+    </div>
+  );
   const category = CATEGORIES.find(c => c.id === tool.categoryId);
   const isFavorite = favorites.includes(tool.id);
 
@@ -55,6 +66,10 @@ export function ToolLayout({ children, toolId, faq }: { children: React.ReactNod
 
   return (
     <div className="flex-1 flex flex-col bg-slate-50 dark:bg-slate-950 transition-colors">
+      <Helmet>
+        <title>{tool.name} - ToolHub</title>
+        <meta name="description" content={tool.description} />
+      </Helmet>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
       {faqSchema && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />}
       
@@ -105,7 +120,9 @@ export function ToolLayout({ children, toolId, faq }: { children: React.ReactNod
 
       <div className="flex-1 w-full max-w-5xl mx-auto px-4 md:px-8 py-8 flex flex-col">
         <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl shadow-sm overflow-hidden flex-1 transition-colors">
-          {children}
+          <ErrorBoundary toolId={toolId}>
+            {children}
+          </ErrorBoundary>
         </div>
         
         {/* Ad Banner replacing SEO Content */}

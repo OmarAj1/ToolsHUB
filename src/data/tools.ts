@@ -1,4 +1,6 @@
-export const TOOLS = [
+import { toolsConfig } from "../tools.config";
+
+export const RAW_TOOLS = [
   // Creator Toolkit
   { id: "youtube-title-checker", name: "YouTube Title Checker", description: "Optimize your video titles for maximum CTR and searchability.", categoryId: "creator", path: "/creator/youtube-title", icon: "Youtube" },
   { id: "hashtag-generator", name: "Hashtag Generator", description: "Generate relevant hashtags for Instagram, TikTok, and Twitter.", categoryId: "creator", path: "/creator/hashtags", icon: "Hash" },
@@ -208,3 +210,5 @@ export const TOOLS = [
   { id: "color-palette-generator", name: "Color Palette Generator", description: "Suggest color schemes based on a hex code.", categoryId: "design", path: "/design/color-palette", icon: "Palette" },
   { id: "image-to-colors", name: "Image to Colors", description: "Extract dominant color palette from image.", categoryId: "design", path: "/design/image-to-colors", icon: "Image" }
 ];
+
+export const TOOLS = RAW_TOOLS.map(t => ({ ...t, path: `/tool/${t.id}`, isWorking: toolsConfig[t.id]?.isWorking ?? false }));
