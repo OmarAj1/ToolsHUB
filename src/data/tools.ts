@@ -196,6 +196,9 @@ export const TOOLS = [
   { id: "webp-converter", name: "WebP Converter", description: "Compress PNGs/JPGs into WebP instantly.", categoryId: "media", path: "/media/webp-converter", icon: "FileImage" },
 
   // 11. Design & UI Tools
+  { id: "box-shadow-generator", name: "Box Shadow Generator", description: "Create smooth, layered CSS box shadows.", categoryId: "design", path: "/design/box-shadow", icon: "Copy" },
+  { id: "border-radius-generator", name: "Border Radius Generator", description: "Create complex and organic border radius shapes.", categoryId: "design", path: "/design/border-radius", icon: "Square" },
+  { id: "gradient-text-generator", name: "Gradient Text Generator", description: "Generate beautiful CSS gradient text effects.", categoryId: "design", path: "/design/gradient-text", icon: "Type" },
   { id: "glassmorphism-generator", name: "Glassmorphism Generator", description: "Generate CSS glassmorphism effect.", categoryId: "design", path: "/design/glassmorphism", icon: "BoxSelect" },
   { id: "neumorphism-generator", name: "Neumorphism Generator", description: "Generate CSS neumorphism effect.", categoryId: "design", path: "/design/neumorphism", icon: "Box" },
   { id: "css-triangle-generator", name: "CSS Triangle Generator", description: "Generate CSS triangles easily.", categoryId: "design", path: "/design/css-triangle", icon: "Triangle" },

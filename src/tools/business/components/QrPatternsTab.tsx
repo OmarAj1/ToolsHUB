@@ -7,7 +7,7 @@ export function QrPatternsTab({ state, setters }: any) {
   return (
      <div className="space-y-10 max-w-4xl animate-in fade-in zoom-in-95 duration-400">
         <div>
-          <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-4 ml-1">Data Pixel Matrix Style</label>
+          <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-4 ml-1">Matrix Style</label>
           <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4">
              {[
                { id: 'square', icon: <rect x="3" y="3" width="18" height="18" rx="2" fill="currentColor"/>, label: 'Square' },
@@ -26,21 +26,20 @@ export function QrPatternsTab({ state, setters }: any) {
                { id: 'target', icon: <g fill="currentColor"><circle cx="12" cy="12" r="10" fillOpacity="0.3"/><circle cx="12" cy="12" r="5"/></g>, label: 'Target' },
                { id: 'ninja', icon: <path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" fill="currentColor"/>, label: 'Ninja' }
              ].map(pat => (
-                <button
+                 <button
                    key={pat.id}
                    onClick={() => setCustomPattern(pat.id as any)}
-                   className={`flex flex-col items-center justify-center p-4 md:p-5 rounded-[1.5rem] border-[2px] transition-all duration-300 group outline-none hover:-translate-y-1 hover:shadow-lg ${customPattern === pat.id ? 'border-indigo-600 bg-indigo-50 shadow-indigo-500/20 text-indigo-600 dark:border-indigo-500 dark:bg-indigo-500/10 dark:text-indigo-400 scale-[1.05]' : 'border-slate-100 dark:border-[#2A2A2A] bg-[#FAFAFA] dark:bg-[#161616] hover:border-slate-300 dark:hover:border-[#444] text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'}`}
+                   className={`flex items-center justify-center p-4 md:p-5 rounded-[1.5rem] border-[2px] transition-all duration-300 group outline-none hover:-translate-y-1 hover:shadow-lg ${customPattern === pat.id ? 'border-indigo-600 bg-indigo-50 shadow-indigo-500/20 text-indigo-600 dark:border-indigo-500 dark:bg-indigo-500/10 dark:text-indigo-400 scale-[1.05]' : 'border-slate-100 dark:border-[#2A2A2A] bg-[#FAFAFA] dark:bg-[#161616] hover:border-slate-300 dark:hover:border-[#444] text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'}`}
                 >
-                   <svg viewBox="0 0 24 24" className="w-8 h-8 md:w-10 md:h-10 mb-3 drop-shadow-sm transition-transform group-hover:scale-110">
+                   <svg viewBox="0 0 24 24" className="w-8 h-8 md:w-10 md:h-10 drop-shadow-sm transition-transform group-hover:scale-110">
                       {pat.icon}
                    </svg>
-                   <span className="text-[11px] font-bold uppercase tracking-widest">{pat.label}</span>
                 </button>
              ))}
           </div>
         </div>
         <div>
-          <label className="flex items-center gap-2 text-[13px] font-extrabold uppercase text-slate-800 dark:text-slate-200 mb-5 tracking-widest pl-2 mt-6">Outer Eye Frame Border</label>
+          <label className="flex items-center gap-2 text-[13px] font-extrabold uppercase text-slate-800 dark:text-slate-200 mb-5 tracking-widest pl-2 mt-6">Outer Eye</label>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
              {[
                { id: 'square', icon: <path d="M3 3h18v18H3V3zm4 4v10h10V7H7z" fill="currentColor"/>, label: 'Square' },
@@ -57,21 +56,20 @@ export function QrPatternsTab({ state, setters }: any) {
                { id: 'minimalist', icon: <path d="M5 5h14v14H5V5zm2 2v10h10V7H7z" fill="currentColor"/>, label: 'Minimalist' },
                { id: 'microwave', icon: <path d="M4 4h16v16H4V4zm4 4v8h8V8H8z" fill="currentColor"/>, label: 'Microwave' }
              ].map(cor => (
-                <button
+                 <button
                    key={cor.id}
                    onClick={() => setCustomEyeFrame(cor.id)}
-                   className={`flex items-center gap-3 p-4 md:p-5 rounded-[1.5rem] border-[2px] transition-all duration-300 group outline-none hover:-translate-y-1 hover:shadow-lg ${customEyeFrame === cor.id ? 'border-indigo-600 bg-indigo-50 shadow-indigo-500/20 text-indigo-600 dark:border-indigo-500 dark:bg-indigo-500/10 dark:text-indigo-400 scale-[1.05]' : 'border-slate-100 dark:border-[#2A2A2A] bg-[#FAFAFA] dark:bg-[#161616] hover:border-slate-300 dark:hover:border-[#444] text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'}`}
+                   className={`flex items-center justify-center p-4 md:p-5 rounded-[1.5rem] border-[2px] transition-all duration-300 group outline-none hover:-translate-y-1 hover:shadow-lg ${customEyeFrame === cor.id ? 'border-indigo-600 bg-indigo-50 shadow-indigo-500/20 text-indigo-600 dark:border-indigo-500 dark:bg-indigo-500/10 dark:text-indigo-400 scale-[1.05]' : 'border-slate-100 dark:border-[#2A2A2A] bg-[#FAFAFA] dark:bg-[#161616] hover:border-slate-300 dark:hover:border-[#444] text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'}`}
                 >
                    <svg viewBox="0 0 24 24" className="w-8 h-8 md:w-10 md:h-10 flex-shrink-0 drop-shadow-sm transition-transform group-hover:scale-110">
                       {cor.icon}
                    </svg>
-                   <span className="text-[11px] font-bold uppercase tracking-widest text-left leading-tight">{cor.label}</span>
                 </button>
              ))}
           </div>
         </div>
         <div>
-          <label className="flex items-center gap-2 text-[13px] font-extrabold uppercase text-slate-800 dark:text-slate-200 mb-5 tracking-widest pl-2 mt-6">Inner Eye Ball Shape</label>
+          <label className="flex items-center gap-2 text-[13px] font-extrabold uppercase text-slate-800 dark:text-slate-200 mb-5 tracking-widest pl-2 mt-6">Inner Eye</label>
           <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4">
              {[
                { id: 'square', icon: <path d="M6 6h12v12H6z" fill="currentColor"/>, label: 'Square' },
@@ -94,15 +92,14 @@ export function QrPatternsTab({ state, setters }: any) {
                { id: 'teardrop', icon: <path d="M12 4C12 4 6 10.36 6 14.5C6 17.54 8.69 20 12 20C15.31 20 18 17.54 18 14.5C18 10.36 12 4 12 4Z" fill="currentColor"/>, label: 'Teardrop' },
                { id: 'heavy-plus', icon: <path d="M18 10h-4V6c0-1.1-.9-2-2-2s-2 .9-2 2v4H6c-1.1 0-2 .9-2 2s.9 2 2 2h4v4c0 1.1.9 2 2 2s2-.9 2-2v-4h4c1.1 0 2-.9 2-2s-.9-2-2-2z" fill="currentColor"/>, label: 'Heavy+' }
              ].map(cor => (
-                <button
+                 <button
                    key={cor.id}
                    onClick={() => setCustomEyeBall(cor.id)}
-                   className={`flex flex-col items-center justify-center p-4 md:p-5 rounded-[1.5rem] border-[2px] transition-all duration-300 group outline-none hover:-translate-y-1 hover:shadow-lg ${customEyeBall === cor.id ? 'border-indigo-600 bg-indigo-50 shadow-indigo-500/20 text-indigo-600 dark:border-indigo-500 dark:bg-indigo-500/10 dark:text-indigo-400 scale-[1.05]' : 'border-slate-100 dark:border-[#2A2A2A] bg-[#FAFAFA] dark:bg-[#161616] hover:border-slate-300 dark:hover:border-[#444] text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'}`}
+                   className={`flex items-center justify-center p-4 md:p-5 rounded-[1.5rem] border-[2px] transition-all duration-300 group outline-none hover:-translate-y-1 hover:shadow-lg ${customEyeBall === cor.id ? 'border-indigo-600 bg-indigo-50 shadow-indigo-500/20 text-indigo-600 dark:border-indigo-500 dark:bg-indigo-500/10 dark:text-indigo-400 scale-[1.05]' : 'border-slate-100 dark:border-[#2A2A2A] bg-[#FAFAFA] dark:bg-[#161616] hover:border-slate-300 dark:hover:border-[#444] text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'}`}
                 >
-                   <svg viewBox="0 0 24 24" className="w-8 h-8 md:w-10 md:h-10 mb-3 drop-shadow-sm transition-transform group-hover:scale-110">
+                   <svg viewBox="0 0 24 24" className="w-8 h-8 md:w-10 md:h-10 drop-shadow-sm transition-transform group-hover:scale-110">
                       {cor.icon}
                    </svg>
-                   <span className="text-[11px] font-bold uppercase tracking-widest leading-tight">{cor.label}</span>
                 </button>
              ))}
           </div>

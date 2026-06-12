@@ -34,7 +34,7 @@ export function QrBarcodeGenerator() {
 
   // Sticker options
   const [stickerMode, setStickerMode] = useState<'sticker' | 'silhouette' | 'container'>('sticker');
-  const [stickerTemplate, setStickerTemplate] = useState<'polaroid' | 'balloon' | 'speech' | 'computer' | 'shield' | 'cat' | 'music'>('polaroid');
+  const [stickerTemplate, setStickerTemplate] = useState<'polaroid' | 'balloon' | 'speech' | 'computer' | 'shield' | 'cat' | 'music' | 'heart' | 'star' | 'diamond' | 'hexagon' | 'leaf' | 'house' | 'camera' | 'flask' | 'book' | 'paw'>('polaroid');
   const [stickerCaption, setStickerCaption] = useState('SCAN ME!');
   const [sticker3D, setSticker3D] = useState(true);
   const [useTransparentBg, setUseTransparentBg] = useState(false);
@@ -507,6 +507,10 @@ export function QrBarcodeGenerator() {
                         p.quadraticCurveTo(400, 270, 250, 430);
                         p.quadraticCurveTo(100, 270, 100, 90);
                         p.closePath();
+                    } else if (paths[stickerTemplate]) {
+                        const tempP = new Path2D(paths[stickerTemplate]);
+                        const matrix = new DOMMatrix().scale(5, 5);
+                        p.addPath(tempP, matrix);
                     } else {
                         p.arc(250, 250, 180, 0, 2*Math.PI);
                     }
@@ -539,8 +543,13 @@ export function QrBarcodeGenerator() {
                 const qrInst = (qrCode as any)._qr;
                 const moduleCount = qrInst ? (qrInst as any).getModuleCount() : 33;
                 const dCell = 220 / moduleCount; 
-                const dummyGridRows = Math.ceil(500 / dCell);
-                const dummyGridCols = Math.ceil(500 / dCell);
+                
+                // Align the inner QR code perfectly with the dummy grid
+                const cOffset = Math.floor((500 - 220) / 2 / dCell);
+                const imgXY = cOffset * dCell;
+                
+                const dummyGridRows = Math.ceil(500 / dCell) + 2;
+                const dummyGridCols = Math.ceil(500 / dCell) + 2;
                 
                 // Support gradient inside dummy patterns
                 if (gradient) {
@@ -609,13 +618,14 @@ export function QrBarcodeGenerator() {
                 }
 
                 // Draw condensed dummy dots
-                for(let r=0; r<dummyGridRows; r++) {
-                    for(let c=0; c<dummyGridCols; c++) {
+                for(let r=-2; r<dummyGridRows; r++) {
+                    for(let c=-2; c<dummyGridCols; c++) {
                         const px = c * dCell;
                         const py = r * dCell;
                         
-                        // Protect middle QR area (which is at 120->380, but give some breathing room: 105->395)
-                        if (px > 105 && px < 400 && py > 105 && py < 400) continue;
+                        // Protect inner QR area with a 2-module quiet zone
+                        const qz = 2; // quiet zone in modules
+                        if (c >= cOffset - qz && c < cOffset + moduleCount + qz && r >= cOffset - qz && r < cOffset + moduleCount + qz) continue;
                         
                         // Fake locators mask (avoid drawing dots inside the fake top-left, top-right, bottom-left finders)
                         const isFakeFinder1 = px < dCell * 10 && py < dCell * 10;
@@ -654,33 +664,17 @@ export function QrBarcodeGenerator() {
                 };
                 
                 drawFakeFinder(2, 2);
-                drawFakeFinder(dummyGridCols - 9, 2);
-                drawFakeFinder(2, dummyGridRows - 9);
+                drawFakeFinder(Math.ceil(500 / dCell) - 9, 2);
+                drawFakeFinder(2, Math.ceil(500 / dCell) - 9);
 
                 ctx.restore();
 
-                // Draw Real QR with white padding
+                // Draw Real QR perfectly aligned
                 ctx.save();
                 ctx.scale(size / 500, size / 500);
-                ctx.fillStyle = '#ffffff';
-                if (sticker3D) {
-                    ctx.shadowColor = 'rgba(0,0,0,0.1)';
-                    ctx.shadowBlur = 10;
-                    ctx.shadowOffsetY = 4;
-                }
-                if (ctx.roundRect) {
-                    ctx.beginPath();
-                    ctx.roundRect(120, 120, 260, 260, 24);
-                    ctx.fill();
-                } else {
-                    ctx.fillRect(120, 120, 260, 260);
-                }
-                
-                ctx.shadowColor = 'transparent';
-                ctx.shadowBlur = 0;
-                ctx.shadowOffsetY = 0;
-                
-                ctx.drawImage(sourceImg, 140, 140, 220, 220);
+
+                // Draw the actual QR data on top seamlessly
+                ctx.drawImage(sourceImg, imgXY, imgXY, 220, 220);
 
                 ctx.restore();
             } else if (stickerMode === 'sticker') {
@@ -1346,7 +1340,6 @@ export function QrBarcodeGenerator() {
                  <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white flex items-center gap-3 tracking-tight">
                     <Sparkles className="w-8 h-8 text-indigo-500 drop-shadow-sm" /> Matrix QR Studio
                  </h1>
-                 <p className="text-sm text-slate-500 dark:text-slate-400 mt-2 font-medium tracking-wide">Design stunning, highly scannable QR widgets tailored for your brand.</p>
               </div>
            </div>
 
@@ -1441,7 +1434,6 @@ export function QrBarcodeGenerator() {
                  <label className="group relative flex items-center justify-between p-4 rounded-3xl bg-white dark:bg-[#161616] border border-slate-100 dark:border-[#222] cursor-pointer hover:border-indigo-200 dark:hover:border-indigo-500/50 transition-all shadow-sm">
                     <div className="flex flex-col text-left mr-4 relative z-10">
                        <span className="text-[13px] font-bold text-slate-800 dark:text-slate-200">Transparent Base</span>
-                       <span className="text-[11px] text-slate-500 dark:text-slate-400 font-medium mt-1 leading-relaxed">Remove solid canvas fill for die-cut assets.</span>
                     </div>
                     <div className="relative inline-block w-12 h-6 rounded-full bg-slate-200 dark:bg-slate-700 transition duration-300 ease-in-out shrink-0">
                        <input type="checkbox" checked={useTransparentBg} onChange={e => setUseTransparentBg(e.target.checked)} className="peer absolute left-0 w-full h-full opacity-0 z-10 cursor-pointer" />
@@ -1458,7 +1450,7 @@ export function QrBarcodeGenerator() {
                  >
                     <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 pointer-events-none" />
                     <Download className="w-5 h-5 flex-shrink-0 relative z-10 stroke-[2.5]" /> 
-                    <span className="relative z-10 tracking-widest text-[13px]">EXPORT QUALITY ASSET</span>
+                    <span className="relative z-10 tracking-widest text-[13px]">EXPORT</span>
                  </button>
               </div>
 

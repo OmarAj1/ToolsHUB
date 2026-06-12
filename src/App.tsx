@@ -179,6 +179,9 @@ const CssGradientGenerator = lazy(() => import("./tools/design/CssGradientGenera
 const ColorContrastChecker = lazy(() => import("./tools/design/ColorContrastChecker").then(m => ({ default: m.ColorContrastChecker })));
 const ColorPaletteGenerator = lazy(() => import("./tools/design/ColorPaletteGenerator").then(m => ({ default: m.ColorPaletteGenerator })));
 const ImageToColors = lazy(() => import("./tools/design/ImageToColors").then(m => ({ default: m.ImageToColors })));
+const BoxShadowGenerator = lazy(() => import("./tools/design/BoxShadowGenerator").then(m => ({ default: m.BoxShadowGenerator })));
+const BorderRadiusGenerator = lazy(() => import("./tools/design/BorderRadiusGenerator").then(m => ({ default: m.BorderRadiusGenerator })));
+const GradientTextGenerator = lazy(() => import("./tools/design/GradientTextGenerator").then(m => ({ default: m.GradientTextGenerator })));
 
 export default function App() {
   return (
@@ -372,6 +375,9 @@ export default function App() {
           <Route path="media/webp-converter" element={<ToolLayout toolId="webp-converter"><WebpConverter /></ToolLayout>} />
 
           {/* Design & UI Tools */}
+          <Route path="design/box-shadow" element={<ToolLayout toolId="box-shadow-generator"><BoxShadowGenerator /></ToolLayout>} />
+          <Route path="design/border-radius" element={<ToolLayout toolId="border-radius-generator"><BorderRadiusGenerator /></ToolLayout>} />
+          <Route path="design/gradient-text" element={<ToolLayout toolId="gradient-text-generator"><GradientTextGenerator /></ToolLayout>} />
           <Route path="design/glassmorphism" element={<ToolLayout toolId="glassmorphism-generator"><GlassmorphismGenerator /></ToolLayout>} />
           <Route path="design/neumorphism" element={<ToolLayout toolId="neumorphism-generator"><NeumorphismGenerator /></ToolLayout>} />
           <Route path="design/css-triangle" element={<ToolLayout toolId="css-triangle-generator"><CssTriangleGenerator /></ToolLayout>} />

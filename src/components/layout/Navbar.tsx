@@ -48,6 +48,7 @@ export function Navbar({ onMenuClick }: { onMenuClick?: () => void }) {
         </nav>
       </div>
       <div className="flex items-center gap-3 md:gap-4 relative">
+        <div className="hidden sm:block" id="google_translate_element"></div>
         <button 
           onClick={toggleDarkMode}
           className="p-2 rounded-full text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-900 transition-colors focus:outline-none"

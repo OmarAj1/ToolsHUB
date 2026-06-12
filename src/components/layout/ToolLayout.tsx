@@ -4,6 +4,7 @@ import { ArrowLeft, Star, Share2 } from "lucide-react";
 import { TOOLS } from "../../data/tools";
 import { CATEGORIES } from "../../data/categories";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
+import { AdBanner } from "../ads/AdBanner";
 
 export function ToolLayout({ children, toolId, faq }: { children: React.ReactNode, toolId: string, faq?: { question: string, answer: string }[] }) {
   const tool = TOOLS.find(t => t.id === toolId);
@@ -107,18 +108,10 @@ export function ToolLayout({ children, toolId, faq }: { children: React.ReactNod
           {children}
         </div>
         
-        {/* Placeholder for SEO Content / Instructions */}
+        {/* Ad Banner replacing SEO Content */}
         <div className="mt-12 max-w-3xl pb-12 space-y-8">
-          <div>
-            <h2 className="text-xl font-bold mb-3 text-slate-800 dark:text-white transition-colors">How to use {tool.name}</h2>
-            <div className="text-sm font-medium text-slate-500 dark:text-slate-400 leading-relaxed space-y-4 transition-colors">
-              <p>Our completely free online {tool.name.toLowerCase()} works securely directly in your browser. All processing is local, keeping your data entirely private without any server uploads.</p>
-              <ol className="list-decimal pl-5 space-y-2">
-                <li>Provide your inputs into the secure {tool.name.toLowerCase()} panel above.</li>
-                <li>Wait for processing to complete or click the corresponding action button.</li>
-                <li>Instantly retrieve, copy, or download your results.</li>
-              </ol>
-            </div>
+          <div className="w-full mb-6">
+            <AdBanner adSlot="tool-bottom-banner" className="bg-slate-100 dark:bg-slate-900/50 min-h-[90px] w-full" />
           </div>
 
           {faq && faq.length > 0 && (

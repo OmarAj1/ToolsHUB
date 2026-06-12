@@ -144,7 +144,7 @@ export function Home() {
         </div>
       </section>
 
-      <div className="flex-1 p-4 md:p-8 max-w-7xl mx-auto w-full">
+      <div className="flex-1 p-4 md:p-8 pt-2 max-w-7xl mx-auto w-full">
         <div className="flex flex-col gap-8">
           {!query && (
             <>
