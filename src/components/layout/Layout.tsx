@@ -8,7 +8,7 @@ export function Layout() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <div className="flex flex-col min-h-screen w-full bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-50 font-sans transition-colors">
+    <div className="flex flex-col min-h-screen w-full bg-slate-800 bg-slate-900 text-slate-50 text-slate-50 font-sans transition-colors">
       <Navbar onMenuClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} />
       <div className="flex-1 flex overflow-hidden">
         <Sidebar isMobileOpen={isMobileMenuOpen} closeMobile={() => setIsMobileMenuOpen(false)} />

@@ -12,9 +12,9 @@ interface AdBannerProps {
 export function AdBanner({ className = '', adSlot, format = 'auto', responsive = true }: AdBannerProps) {
   if (!flags.showAds) {
     return (
-      <div className={`overflow-hidden rounded-xl flex items-center justify-center bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 ${className} min-h-[90px] min-w-[250px]`}>
+      <div className={`overflow-hidden rounded-xl flex items-center justify-center bg-slate-900 bg-slate-800/50 border border-slate-700 border-slate-700 ${className} min-h-[90px] min-w-[250px]`}>
         <a href="https://buymeacoffee.com" target="_blank" rel="noreferrer" className="flex items-center gap-2 px-6 py-3 bg-amber-500 hover:bg-amber-600 text-white rounded-lg transition-colors font-medium shadow-sm">
-          <Coffee className="w-5 h-5" />
+          <Coffee className="w-5 h-5 text-purple-500" />
           <span>Buy me a coffee to support the project!</span>
         </a>
       </div>
@@ -50,7 +50,7 @@ export function AdBanner({ className = '', adSlot, format = 'auto', responsive =
   if (!adClient) {
     if (isDev) {
       return (
-        <div className={`flex items-center justify-center p-4 border border-dashed border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 rounded-xl text-slate-400 dark:text-slate-500 text-sm ${className}`}>
+        <div className={`flex items-center justify-center p-4 border border-dashed border-slate-700 border-slate-700 bg-slate-900 bg-slate-800/50 rounded-xl text-slate-400 text-slate-50 text-sm ${className}`}>
           [Google Ad Banner Placeholder - Configure VITE_GOOGLE_ADSENSE_CLIENT]
         </div>
       );

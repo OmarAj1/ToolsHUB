@@ -50,7 +50,7 @@ export function ColorConverter() {
   return (
     <div className="p-6 md:p-8 flex flex-col items-center">
       <div className="w-full max-w-2xl space-y-8">
-        <div className="flex flex-col items-center p-8 bg-white border border-slate-200 rounded-3xl shadow-sm">
+        <div className="flex flex-col items-center p-8 bg-slate-800 border border-slate-700 rounded-3xl shadow-sm">
           <div 
             className="w-32 h-32 rounded-full shadow-inner mb-6 border-4 border-white transition-colors duration-200" 
             style={{ backgroundColor: color, boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1), inset 0 2px 4px 0 rgb(0 0 0 / 0.05)' }} 
@@ -62,24 +62,24 @@ export function ColorConverter() {
                onChange={(e) => setColor(e.target.value)}
                className="w-full h-12 rounded-xl cursor-pointer opacity-0 absolute inset-0 z-10"
              />
-             <div className="flex items-center justify-center w-full h-12 border-2 border-slate-200 rounded-xl font-mono text-slate-700 bg-slate-50 font-bold">
+             <div className="flex items-center justify-center w-full h-12 border-2 border-slate-700 rounded-xl font-mono text-slate-50 bg-slate-900 font-bold">
                {color.toUpperCase()}
              </div>
           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="p-4 bg-slate-50 border border-slate-200 rounded-2xl">
+          <div className="p-4 bg-slate-900 border border-slate-700 rounded-2xl">
              <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">HEX</label>
-             <div className="font-mono text-lg font-medium text-slate-800">{color.toUpperCase()}</div>
+             <div className="font-mono text-lg font-medium text-slate-50">{color.toUpperCase()}</div>
           </div>
-          <div className="p-4 bg-slate-50 border border-slate-200 rounded-2xl">
+          <div className="p-4 bg-slate-900 border border-slate-700 rounded-2xl">
              <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">RGB</label>
-             <div className="font-mono text-lg font-medium text-slate-800">{rgbStr}</div>
+             <div className="font-mono text-lg font-medium text-slate-50">{rgbStr}</div>
           </div>
-          <div className="p-4 bg-slate-50 border border-slate-200 rounded-2xl">
+          <div className="p-4 bg-slate-900 border border-slate-700 rounded-2xl">
              <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">HSL</label>
-             <div className="font-mono text-lg font-medium text-slate-800">{hslStr}</div>
+             <div className="font-mono text-lg font-medium text-slate-50">{hslStr}</div>
           </div>
         </div>
       </div>

@@ -41,11 +41,11 @@ export function JwtDecoder() {
     <div className="p-6 md:p-8 flex flex-col items-center">
       <div className="w-full max-w-5xl space-y-6">
         <div>
-          <label className="block text-sm font-bold text-slate-700 mb-2">Encoded Token</label>
+          <label className="block text-sm font-bold text-slate-50 mb-2">Encoded Token</label>
           <textarea
             value={token}
             onChange={(e) => handleDecode(e.target.value)}
-            className="w-full h-32 p-4 font-mono text-sm border-2 border-slate-200 rounded-xl focus:border-blue-500 focus:outline-none break-all"
+            className="w-full h-32 p-4 font-mono text-sm border-2 border-slate-700 rounded-xl focus:border-blue-500 focus:outline-none break-all"
             placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
             spellCheck={false}
           />
@@ -53,7 +53,7 @@ export function JwtDecoder() {
 
         {error && (
           <div className="p-4 bg-red-50 text-red-700 border border-red-200 rounded-xl flex items-center text-sm font-medium">
-            <AlertCircle className="w-5 h-5 mr-3 shrink-0" /> {error}
+            <AlertCircle className="w-5 h-5 mr-3 shrink-0 text-purple-500" /> {error}
           </div>
         )}
 
@@ -61,21 +61,21 @@ export function JwtDecoder() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-6">
               <div>
-                <label className="block text-sm font-bold text-slate-700 mb-2">Header (Algorithm & Type)</label>
-                <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 font-mono text-sm overflow-auto text-pink-600">
+                <label className="block text-sm font-bold text-slate-50 mb-2">Header (Algorithm & Type)</label>
+                <div className="bg-slate-900 border border-slate-700 rounded-xl p-4 font-mono text-sm overflow-auto text-pink-600">
                   <pre>{JSON.stringify(decoded.header, null, 2)}</pre>
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-bold text-slate-700 mb-2">Payload (Data)</label>
-                <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 font-mono text-sm overflow-auto text-purple-600">
+                <label className="block text-sm font-bold text-slate-50 mb-2">Payload (Data)</label>
+                <div className="bg-slate-900 border border-slate-700 rounded-xl p-4 font-mono text-sm overflow-auto text-purple-600">
                   <pre>{JSON.stringify(decoded.payload, null, 2)}</pre>
                 </div>
               </div>
             </div>
             <div>
-              <label className="block text-sm font-bold text-slate-700 mb-2">Signature</label>
-              <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 font-mono text-sm overflow-auto text-blue-600 break-all">
+              <label className="block text-sm font-bold text-slate-50 mb-2">Signature</label>
+              <div className="bg-slate-900 border border-slate-700 rounded-xl p-4 font-mono text-sm overflow-auto text-blue-600 break-all">
                 {decoded.signature}
               </div>
             </div>

@@ -1,7 +1,8 @@
+import { GenericToolWrapper } from "../../components/ui/GenericToolWrapper";
 import { useState } from "react";
 import { CircleDollarSign, TrendingUp, DollarSign } from "lucide-react";
 
-export function ProfitCalculator() {
+function ProfitCalculatorBase() {
   const [cost, setCost] = useState<number | "">("");
   const [price, setPrice] = useState<number | "">("");
 
@@ -18,7 +19,7 @@ export function ProfitCalculator() {
         <div className="space-y-6">
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-stone-700 dark:text-stone-300 mb-2">Item Cost (What you pay)</label>
+              <label className="block text-sm font-medium text-stone-700 text-stone-300 mb-2">Item Cost (What you pay)</label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <DollarSign className="w-5 h-5 text-stone-400" />
@@ -26,7 +27,7 @@ export function ProfitCalculator() {
                 <input
                   type="number"
                   min="0"
-                  className="block w-full pl-10 pr-4 py-3 bg-stone-50 border border-stone-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-shadow dark:bg-stone-900 absolute dark:border-stone-800 dark:text-white"
+                  className="block w-full pl-10 pr-4 py-3 bg-stone-50 border border-stone-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-shadow bg-stone-900 absolute border-stone-800 text-white"
                   style={{position: 'relative'}}
                   placeholder="0.00"
                   value={cost}
@@ -35,7 +36,7 @@ export function ProfitCalculator() {
               </div>
             </div>
             <div>
-              <label className="block text-sm font-medium text-stone-700 dark:text-stone-300 mb-2">Sale Price (What customer pays)</label>
+              <label className="block text-sm font-medium text-stone-700 text-stone-300 mb-2">Sale Price (What customer pays)</label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <DollarSign className="w-5 h-5 text-stone-400" />
@@ -43,7 +44,7 @@ export function ProfitCalculator() {
                 <input
                   type="number"
                   min="0"
-                  className="block w-full pl-10 pr-4 py-3 bg-stone-50 border border-stone-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-shadow dark:bg-stone-900 absolute dark:border-stone-800 dark:text-white"
+                  className="block w-full pl-10 pr-4 py-3 bg-stone-50 border border-stone-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-shadow bg-stone-900 absolute border-stone-800 text-white"
                   style={{position: 'relative'}}
                   placeholder="0.00"
                   value={price}
@@ -55,7 +56,7 @@ export function ProfitCalculator() {
           
           <button 
             onClick={() => { setCost(""); setPrice(""); }}
-            className="w-full py-3 text-sm font-medium text-stone-500 hover:bg-stone-100 rounded-xl dark:text-stone-400 dark:hover:bg-stone-800 transition-colors"
+            className="w-full py-3 text-sm font-medium text-stone-500 hover:bg-stone-100 rounded-xl text-stone-400 hover:bg-stone-800 transition-colors"
           >
             Clear Fields
           </button>
@@ -63,7 +64,7 @@ export function ProfitCalculator() {
 
         <div className="bg-stone-900 rounded-2xl p-6 text-white shadow-xl flex flex-col justify-center relative overflow-hidden">
           <div className="absolute -top-12 -right-12 w-40 h-40 bg-blue-500 rounded-full blur-3xl opacity-20"></div>
-          <div className="absolute -bottom-12 -left-12 w-40 h-40 bg-emerald-500 rounded-full blur-3xl opacity-20"></div>
+          <div className="absolute -bottom-12 -left-12 w-40 h-40 bg-emerald-500/100 rounded-full blur-3xl opacity-20"></div>
           
           <div className="relative z-10">
             <h3 className="text-stone-400 font-medium tracking-wide text-sm mb-2 uppercase">Gross Profit</h3>
@@ -75,13 +76,13 @@ export function ProfitCalculator() {
             <div className="grid grid-cols-2 gap-4 border-t border-stone-800 pt-6">
               <div>
                 <div className="flex items-center text-stone-400 text-sm mb-1">
-                  <CircleDollarSign className="w-4 h-4 mr-1.5" /> Margin
+                  <CircleDollarSign className="w-4 h-4 mr-1.5 text-purple-500" /> Margin
                 </div>
                 <div className="text-2xl font-bold">{margin.toFixed(2)}%</div>
               </div>
               <div>
                 <div className="flex items-center text-stone-400 text-sm mb-1">
-                  <TrendingUp className="w-4 h-4 mr-1.5" /> Markup
+                  <TrendingUp className="w-4 h-4 mr-1.5 text-purple-500" /> Markup
                 </div>
                 <div className="text-2xl font-bold">{markup.toFixed(2)}%</div>
               </div>
@@ -92,3 +93,5 @@ export function ProfitCalculator() {
     </div>
   );
 }
+
+export const ProfitCalculator = () => <GenericToolWrapper toolName="ProfitCalculator"><ProfitCalculatorBase /></GenericToolWrapper>;

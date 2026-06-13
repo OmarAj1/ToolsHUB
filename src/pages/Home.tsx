@@ -63,13 +63,13 @@ export function Home() {
   };
 
   return (
-    <div className="flex-1 flex flex-col overflow-y-auto bg-slate-50 dark:bg-slate-950 transition-colors">
-      <section className="bg-white dark:bg-slate-900 px-4 md:px-8 py-10 border-b border-slate-200 dark:border-slate-800 transition-colors">
+    <div className="flex-1 flex flex-col overflow-y-auto bg-slate-900 bg-slate-900 transition-colors">
+      <section className="bg-slate-800 bg-slate-800 px-4 md:px-8 py-10 border-b border-slate-700 border-slate-700 transition-colors">
         <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-4xl font-extrabold text-slate-900 dark:text-white mb-3 tracking-tight italic transition-colors">
+          <h1 className="text-4xl font-extrabold text-slate-50 text-white mb-3 tracking-tight italic transition-colors">
             One tool for every task.
           </h1>
-          <p className="text-slate-500 dark:text-slate-400 text-lg mb-8 max-w-2xl mx-auto transition-colors">
+          <p className="text-slate-400 text-slate-50 text-lg mb-8 max-w-2xl mx-auto transition-colors">
             100+ free, browser-based utilities for creators, developers, students, and sellers. Secure, fast, and no login required.
           </p>
           <div className="relative max-w-2xl mx-auto">
@@ -77,19 +77,19 @@ export function Home() {
               ref={searchInputRef}
               type="text"
               placeholder="Search 100+ tools (e.g. Merge PDF, JSON Formatter)..."
-              className="w-full px-6 py-4 rounded-2xl border-2 border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-white focus:border-indigo-500 dark:focus:border-indigo-500 focus:outline-none text-lg shadow-sm transition-colors placeholder-slate-400 dark:placeholder-slate-500"
+              className="w-full px-6 py-4 rounded-2xl border-2 border-slate-700 border-slate-700 bg-slate-900 bg-slate-800 text-slate-50 text-white focus:border-blue-500 focus:border-blue-500 focus:outline-none text-lg shadow-sm transition-colors placeholder-slate-400 placeholder-slate-500"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               onFocus={() => setIsSearchFocused(true)}
               onBlur={() => setTimeout(() => setIsSearchFocused(false), 200)}
               onKeyDown={handleKeyDown}
             />
-            <div className="absolute right-4 top-4 text-slate-400 dark:text-slate-500">
-              <kbd className="px-2 py-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs hidden sm:inline-block shadow-sm transition-colors">CTRL + K</kbd>
+            <div className="absolute right-4 top-4 text-slate-400 text-slate-50">
+              <kbd className="px-2 py-1 bg-slate-800 bg-slate-800 border border-slate-700 border-slate-700 rounded text-xs hidden sm:inline-block shadow-sm transition-colors">CTRL + K</kbd>
             </div>
             
             {isSearchFocused && (query || searchHistory.length > 0) && (
-              <div className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-slate-900 rounded-xl shadow-lg border border-slate-200 dark:border-slate-800 z-10 overflow-hidden text-left transition-colors">
+              <div className="absolute top-full left-0 right-0 mt-2 bg-slate-800 bg-slate-800 rounded-xl shadow-lg border border-slate-700 border-slate-700 z-10 overflow-hidden text-left transition-colors">
                 {query ? (
                   filteredTools.length > 0 ? (
                     <ul className="max-h-96 overflow-y-auto">
@@ -98,40 +98,40 @@ export function Home() {
                           <Link 
                             to={tool.path} 
                             onClick={() => handleSearchCommit(query.trim())}
-                            className="flex items-center px-4 py-3 hover:bg-slate-50 dark:hover:bg-slate-700/50 group border-b border-slate-100 dark:border-slate-700 last:border-0 transition-colors"
+                            className="flex items-center px-4 py-3 hover:bg-slate-900 hover:bg-slate-700/50 group border-b border-slate-700 border-slate-700 last:border-0 transition-colors"
                           >
-                            <div className="bg-slate-100 dark:bg-slate-700 p-2 rounded-lg group-hover:bg-indigo-100 dark:group-hover:bg-indigo-900 text-slate-500 dark:text-slate-400 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mr-4">
+                            <div className="bg-slate-800 bg-slate-800 p-2 rounded-lg group-hover:bg-blue-100 group-hover:bg-blue-900 text-slate-400 text-slate-50 group-hover:text-blue-600 group-hover:text-blue-400 transition-colors mr-4">
                               <DynamicIcon name={tool.icon || "Hash"} />
                             </div>
                             <div>
-                              <p className="font-bold text-slate-800 dark:text-slate-200 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">{tool.name}</p>
-                              <p className="text-xs text-slate-500 dark:text-slate-400 transition-colors">{tool.description}</p>
+                              <p className="font-bold text-slate-50 text-slate-50 group-hover:text-blue-600 group-hover:text-blue-400 transition-colors">{tool.name}</p>
+                              <p className="text-xs text-slate-400 text-slate-50 transition-colors">{tool.description}</p>
                             </div>
                           </Link>
                         </li>
                       ))}
                     </ul>
                   ) : (
-                    <div className="p-4 text-center text-slate-500 dark:text-slate-400 text-sm font-medium transition-colors">No tools found matching "{query}"</div>
+                    <div className="p-4 text-center text-slate-400 text-slate-50 text-sm font-medium transition-colors">No tools found matching "{query}"</div>
                   )
                 ) : (
                   searchHistory.length > 0 && (
                     <div className="py-2">
-                       <div className="px-4 py-2 text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider flex justify-between transition-colors">
+                       <div className="px-4 py-2 text-xs font-bold text-slate-400 text-slate-50 uppercase tracking-wider flex justify-between transition-colors">
                          Recent Searches
-                         <button onMouseDown={(e) => { e.preventDefault(); setSearchHistory([]); }} className="hover:text-slate-600 dark:hover:text-slate-400 transition-colors">Clear</button>
+                         <button onMouseDown={(e) => { e.preventDefault(); setSearchHistory([]); }} className="hover:text-slate-50 hover:text-slate-400 transition-colors">Clear</button>
                        </div>
                        <ul>
                          {searchHistory.map((term, i) => (
                             <li key={i}>
                               <button 
-                                className="w-full text-left px-4 py-2 hover:bg-slate-50 dark:hover:bg-slate-700/50 flex items-center text-slate-700 dark:text-slate-300 transition-colors"
+                                className="w-full text-left px-4 py-2 hover:bg-slate-900 hover:bg-slate-700/50 flex items-center text-slate-50 text-slate-50 transition-colors"
                                 onClick={() => {
                                   setQuery(term);
                                   searchInputRef.current?.focus();
                                 }}
                               >
-                                <Clock className="w-4 h-4 mr-3 text-slate-400 dark:text-slate-500 transition-colors" />
+                                <Clock className="w-4 h-4 mr-3 text-slate-400 text-slate-50 transition-colors" />
                                 {term}
                               </button>
                             </li>
@@ -151,9 +151,9 @@ export function Home() {
           {!query && (
             <>
               {favorites.length > 0 && (
-                <div id="favorites" className="bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm transition-colors">
+                <div id="favorites" className="bg-slate-800 bg-slate-800 rounded-3xl p-6 border border-slate-700 border-slate-700 shadow-sm transition-colors">
                   <div className="flex items-center justify-between mb-4">
-                    <h2 className="text-lg font-bold text-slate-800 dark:text-white flex items-center gap-2 transition-colors">
+                    <h2 className="text-lg font-bold text-slate-50 text-white flex items-center gap-2 transition-colors">
                       <Star className="w-5 h-5 text-orange-500 fill-current" />
                       Favorites
                     </h2>
@@ -161,13 +161,13 @@ export function Home() {
                   <div className="flex flex-wrap gap-3">
                     {favorites.map(favId => {
                       const tool = TOOLS.find(t => t.id === favId);
-                      if (!tool) return null;
+                      if (!tool || !tool.isWorking) return null;
                       return (
-                        <Link key={tool.id} to={tool.path} className="flex items-center gap-3 px-4 py-3 bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700/50 rounded-xl hover:border-indigo-200 dark:hover:border-indigo-500/30 cursor-pointer transition-all group">
-                          <div className="w-8 h-8 rounded-lg bg-orange-100 dark:bg-orange-500/10 text-orange-600 dark:text-orange-400 flex items-center justify-center transition-colors">
-                            <DynamicIcon name={tool.icon || "Hash"} className="w-4 h-4" />
+                        <Link key={tool.id} to={tool.path} className="flex items-center gap-3 px-4 py-3 bg-slate-900 bg-slate-800/50 border border-slate-700 border-slate-700/50 rounded-xl hover:border-blue-200 hover:border-blue-500/30 cursor-pointer transition-all group">
+                          <div className="w-8 h-8 rounded-lg bg-orange-100 bg-orange-500/10 text-orange-600 text-orange-400 flex items-center justify-center transition-colors">
+                            <DynamicIcon name={tool.icon || "Hash"} className="w-4 h-4 text-purple-500" />
                           </div>
-                          <span className="text-sm font-medium text-slate-700 dark:text-slate-300 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">{tool.name}</span>
+                          <span className="text-sm font-medium text-slate-50 text-slate-50 group-hover:text-blue-600 group-hover:text-blue-400 transition-colors">{tool.name}</span>
                         </Link>
                       );
                     })}
@@ -177,24 +177,24 @@ export function Home() {
 
               {/* Recently Used Section */}
               {recent.length > 0 && (
-                <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm transition-colors">
+                <div className="bg-slate-800 bg-slate-800 rounded-3xl p-6 border border-slate-700 border-slate-700 shadow-sm transition-colors">
                   <div className="flex items-center justify-between mb-4">
-                    <h2 className="text-lg font-bold text-slate-800 dark:text-white flex items-center gap-2 transition-colors">
-                      <svg className="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <h2 className="text-lg font-bold text-slate-50 text-white flex items-center gap-2 transition-colors">
+                      <svg className="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                       Recently Used
                     </h2>
-                    <button onClick={() => setRecent([])} className="text-xs font-bold text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 uppercase tracking-wider transition-colors">Clear History</button>
+                    <button onClick={() => setRecent([])} className="text-xs font-bold text-slate-400 text-slate-50 hover:text-slate-50 hover:text-slate-300 uppercase tracking-wider transition-colors">Clear History</button>
                   </div>
                   <div className="flex flex-wrap gap-3">
                     {recent.map(recentId => {
                       const tool = TOOLS.find(t => t.id === recentId);
-                      if (!tool) return null;
+                      if (!tool || !tool.isWorking) return null;
                       return (
-                        <Link key={tool.id} to={tool.path} className="flex items-center gap-3 px-4 py-3 bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700/50 rounded-xl hover:border-indigo-200 dark:hover:border-indigo-500/30 cursor-pointer transition-all group">
-                          <div className="w-8 h-8 rounded-lg bg-indigo-100 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center transition-colors">
-                            <DynamicIcon name={tool.icon || "Hash"} className="w-4 h-4" />
+                        <Link key={tool.id} to={tool.path} className="flex items-center gap-3 px-4 py-3 bg-slate-900 bg-slate-800/50 border border-slate-700 border-slate-700/50 rounded-xl hover:border-blue-200 hover:border-blue-500/30 cursor-pointer transition-all group">
+                          <div className="w-8 h-8 rounded-lg bg-blue-100 bg-blue-500/10 text-blue-600 text-blue-400 flex items-center justify-center transition-colors">
+                            <DynamicIcon name={tool.icon || "Hash"} className="w-4 h-4 text-purple-500" />
                           </div>
-                          <span className="text-sm font-medium text-slate-700 dark:text-slate-300 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">{tool.name}</span>
+                          <span className="text-sm font-medium text-slate-50 text-slate-50 group-hover:text-blue-600 group-hover:text-blue-400 transition-colors">{tool.name}</span>
                         </Link>
                       );
                     })}
@@ -205,38 +205,25 @@ export function Home() {
               {/* Popular Tools / All Categories */}
               <div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {TOOLS.filter(t => t.isPopular || !t.isWorking).map(tool => {
-                    const isWorking = tool.isWorking;
+                  {TOOLS.filter(t => t.isPopular && t.isWorking).map(tool => {
+                    const isWorking = true; // all tools are working
                     const innerContent = (
                       <>
                         <div className="flex justify-between items-start mb-4">
-                          <div className={`w-10 h-10 bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 rounded-xl flex items-center justify-center transition-colors ${isWorking ? 'group-hover:bg-indigo-100 dark:group-hover:bg-indigo-900/50 group-hover:text-indigo-600 dark:group-hover:text-indigo-400' : ''}`}>
-                            <DynamicIcon name={tool.icon || "Hash"} className="w-5 h-5" />
+                          <div className={`w-10 h-10 bg-slate-800 text-slate-50 rounded-xl flex items-center justify-center transition-colors group-hover:bg-blue-900/50 group-hover:text-blue-400`}>
+                            <DynamicIcon name={tool.icon || "Hash"} className="w-5 h-5 text-purple-500" />
                           </div>
-                          {!isWorking && (
-                            <span className="text-[10px] font-bold px-2 py-1 bg-amber-100 dark:bg-amber-900/50 text-amber-600 dark:text-amber-400 rounded-md uppercase tracking-wider">
-                              Under Maintenance
-                            </span>
-                          )}
                         </div>
-                        <h3 className={`font-bold transition-colors ${isWorking ? 'text-slate-800 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400' : 'text-slate-500 dark:text-slate-400'}`}>{tool.name}</h3>
-                        <p className="text-xs text-slate-400 dark:text-slate-500 mt-1 transition-colors">{tool.description}</p>
+                        <h3 className={`font-bold transition-colors text-white group-hover:text-blue-400`}>{tool.name}</h3>
+                        <p className="text-xs text-slate-50 mt-1 transition-colors">{tool.description}</p>
                       </>
                     );
 
-                    if (isWorking) {
-                      return (
-                        <Link key={tool.id} to={tool.path} className="p-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl transition-all group block hover:shadow-md dark:hover:shadow-slate-900 cursor-pointer">
-                          {innerContent}
-                        </Link>
-                      );
-                    } else {
-                      return (
-                        <div key={tool.id} className="p-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl transition-all group block opacity-70 cursor-not-allowed">
-                          {innerContent}
-                        </div>
-                      );
-                    }
+                    return (
+                      <Link key={tool.id} to={tool.path} className="p-5 bg-slate-800 border border-slate-700 rounded-2xl transition-all group block hover:shadow-md hover:shadow-slate-900 cursor-pointer">
+                        {innerContent}
+                      </Link>
+                    );
                   })}
                 </div>
               </div>

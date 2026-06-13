@@ -1,6 +1,7 @@
+import { GenericToolWrapper } from "../../components/ui/GenericToolWrapper";
 import React, { useState, useEffect } from 'react';
 
-export function FovConverter() {
+function FovConverterBase() {
   const [resolutionX, setResolutionX] = useState(1920);
   const [resolutionY, setResolutionY] = useState(1080);
   const [sourceMultiplier, setSourceMultiplier] = useState(16 / 9); // e.g. 16:9
@@ -61,11 +62,11 @@ export function FovConverter() {
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-4 sm:p-6 text-slate-800 dark:text-slate-200">
-      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm overflow-hidden">
-         <div className="p-6 bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800 text-center">
+    <div className="max-w-3xl mx-auto p-4 sm:p-6 text-slate-50 text-slate-50">
+      <div className="bg-slate-800 bg-slate-800 border border-slate-700 border-slate-700 rounded-2xl shadow-sm overflow-hidden">
+         <div className="p-6 bg-slate-900 bg-slate-800/50 border-b border-slate-700 border-slate-700 text-center">
             <h2 className="font-bold text-lg">Field of View (FOV) Calculator</h2>
-            <p className="text-sm text-slate-500 mt-1">Convert between Horizontal and Vertical FOV based on aspect ratio.</p>
+            <p className="text-sm text-slate-400 mt-1">Convert between Horizontal and Vertical FOV based on aspect ratio.</p>
          </div>
 
          <div className="p-8 space-y-8">
@@ -75,38 +76,38 @@ export function FovConverter() {
                 <input 
                   type="range" min="30" max="130" step="0.1" 
                   value={verticalFov} onChange={handleVerticalChange} 
-                  className="flex-1 accent-indigo-500"
+                  className="flex-1 accent-blue-500"
                 />
                 <input 
                   type="number" value={verticalFov} onChange={handleVerticalChange}
-                  className="w-24 bg-slate-50 dark:bg-slate-800 border py-2 px-3 rounded font-mono text-center"
+                  className="w-24 bg-slate-900 bg-slate-800 border py-2 px-3 rounded font-mono text-center"
                 />
               </div>
-              <p className="text-xs text-slate-500 mt-2">Used internally by Unreal Engine, Unity (by default), etc.</p>
+              <p className="text-xs text-slate-400 mt-2">Used internally by Unreal Engine, Unity (by default), etc.</p>
             </div>
 
-            <hr className="border-slate-100 dark:border-slate-800" />
+            <hr className="border-slate-700 border-slate-700" />
 
             <div>
-              <label className="block text-sm font-bold mb-2 text-indigo-600 dark:text-indigo-400">Horizontal FOV (16:9 Aspect Ratio)</label>
+              <label className="block text-sm font-bold mb-2 text-blue-600 text-blue-400">Horizontal FOV (16:9 Aspect Ratio)</label>
               <div className="flex items-center gap-4">
                 <input 
                   type="range" min="50" max="150" step="0.1" 
                   value={horizontalFov169} onChange={handleHorizontal169Change} 
-                  className="flex-1 accent-indigo-500"
+                  className="flex-1 accent-blue-500"
                 />
                 <input 
                   type="number" value={horizontalFov169} onChange={handleHorizontal169Change}
-                  className="w-24 bg-indigo-50 text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-800 py-2 px-3 rounded font-mono font-bold text-center"
+                  className="w-24 bg-blue-50 text-blue-600 bg-blue-900/30 text-blue-400 border border-blue-200 border-blue-800 py-2 px-3 rounded font-mono font-bold text-center"
                 />
               </div>
-              <p className="text-xs text-slate-500 mt-2">Used by Source Engine (CS:GO, Apex), Overwatch, Call of Duty.</p>
+              <p className="text-xs text-slate-400 mt-2">Used by Source Engine (CS:GO, Apex), Overwatch, Call of Duty.</p>
             </div>
 
-            <hr className="border-slate-100 dark:border-slate-800" />
+            <hr className="border-slate-700 border-slate-700" />
 
             <div>
-              <label className="block text-sm font-bold mb-2 text-emerald-600 dark:text-emerald-400">Horizontal FOV (4:3 Aspect Ratio)</label>
+              <label className="block text-sm font-bold mb-2 text-emerald-600 text-emerald-400">Horizontal FOV (4:3 Aspect Ratio)</label>
               <div className="flex items-center gap-4">
                 <input 
                   type="range" min="40" max="140" step="0.1" 
@@ -115,16 +116,16 @@ export function FovConverter() {
                 />
                 <input 
                   type="number" value={horizontalFov43} onChange={handleHorizontal43Change}
-                  className="w-24 bg-emerald-50 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800 py-2 px-3 rounded font-mono font-bold text-center"
+                  className="w-24 bg-emerald-500/10 text-emerald-600 bg-emerald-900/30 text-emerald-400 border border-emerald-200 border-emerald-800 py-2 px-3 rounded font-mono font-bold text-center"
                 />
               </div>
-              <p className="text-xs text-slate-500 mt-2">Used by older games (Quake engine base) or stretched res players.</p>
+              <p className="text-xs text-slate-400 mt-2">Used by older games (Quake engine base) or stretched res players.</p>
             </div>
          </div>
          
-         <div className="bg-slate-50 dark:bg-slate-800 p-6 border-t border-slate-200 dark:border-slate-700 text-sm">
+         <div className="bg-slate-900 bg-slate-800 p-6 border-t border-slate-700 border-slate-700 text-sm">
             <h3 className="font-bold mb-2">Common Values:</h3>
-            <ul className="space-y-1 text-slate-500 dark:text-slate-400 grid grid-cols-2 gap-2">
+            <ul className="space-y-1 text-slate-400 text-slate-50 grid grid-cols-2 gap-2">
                <li><strong>CS:GO Default:</strong> 90 HFOV (4:3) = 106.26 HFOV (16:9)</li>
                <li><strong>Overwatch Max:</strong> 103 HFOV (16:9) = 70.53 VFOV</li>
                <li><strong>Valorant:</strong> Locked at 103 HFOV (16:9)</li>
@@ -135,3 +136,5 @@ export function FovConverter() {
     </div>
   );
 }
+
+export const FovConverter = () => <GenericToolWrapper toolName="FovConverter"><FovConverterBase /></GenericToolWrapper>;

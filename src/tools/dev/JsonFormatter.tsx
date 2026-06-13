@@ -43,18 +43,18 @@ export function JsonFormatter() {
   };
 
   return (
-    <div className="flex flex-col md:flex-row h-[700px] border-b border-stone-200 dark:border-stone-800">
-      <div className="w-full md:w-1/2 border-r border-stone-200 dark:border-stone-800 flex flex-col">
-        <div className="p-3 border-b border-stone-200 dark:border-stone-800 bg-stone-50 dark:bg-stone-900/50 flex justify-between items-center">
-          <span className="text-sm font-semibold text-stone-600 dark:text-stone-300">Input JSON</span>
+    <div className="flex flex-col md:flex-row h-[700px] border-b border-stone-200 border-stone-800">
+      <div className="w-full md:w-1/2 border-r border-stone-200 border-stone-800 flex flex-col">
+        <div className="p-3 border-b border-stone-200 border-stone-800 bg-stone-50 bg-stone-900/50 flex justify-between items-center">
+          <span className="text-sm font-semibold text-stone-600 text-stone-300">Input JSON</span>
           <div className="flex space-x-2">
-            <button onClick={() => setInput("")} className="p-1.5 text-stone-500 hover:text-stone-900 hover:bg-stone-200 rounded dark:hover:text-white dark:hover:bg-stone-800" title="Clear">
-              <Trash2 className="w-4 h-4" />
+            <button onClick={() => setInput("")} className="p-1.5 text-stone-500 hover:text-stone-900 hover:bg-stone-200 rounded hover:text-white hover:bg-stone-800" title="Clear">
+              <Trash2 className="w-4 h-4 text-purple-500" />
             </button>
           </div>
         </div>
         <textarea
-          className="flex-1 w-full p-4 bg-white dark:bg-stone-950 resize-none focus:outline-none font-mono text-sm text-stone-900 dark:text-stone-300 placeholder-stone-400"
+          className="flex-1 w-full p-4 bg-slate-800 bg-stone-950 resize-none focus:outline-none font-mono text-sm text-stone-900 text-stone-300 placeholder-stone-400"
           placeholder='{"paste": "your JSON here"}'
           value={input}
           onChange={(e) => {
@@ -64,39 +64,39 @@ export function JsonFormatter() {
         ></textarea>
       </div>
       
-      <div className="w-full md:w-1/2 flex flex-col bg-stone-50 dark:bg-stone-900/10">
-        <div className="p-3 border-b border-stone-200 dark:border-stone-800 bg-stone-50 dark:bg-stone-900/50 flex justify-between items-center">
+      <div className="w-full md:w-1/2 flex flex-col bg-stone-50 bg-stone-900/10">
+        <div className="p-3 border-b border-stone-200 border-stone-800 bg-stone-50 bg-stone-900/50 flex justify-between items-center">
           <div className="flex space-x-2">
-            <button onClick={() => processJson('format')} className="px-3 py-1 bg-white border border-stone-200 rounded text-sm text-stone-600 hover:text-stone-900 dark:bg-stone-950 dark:border-stone-800 dark:text-stone-300">Format</button>
-            <button onClick={() => processJson('minify')} className="px-3 py-1 bg-white border border-stone-200 rounded text-sm text-stone-600 hover:text-stone-900 dark:bg-stone-950 dark:border-stone-800 dark:text-stone-300">Minify</button>
+            <button onClick={() => processJson('format')} className="px-3 py-1 bg-slate-800 border border-stone-200 rounded text-sm text-stone-600 hover:text-stone-900 bg-stone-950 border-stone-800 text-stone-300">Format</button>
+            <button onClick={() => processJson('minify')} className="px-3 py-1 bg-slate-800 border border-stone-200 rounded text-sm text-stone-600 hover:text-stone-900 bg-stone-950 border-stone-800 text-stone-300">Minify</button>
           </div>
           <button 
             onClick={() => navigator.clipboard.writeText(output)}
-            className="flex items-center px-3 py-1.5 text-sm font-medium bg-blue-600 text-white hover:bg-blue-700 rounded-md transition-colors disabled:opacity-50"
+            className="flex items-center px-3 py-1.5 text-sm font-medium bg-blue-500 text-white hover:bg-blue-600 rounded-md transition-colors disabled:opacity-50"
             disabled={!output}
           >
-            <Copy className="w-4 h-4 mr-2" /> Copy Output
+            <Copy className="w-4 h-4 mr-2 text-purple-500" /> Copy Output
           </button>
         </div>
         
         <div className="flex-1 relative overflow-hidden">
           {error ? (
             <div className="absolute inset-0 p-6 flex flex-col items-center justify-center text-center">
-              <div className="w-16 h-16 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center mb-4 text-red-600 dark:text-red-400">
-                <AlertCircle className="w-8 h-8" />
+              <div className="w-16 h-16 bg-red-100 bg-red-900/30 rounded-full flex items-center justify-center mb-4 text-red-600 text-red-400">
+                <AlertCircle className="w-8 h-8 text-purple-500" />
               </div>
-              <h3 className="text-lg font-bold text-stone-900 dark:text-white mb-2">Invalid JSON</h3>
-              <p className="text-sm font-mono text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/10 p-3 rounded-lg max-w-md break-all">{error}</p>
+              <h3 className="text-lg font-bold text-stone-900 text-white mb-2">Invalid JSON</h3>
+              <p className="text-sm font-mono text-red-600 text-red-400 bg-red-50 bg-red-900/10 p-3 rounded-lg max-w-md break-all">{error}</p>
             </div>
           ) : output ? (
             <textarea
               readOnly
-              className="w-full h-full p-4 bg-transparent resize-none focus:outline-none font-mono text-sm text-stone-900 dark:text-stone-300"
+              className="w-full h-full p-4 bg-transparent resize-none focus:outline-none font-mono text-sm text-stone-900 text-stone-300"
               value={output}
             ></textarea>
           ) : (
             <div className="absolute inset-0 flex flex-col items-center justify-center text-stone-400">
-              <FileCode2 className="w-12 h-12 mb-3 opacity-20" />
+              <FileCode2 className="w-12 h-12 mb-3 opacity-20 text-purple-500" />
               <p>Output will appear here</p>
             </div>
           )}

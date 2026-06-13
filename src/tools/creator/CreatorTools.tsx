@@ -1,7 +1,8 @@
+import { GenericToolWrapper } from "../../components/ui/GenericToolWrapper";
 import React, { useState } from "react";
 import { Youtube, Hash, Clock, MessageSquare, AlignLeft, CheckCircle2, AlertCircle } from "lucide-react";
 
-export function YoutubeTitleChecker() {
+function YoutubeTitleCheckerBase() {
   const [title, setTitle] = useState("");
   
   const length = title.length;
@@ -24,19 +25,21 @@ export function YoutubeTitleChecker() {
   const hasNumbers = /\d/.test(title);
   const hasPowerWords = /(new|free|how to|top|best|worst|secret|why|guide|tutorial|review|vs|fast|easy)/i.test(title);
 
+  const EMOJIS = ['🔥', '🚀', '✨', '💯', '😱', '🚨', '👀', '💡', '✅', '💸', '🤯', '🤫', '🏆', '⭐'];
+
   return (
     <div className="p-6 md:p-8">
-      <div className="w-full max-w-2xl mx-auto bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 md:p-10 transition-colors">
-        <h2 className="text-xl font-bold text-slate-800 dark:text-white mb-6 flex items-center gap-2"><Youtube className="w-6 h-6 text-red-500" /> YouTube Title Checker</h2>
+      <div className="w-full max-w-2xl mx-auto bg-slate-800 border border-slate-700 rounded-3xl p-6 md:p-10 transition-colors">
+        <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2"><Youtube className="w-6 h-6 text-red-500" /> YouTube Title Checker</h2>
         
         <div className="mb-6">
-          <label className="text-xs font-bold text-slate-500 uppercase mb-2 block">Video Title</label>
+          <label className="text-xs font-bold text-slate-400 uppercase mb-2 block">Video Title</label>
           <input 
             type="text" 
             value={title} 
             onChange={(e) => setTitle(e.target.value)} 
             placeholder="Type your amazing title here..." 
-            className="w-full bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-slate-900 dark:text-white focus:ring-2 focus:ring-red-500 outline-none transition-all"
+            className="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-red-500 outline-none transition-all"
             maxLength={100}
           />
           <div className="flex justify-between items-center mt-2 px-1">
@@ -45,24 +48,40 @@ export function YoutubeTitleChecker() {
           </div>
         </div>
 
+        <div className="mb-6">
+          <label className="text-xs font-bold text-slate-400 uppercase mb-2 block">Quick Emojis</label>
+          <div className="flex flex-wrap gap-2">
+            {EMOJIS.map(e => (
+              <button 
+                key={e} 
+                onClick={() => setTitle(title + e)}
+                className="bg-slate-900 border border-slate-700 hover:bg-slate-700 px-3 py-1.5 rounded-lg text-lg transition-colors"
+                title={`Add ${e}`}
+              >
+                {e}
+              </button>
+            ))}
+          </div>
+        </div>
+
         {title && (
-          <div className="space-y-3 bg-white dark:bg-slate-950 p-6 rounded-2xl border border-slate-200 dark:border-slate-800">
-            <h3 className="text-sm font-bold text-slate-800 dark:text-white mb-4 uppercase">Analysis</h3>
+          <div className="space-y-3 bg-slate-900 p-6 rounded-2xl border border-slate-700">
+            <h3 className="text-sm font-bold text-white mb-4 uppercase">Analysis</h3>
             <div className="flex items-center gap-3">
               {length >= 40 && length <= 70 ? <CheckCircle2 className="w-5 h-5 text-emerald-500" /> : <AlertCircle className="w-5 h-5 text-amber-500" />}
-              <span className="text-sm text-slate-700 dark:text-slate-300">Length ideally between 40-70 characters.</span>
+              <span className="text-sm text-slate-50">Length ideally between 40-70 characters.</span>
             </div>
             <div className="flex items-center gap-3">
               {hasPowerWords ? <CheckCircle2 className="w-5 h-5 text-emerald-500" /> : <AlertCircle className="w-5 h-5 text-slate-400" />}
-              <span className="text-sm text-slate-700 dark:text-slate-300">Contains engaging power words.</span>
+              <span className="text-sm text-slate-50">Contains engaging power words.</span>
             </div>
             <div className="flex items-center gap-3">
               {hasNumbers ? <CheckCircle2 className="w-5 h-5 text-emerald-500" /> : <AlertCircle className="w-5 h-5 text-slate-400" />}
-              <span className="text-sm text-slate-700 dark:text-slate-300">Contains numbers or years (draws clicks).</span>
+              <span className="text-sm text-slate-50">Contains numbers or years (draws clicks).</span>
             </div>
             <div className="flex items-center gap-3">
               {uppercaseWords > 0 && uppercaseWords < words.length ? <CheckCircle2 className="w-5 h-5 text-emerald-500" /> : <AlertCircle className="w-5 h-5 text-slate-400" />}
-              <span className="text-sm text-slate-700 dark:text-slate-300">Uses selective ALL CAPS words for emphasis.</span>
+              <span className="text-sm text-slate-50">Uses selective ALL CAPS words for emphasis.</span>
             </div>
           </div>
         )}
@@ -71,10 +90,18 @@ export function YoutubeTitleChecker() {
   );
 }
 
-export function HashtagGenerator() {
+function HashtagGeneratorBase() {
   const [topic, setTopic] = useState("");
   const [hashtags, setHashtags] = useState<string[]>([]);
   const [copied, setCopied] = useState(false);
+
+  const POPULAR_DB: Record<string, string[]> = {
+    "fitness": ["workout", "fitfam", "gymlife", "fitnessmotivation", "healthylifestyle"],
+    "travel": ["wanderlust", "travelgram", "vacation", "exploretheworld", "travelphotography"],
+    "food": ["foodie", "instafood", "foodphotography", "yummy", "delicious"],
+    "tech": ["technology", "coding", "developer", "programming", "software"],
+    "gaming": ["gamer", "gamingcommunity", "videogames", "twitch", "esports"],
+  };
 
   const generate = () => {
     if (!topic.trim()) return;
@@ -87,8 +114,10 @@ export function HashtagGenerator() {
     
     base.forEach(word => {
       results.add(`#${word}`);
-      results.add(`#${word}2024`);
-      suffixes.forEach(s => {
+      if (POPULAR_DB[word]) {
+        POPULAR_DB[word].forEach(w => results.add(`#${w}`));
+      }
+      suffixes.slice(0, 2).forEach(s => {
         if (s) results.add(`#${word}${s}`);
       });
     });
@@ -96,7 +125,7 @@ export function HashtagGenerator() {
     results.add("#fyp");
     results.add("#trending");
     
-    setHashtags(Array.from(results).slice(0, 30));
+    setHashtags(Array.from(results).slice(0, 10)); // Exactly 10 hashtags
   };
 
   const copyTags = () => {
@@ -107,31 +136,31 @@ export function HashtagGenerator() {
 
   return (
     <div className="p-6 md:p-8">
-        <div className="w-full max-w-2xl mx-auto bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 md:p-10 transition-colors">
-          <h2 className="text-xl font-bold text-slate-800 dark:text-white mb-6 flex items-center gap-2"><Hash className="w-6 h-6 text-indigo-500" /> Hashtag Generator</h2>
+        <div className="w-full max-w-2xl mx-auto bg-slate-900 bg-slate-800 border border-slate-700 border-slate-700 rounded-3xl p-6 md:p-10 transition-colors">
+          <h2 className="text-xl font-bold text-slate-50 text-white mb-6 flex items-center gap-2"><Hash className="w-6 h-6 text-blue-500" /> Hashtag Generator</h2>
           <div className="flex gap-2">
             <input 
               type="text" 
               value={topic} 
               onChange={(e) => setTopic(e.target.value)} 
               placeholder="Enter topics (e.g., travel fitness coffee)" 
-              className="flex-1 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-slate-900 dark:text-white"
+              className="flex-1 bg-slate-800 bg-slate-900 border border-slate-700 border-slate-700 rounded-xl px-4 py-3 text-slate-50 text-white"
             />
-            <button onClick={generate} className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-xl font-bold transition-colors">
+            <button onClick={generate} className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-xl font-bold transition-colors">
               Generate
             </button>
           </div>
 
           {hashtags.length > 0 && (
-            <div className="mt-8 bg-white dark:bg-slate-950 p-6 rounded-2xl border border-slate-200 dark:border-slate-800">
+            <div className="mt-8 bg-slate-800 bg-slate-900 p-6 rounded-2xl border border-slate-700 border-slate-700">
               <div className="flex flex-wrap gap-2 mb-6">
                 {hashtags.map((tag, i) => (
-                  <span key={i} className="px-3 py-1 bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 rounded-lg text-sm font-medium">
+                  <span key={i} className="px-3 py-1 bg-blue-50 bg-blue-500/10 text-blue-600 text-blue-400 rounded-lg text-sm font-medium">
                     {tag}
                   </span>
                 ))}
               </div>
-              <button onClick={copyTags} className="w-full py-3 border-2 border-indigo-600 text-indigo-600 dark:text-indigo-400 font-bold rounded-xl hover:bg-indigo-50 dark:hover:bg-indigo-900/20 transition-colors">
+              <button onClick={copyTags} className="w-full py-3 border-2 border-blue-600 text-blue-600 text-blue-400 font-bold rounded-xl hover:bg-blue-50 hover:bg-blue-900/20 transition-colors">
                 {copied ? "Copied!" : "Copy All Hashtags"}
               </button>
             </div>
@@ -141,7 +170,7 @@ export function HashtagGenerator() {
   );
 }
 
-export function ReadTimeEstimator() {
+function ReadTimeEstimatorBase() {
   const [text, setText] = useState("");
   const words = text.trim().split(/\s+/).filter(w => w.length > 0).length;
   // Avg read speed is ~200-250 WPM
@@ -149,21 +178,21 @@ export function ReadTimeEstimator() {
 
   return (
     <div className="p-6 md:p-8">
-      <div className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 md:p-10 transition-colors">
-        <h2 className="text-xl font-bold text-slate-800 dark:text-white mb-6 flex items-center gap-2"><Clock className="w-6 h-6 text-emerald-500" /> Read Time Estimator</h2>
+      <div className="w-full bg-slate-900 bg-slate-800 border border-slate-700 border-slate-700 rounded-3xl p-6 md:p-10 transition-colors">
+        <h2 className="text-xl font-bold text-slate-50 text-white mb-6 flex items-center gap-2"><Clock className="w-6 h-6 text-emerald-500" /> Read Time Estimator</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div>
             <textarea 
-              className="w-full h-64 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl p-4 text-slate-900 dark:text-white focus:ring-2 focus:ring-emerald-500 outline-none resize-none"
+              className="w-full h-64 bg-slate-800 bg-slate-900 border border-slate-700 border-slate-700 rounded-xl p-4 text-slate-50 text-white focus:ring-2 focus:ring-emerald-500 outline-none resize-none"
               placeholder="Paste your blog post or script here to calculate reading time..."
               value={text}
               onChange={(e) => setText(e.target.value)}
             />
           </div>
           <div className="flex flex-col gap-4 justify-center">
-            <div className="bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 text-center shadow-sm">
-              <span className="text-slate-500 dark:text-slate-400 font-bold text-sm uppercase">Word Count</span>
-              <div className="text-4xl font-black text-slate-800 dark:text-white mt-2">{words}</div>
+            <div className="bg-slate-800 bg-slate-900 border border-slate-700 border-slate-700 rounded-2xl p-6 text-center shadow-sm">
+              <span className="text-slate-400 text-slate-50 font-bold text-sm uppercase">Word Count</span>
+              <div className="text-4xl font-black text-slate-50 text-white mt-2">{words}</div>
             </div>
             <div className="bg-emerald-600 rounded-2xl p-6 text-center text-white shadow-xl">
               <span className="opacity-90 font-bold text-sm uppercase tracking-wide">Estimated Read Time</span>
@@ -176,30 +205,30 @@ export function ReadTimeEstimator() {
   );
 }
 
-export function SocialPostPreview() {
+function SocialPostPreviewBase() {
   const [text, setText] = useState("");
   const len = text.length;
   
   return (
     <div className="p-6 md:p-8">
-      <div className="w-full max-w-4xl mx-auto bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 md:p-10 transition-colors">
-         <h2 className="text-xl font-bold text-slate-800 dark:text-white mb-6 flex items-center gap-2"><MessageSquare className="w-6 h-6 text-blue-500" /> Social Post Preview</h2>
+      <div className="w-full max-w-4xl mx-auto bg-slate-900 bg-slate-800 border border-slate-700 border-slate-700 rounded-3xl p-6 md:p-10 transition-colors">
+         <h2 className="text-xl font-bold text-slate-50 text-white mb-6 flex items-center gap-2"><MessageSquare className="w-6 h-6 text-blue-500" /> Social Post Preview</h2>
          
          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
               <textarea 
-                className="w-full h-64 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl p-4 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none resize-none"
+                className="w-full h-64 bg-slate-800 bg-slate-900 border border-slate-700 border-slate-700 rounded-xl p-4 text-slate-50 text-white focus:ring-2 focus:ring-blue-500 outline-none resize-none"
                 placeholder="Type your social media post here..."
                 value={text}
                 onChange={(e) => setText(e.target.value)}
               />
-              <div className="text-right text-sm text-slate-500 mt-2 font-medium">{len} characters</div>
+              <div className="text-right text-sm text-slate-400 mt-2 font-medium">{len} characters</div>
             </div>
 
             <div className="space-y-4">
               <LimitCard platform="X (Twitter)" limit={280} current={len} colorClass="bg-sky-500" />
               <LimitCard platform="Instagram / Facebook (Truncates)" limit={125} current={len} colorClass="bg-fuchsia-500" />
-              <LimitCard platform="LinkedIn (Truncates)" limit={210} current={len} colorClass="bg-blue-600" />
+              <LimitCard platform="LinkedIn (Truncates)" limit={210} current={len} colorClass="bg-blue-500" />
               <LimitCard platform="TikTok Description" limit={2200} current={len} colorClass="bg-slate-800" />
             </div>
          </div>
@@ -212,15 +241,15 @@ function LimitCard({ platform, limit, current, colorClass }: { platform: string,
   const pct = Math.min((current / limit) * 100, 100);
   const isOver = current > limit;
   return (
-    <div className="bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl p-4">
+    <div className="bg-slate-800 bg-slate-900 border border-slate-700 border-slate-700 rounded-xl p-4">
       <div className="flex justify-between items-center mb-2">
-        <span className="font-bold text-slate-700 dark:text-slate-300 text-sm">{platform}</span>
-        <span className={`text-xs font-bold ${isOver ? 'text-red-500' : 'text-slate-500'}`}>{current} / {limit}</span>
+        <span className="font-bold text-slate-50 text-slate-50 text-sm">{platform}</span>
+        <span className={`text-xs font-bold ${isOver ? 'text-red-500' : 'text-slate-400'}`}>{current} / {limit}</span>
       </div>
-      <div className="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2 overflow-hidden">
+      <div className="w-full bg-slate-800 bg-slate-800 rounded-full h-2 overflow-hidden">
         <div className={`h-full ${isOver ? 'bg-red-500' : colorClass}`} style={{ width: `${pct}%` }}></div>
       </div>
-      <div className="mt-2 text-xs text-slate-500 dark:text-slate-400">
+      <div className="mt-2 text-xs text-slate-400 text-slate-50">
         {isOver ? "Over limit or will be truncated." : "Safe to post."}
       </div>
     </div>
@@ -228,7 +257,7 @@ function LimitCard({ platform, limit, current, colorClass }: { platform: string,
 }
 
 
-export function DescriptionGenerator() {
+function DescriptionGeneratorBase() {
   const [topic, setTopic] = useState("");
   const [links, setLinks] = useState("");
   const [chapters, setChapters] = useState("");
@@ -262,28 +291,28 @@ Instagram: @yourhandle
 
   return (
     <div className="p-6 md:p-8">
-      <div className="w-full max-w-5xl mx-auto bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 md:p-10 transition-colors">
-        <h2 className="text-xl font-bold text-slate-800 dark:text-white mb-6 flex items-center gap-2"><AlignLeft className="w-6 h-6 text-purple-500" /> Description Builder</h2>
+      <div className="w-full max-w-5xl mx-auto bg-slate-900 bg-slate-800 border border-slate-700 border-slate-700 rounded-3xl p-6 md:p-10 transition-colors">
+        <h2 className="text-xl font-bold text-slate-50 text-white mb-6 flex items-center gap-2"><AlignLeft className="w-6 h-6 text-purple-500" /> Description Builder</h2>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="space-y-4">
             <div>
-              <label className="text-sm font-bold text-slate-700 dark:text-slate-300 block mb-2">Video Summary / Hook</label>
-              <textarea value={topic} onChange={e => setTopic(e.target.value)} className="w-full bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl p-3 text-slate-900 dark:text-white" rows={3}></textarea>
+              <label className="text-sm font-bold text-slate-50 text-slate-50 block mb-2">Video Summary / Hook</label>
+              <textarea value={topic} onChange={e => setTopic(e.target.value)} className="w-full bg-slate-800 bg-slate-900 border border-slate-700 border-slate-700 rounded-xl p-3 text-slate-50 text-white" rows={3}></textarea>
             </div>
             <div>
-              <label className="text-sm font-bold text-slate-700 dark:text-slate-300 block mb-2">Relevant Links (Products, Affiliates)</label>
-              <textarea value={links} onChange={e => setLinks(e.target.value)} className="w-full bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl p-3 text-slate-900 dark:text-white" rows={3}></textarea>
+              <label className="text-sm font-bold text-slate-50 text-slate-50 block mb-2">Relevant Links (Products, Affiliates)</label>
+              <textarea value={links} onChange={e => setLinks(e.target.value)} className="w-full bg-slate-800 bg-slate-900 border border-slate-700 border-slate-700 rounded-xl p-3 text-slate-50 text-white" rows={3}></textarea>
             </div>
             <div>
-              <label className="text-sm font-bold text-slate-700 dark:text-slate-300 block mb-2">Chapters / Timestamps</label>
-              <textarea value={chapters} onChange={e => setChapters(e.target.value)} className="w-full bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl p-3 text-slate-900 dark:text-white" rows={3}></textarea>
+              <label className="text-sm font-bold text-slate-50 text-slate-50 block mb-2">Chapters / Timestamps</label>
+              <textarea value={chapters} onChange={e => setChapters(e.target.value)} className="w-full bg-slate-800 bg-slate-900 border border-slate-700 border-slate-700 rounded-xl p-3 text-slate-50 text-white" rows={3}></textarea>
             </div>
           </div>
           <div>
             <div className="h-full flex flex-col">
-              <label className="text-sm font-bold text-slate-700 dark:text-slate-300 block mb-2">Preview</label>
-              <textarea readOnly value={template} className="flex-1 w-full bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl p-4 font-mono text-sm resize-none text-slate-800 dark:text-slate-200 mb-4"></textarea>
+              <label className="text-sm font-bold text-slate-50 text-slate-50 block mb-2">Preview</label>
+              <textarea readOnly value={template} className="flex-1 w-full bg-slate-800 bg-slate-900 border border-slate-700 border-slate-700 rounded-xl p-4 font-mono text-sm resize-none text-slate-50 text-slate-50 mb-4"></textarea>
               <button onClick={handleCopy} className="w-full py-3 bg-purple-600 text-white font-bold rounded-xl hover:bg-purple-700 transition-colors shadow-sm">
                 {copied ? "Copied!" : "Copy Full Description"}
               </button>
@@ -295,3 +324,13 @@ Instagram: @yourhandle
   );
 }
 
+
+export const YoutubeTitleChecker = () => <GenericToolWrapper toolName="YoutubeTitleChecker"><YoutubeTitleCheckerBase /></GenericToolWrapper>;
+
+export const HashtagGenerator = () => <GenericToolWrapper toolName="HashtagGenerator"><HashtagGeneratorBase /></GenericToolWrapper>;
+
+export const ReadTimeEstimator = () => <GenericToolWrapper toolName="ReadTimeEstimator"><ReadTimeEstimatorBase /></GenericToolWrapper>;
+
+export const SocialPostPreview = () => <GenericToolWrapper toolName="SocialPostPreview"><SocialPostPreviewBase /></GenericToolWrapper>;
+
+export const DescriptionGenerator = () => <GenericToolWrapper toolName="DescriptionGenerator"><DescriptionGeneratorBase /></GenericToolWrapper>;

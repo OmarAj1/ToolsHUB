@@ -63,17 +63,17 @@ export function PdfDropzone({
   if (files.length === 0) {
     return (
       <div 
-        className="w-full border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-3xl p-12 flex flex-col items-center justify-center text-center hover:bg-slate-50 dark:hover:bg-slate-900/50 hover:border-blue-400 dark:hover:border-blue-500 transition-colors cursor-pointer"
+        className="w-full border-2 border-dashed border-slate-700 border-slate-700 rounded-3xl p-12 flex flex-col items-center justify-center text-center hover:bg-slate-900 hover:bg-slate-700/50 hover:border-blue-400 hover:border-blue-500 transition-colors cursor-pointer"
         onClick={() => inputRef.current?.click()}
       >
-        <div className="w-20 h-20 bg-blue-50 dark:bg-blue-900/30 rounded-full flex items-center justify-center mb-6 text-blue-600 dark:text-blue-400">
-          <UploadCloud className="w-10 h-10" />
+        <div className="w-20 h-20 bg-blue-50 bg-blue-900/30 rounded-full flex items-center justify-center mb-6 text-blue-600 text-blue-400">
+          <UploadCloud className="w-10 h-10 text-purple-500" />
         </div>
-        <h3 className="text-2xl font-bold text-slate-800 dark:text-slate-200 mb-2">{title}</h3>
-        <p className="text-slate-500 dark:text-slate-400 mb-8 max-w-sm">
+        <h3 className="text-2xl font-bold text-slate-50 text-slate-50 mb-2">{title}</h3>
+        <p className="text-slate-400 text-slate-50 mb-8 max-w-sm">
           Files stay secure. All processing happens locally in your browser.
         </p>
-        <button className="px-6 py-3 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition-colors">
+        <button className="px-6 py-3 bg-blue-500 text-white rounded-xl font-bold hover:bg-blue-600 transition-colors">
           Select files
         </button>
         <input type="file" multiple={multiple} accept={accept} ref={inputRef} onChange={handleFileChange} className="hidden" />
@@ -82,16 +82,16 @@ export function PdfDropzone({
   }
 
   return (
-    <div className="w-full bg-slate-50 dark:bg-slate-900/50 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 mb-6 flex items-center justify-between">
-      <h3 className="font-bold text-slate-800 dark:text-slate-200 flex items-center">
-        <FileIcon className="w-5 h-5 mr-2 text-slate-400 dark:text-slate-500" /> {files.length} {files.length === 1 ? 'file' : 'files'} uploaded
+    <div className="w-full bg-slate-900 bg-slate-800/50 rounded-2xl p-6 border border-slate-700 border-slate-700 mb-6 flex items-center justify-between">
+      <h3 className="font-bold text-slate-50 text-slate-50 flex items-center">
+        <FileIcon className="w-5 h-5 mr-2 text-slate-400 text-slate-50" /> {files.length} {files.length === 1 ? 'file' : 'files'} uploaded
       </h3>
       {multiple && (
         <button 
           onClick={() => inputRef.current?.click()}
-          className="text-sm px-4 py-2 bg-white dark:bg-slate-950 rounded-lg font-bold text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-900 hover:bg-blue-50 dark:hover:bg-slate-900 flex items-center shadow-sm"
+          className="text-sm px-4 py-2 bg-slate-800 bg-slate-900 rounded-lg font-bold text-blue-600 text-blue-400 border border-blue-200 border-blue-900 hover:bg-blue-50 hover:bg-slate-700 flex items-center shadow-sm"
         >
-          <FilePlus2 className="w-4 h-4 mr-1" /> Add more files
+          <FilePlus2 className="w-4 h-4 mr-1 text-purple-500" /> Add more files
         </button>
       )}
       <input type="file" multiple={multiple} accept={accept} ref={inputRef} onChange={handleFileChange} className="hidden" />
@@ -120,7 +120,10 @@ export function PdfActionContainer({
   const [isProcessing, setIsProcessing] = useState(false);
   const [mergeProgress, setMergeProgress] = useState(0);
   const [error, setError] = useState<string | null>(null);
+  const [renderError, setRenderError] = useState<Error | null>(null);
   
+  if (renderError) throw renderError;
+
   const isPdfMode = accept === ".pdf";
   const { pages, setPages, isLoading: isPagesLoading, progress } = usePdfPages(isPdfMode ? files : []);
 
@@ -164,7 +167,8 @@ export function PdfActionContainer({
 
       await onProcess(finalFiles);
     } catch (e: any) {
-      setError(e.message || "An unknown error occurred.");
+      console.error(e);
+      setRenderError(e);
     } finally {
       setIsProcessing(false);
       setMergeProgress(0);
@@ -174,8 +178,8 @@ export function PdfActionContainer({
   return (
     <div className="p-6 md:p-8 flex flex-col items-center">
       {error && (
-         <div className="w-full max-w-4xl bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 border border-red-100 dark:border-red-900/50 p-4 rounded-xl mb-6 flex items-start">
-           <AlertCircle className="w-5 h-5 mr-3 shrink-0 mt-0.5" />
+         <div className="w-full max-w-4xl bg-red-50 bg-red-900/20 text-red-600 text-red-400 border border-red-100 border-red-900/50 p-4 rounded-xl mb-6 flex items-start">
+           <AlertCircle className="w-5 h-5 mr-3 shrink-0 mt-0.5 text-purple-500" />
            <p className="text-sm font-medium">{error}</p>
          </div>
       )}
@@ -203,12 +207,12 @@ export function PdfActionContainer({
             <div className="flex flex-col space-y-4">
               {isProcessing && mergeProgress > 0 && (
                 <div className="w-full">
-                  <div className="flex justify-between text-sm text-stone-600 dark:text-stone-400 mb-1 font-medium">
+                  <div className="flex justify-between text-sm text-stone-600 text-stone-400 mb-1 font-medium">
                     <span>Merging Pages...</span>
                     <span>{mergeProgress}%</span>
                   </div>
-                  <div className="w-full bg-stone-200 dark:bg-stone-700 rounded-full h-2.5 overflow-hidden">
-                    <div className="bg-blue-600 h-2.5 rounded-full transition-all duration-300 ease-out" style={{ width: `${mergeProgress}%` }}></div>
+                  <div className="w-full bg-stone-200 bg-stone-700 rounded-full h-2.5 overflow-hidden">
+                    <div className="bg-blue-500 h-2.5 rounded-full transition-all duration-300 ease-out" style={{ width: `${mergeProgress}%` }}></div>
                   </div>
                 </div>
               )}
@@ -216,13 +220,13 @@ export function PdfActionContainer({
                 <button 
                   onClick={processAndDownload}
                   disabled={isProcessing || isPagesLoading || (files.length === 0 && !allowEmpty)}
-                  className="flex-1 py-4 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center shadow-md shadow-blue-500/20"
+                  className="flex-1 py-4 bg-blue-500 text-white font-bold rounded-xl hover:bg-blue-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center shadow-md shadow-blue-500/20"
                 >
                   {isProcessing ? "Processing locally..." : buttonText}
                 </button>
                 <button 
                   onClick={() => { setFiles([]); setError(null); }}
-                  className="px-6 border border-slate-200 dark:border-slate-800 font-bold rounded-xl hover:bg-slate-50 dark:hover:bg-slate-900 transition-colors text-slate-600 dark:text-slate-400"
+                  className="px-6 border border-slate-700 border-slate-700 font-bold rounded-xl hover:bg-slate-900 hover:bg-slate-700 transition-colors text-slate-50 text-slate-50"
                 >
                   Cancel
                 </button>

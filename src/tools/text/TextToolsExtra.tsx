@@ -41,38 +41,38 @@ export function TextCompare() {
   return (
     <div className="p-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-        <div className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6">
-          <label className="text-sm font-bold text-slate-700 dark:text-slate-300 block mb-2">Original Text</label>
+        <div className="w-full bg-slate-900 bg-slate-800 border border-slate-700 border-slate-700 rounded-2xl p-6">
+          <label className="text-sm font-bold text-slate-50 text-slate-50 block mb-2">Original Text</label>
           <textarea
             value={text1}
             onChange={e => setText1(e.target.value)}
-            className="w-full h-64 p-4 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl font-mono text-sm resize-y focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-800 dark:text-slate-200"
+            className="w-full h-64 p-4 bg-slate-800 bg-slate-900 border border-slate-700 border-slate-700 rounded-xl font-mono text-sm resize-y focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-50 text-slate-50"
           />
         </div>
-        <div className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6">
-          <label className="text-sm font-bold text-slate-700 dark:text-slate-300 block mb-2">Changed Text</label>
+        <div className="w-full bg-slate-900 bg-slate-800 border border-slate-700 border-slate-700 rounded-2xl p-6">
+          <label className="text-sm font-bold text-slate-50 text-slate-50 block mb-2">Changed Text</label>
           <textarea
             value={text2}
             onChange={e => setText2(e.target.value)}
-            className="w-full h-64 p-4 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl font-mono text-sm resize-y focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-800 dark:text-slate-200"
+            className="w-full h-64 p-4 bg-slate-800 bg-slate-900 border border-slate-700 border-slate-700 rounded-xl font-mono text-sm resize-y focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-50 text-slate-50"
           />
         </div>
       </div>
       <div className="flex justify-center mb-6">
-        <button onClick={compare} className="px-8 py-3 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700 transition shadow-sm flex items-center gap-2">
-            <ArrowRightLeft className="w-5 h-5"/> Compare Texts
+        <button onClick={compare} className="px-8 py-3 bg-blue-500 text-white rounded-xl font-bold hover:bg-blue-600 transition shadow-sm flex items-center gap-2">
+            <ArrowRightLeft className="w-5 h-5 text-purple-500"/> Compare Texts
         </button>
       </div>
       {diff && (
-        <div className="p-6 bg-slate-100 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 font-mono text-sm whitespace-pre-wrap text-left overflow-x-auto">
+        <div className="p-6 bg-slate-800 bg-slate-800 rounded-xl border border-slate-700 border-slate-700 font-mono text-sm whitespace-pre-wrap text-left overflow-x-auto">
           {diff.map((item, idx) => {
             if (item.type === 'added') {
-              return <div key={idx} className="bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 px-2 py-0.5 rounded my-0.5">+ {item.text || ' '}</div>;
+              return <div key={idx} className="bg-green-100 bg-green-900/30 text-green-800 text-green-300 px-2 py-0.5 rounded my-0.5">+ {item.text || ' '}</div>;
             }
             if (item.type === 'removed') {
-              return <div key={idx} className="bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300 px-2 py-0.5 rounded my-0.5 line-through">- {item.text || ' '}</div>;
+              return <div key={idx} className="bg-red-100 bg-red-900/30 text-red-800 text-red-300 px-2 py-0.5 rounded my-0.5 line-through">- {item.text || ' '}</div>;
             }
-            return <div key={idx} className="text-slate-500 dark:text-slate-400 px-2 py-0.5 my-0.5">  {item.text || ' '}</div>;
+            return <div key={idx} className="text-slate-400 text-slate-50 px-2 py-0.5 my-0.5">  {item.text || ' '}</div>;
           })}
         </div>
       )}
@@ -99,34 +99,34 @@ export function FindAndReplace() {
 
   return (
     <div className="flex flex-col gap-6 p-6">
-      <div className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6">
-        <label className="text-sm font-bold text-slate-700 dark:text-slate-300 block mb-2">Input Text</label>
+      <div className="w-full bg-slate-900 bg-slate-800 border border-slate-700 border-slate-700 rounded-2xl p-6">
+        <label className="text-sm font-bold text-slate-50 text-slate-50 block mb-2">Input Text</label>
         <textarea
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          className="w-full h-48 p-4 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl font-mono text-sm resize-y focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-800 dark:text-slate-200 mb-4"
+          className="w-full h-48 p-4 bg-slate-800 bg-slate-900 border border-slate-700 border-slate-700 rounded-xl font-mono text-sm resize-y focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-50 text-slate-50 mb-4"
         />
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
             <div>
-                <label className="text-xs font-bold text-slate-500 block mb-1">Find</label>
-                <input value={find} onChange={e=>setFind(e.target.value)} className="w-full px-4 py-2 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg text-slate-800 dark:text-white" />
+                <label className="text-xs font-bold text-slate-400 block mb-1">Find</label>
+                <input value={find} onChange={e=>setFind(e.target.value)} className="w-full px-4 py-2 bg-slate-800 bg-slate-900 border border-slate-700 border-slate-700 rounded-lg text-slate-50 text-white" />
             </div>
             <div>
-                <label className="text-xs font-bold text-slate-500 block mb-1">Replace With</label>
-                <input value={replace} onChange={e=>setReplace(e.target.value)} className="w-full px-4 py-2 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg text-slate-800 dark:text-white" />
+                <label className="text-xs font-bold text-slate-400 block mb-1">Replace With</label>
+                <input value={replace} onChange={e=>setReplace(e.target.value)} className="w-full px-4 py-2 bg-slate-800 bg-slate-900 border border-slate-700 border-slate-700 rounded-lg text-slate-50 text-white" />
             </div>
         </div>
 
-        <button onClick={handleProcess} className="px-6 py-3 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700 transition-colors shadow-sm flex items-center gap-2">
-            <Search className="w-4 h-4"/> Replace All
+        <button onClick={handleProcess} className="px-6 py-3 bg-blue-500 text-white rounded-xl font-bold hover:bg-blue-600 transition-colors shadow-sm flex items-center gap-2">
+            <Search className="w-4 h-4 text-purple-500"/> Replace All
         </button>
       </div>
       
       {output && (
-        <div className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6">
-          <label className="text-sm font-bold text-slate-700 dark:text-slate-300 block mb-2">Result</label>
-          <textarea readOnly value={output} className="w-full h-48 p-4 bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl font-mono text-sm resize-y text-slate-800 dark:text-slate-200" />
+        <div className="w-full bg-slate-900 bg-slate-800 border border-slate-700 border-slate-700 rounded-2xl p-6">
+          <label className="text-sm font-bold text-slate-50 text-slate-50 block mb-2">Result</label>
+          <textarea readOnly value={output} className="w-full h-48 p-4 bg-slate-800 bg-slate-900 border border-slate-700 border-slate-700 rounded-xl font-mono text-sm resize-y text-slate-50 text-slate-50" />
         </div>
       )}
     </div>

@@ -79,27 +79,27 @@ export function LoremIpsumGenerator() {
 
   return (
     <div className="p-6 md:p-8 flex flex-col items-center">
-      <div className="w-full max-w-4xl bg-white dark:bg-stone-800 rounded-2xl shadow-sm border border-stone-200 dark:border-stone-700 p-6 md:p-8 mb-6">
+      <div className="w-full max-w-4xl bg-slate-800 bg-stone-800 rounded-2xl shadow-sm border border-stone-200 border-stone-700 p-6 md:p-8 mb-6">
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           <div>
-            <label className="block text-sm font-semibold text-stone-700 dark:text-stone-300 mb-2">Generate</label>
-            <div className="flex bg-stone-100 dark:bg-stone-900 rounded-lg p-1">
+            <label className="block text-sm font-semibold text-stone-700 text-stone-300 mb-2">Generate</label>
+            <div className="flex bg-stone-100 bg-stone-900 rounded-lg p-1">
               <button 
                 onClick={() => { setType('paragraphs'); generate(); }}
-                className={`flex-1 py-2 text-sm font-medium rounded-md transition-colors ${type === 'paragraphs' ? 'bg-white dark:bg-stone-800 text-stone-900 dark:text-white shadow-sm' : 'text-stone-500 hover:text-stone-700 dark:hover:text-stone-300'}`}
+                className={`flex-1 py-2 text-sm font-medium rounded-md transition-colors ${type === 'paragraphs' ? 'bg-slate-800 bg-stone-800 text-stone-900 text-white shadow-sm' : 'text-stone-500 hover:text-stone-700 hover:text-stone-300'}`}
               >
                 Paragraphs
               </button>
               <button 
                 onClick={() => { setType('words'); generate(); }}
-                className={`flex-1 py-2 text-sm font-medium rounded-md transition-colors ${type === 'words' ? 'bg-white dark:bg-stone-800 text-stone-900 dark:text-white shadow-sm' : 'text-stone-500 hover:text-stone-700 dark:hover:text-stone-300'}`}
+                className={`flex-1 py-2 text-sm font-medium rounded-md transition-colors ${type === 'words' ? 'bg-slate-800 bg-stone-800 text-stone-900 text-white shadow-sm' : 'text-stone-500 hover:text-stone-700 hover:text-stone-300'}`}
               >
                 Words
               </button>
               <button 
                 onClick={() => { setType('lists'); generate(); }}
-                className={`flex-1 py-2 text-sm font-medium rounded-md transition-colors ${type === 'lists' ? 'bg-white dark:bg-stone-800 text-stone-900 dark:text-white shadow-sm' : 'text-stone-500 hover:text-stone-700 dark:hover:text-stone-300'}`}
+                className={`flex-1 py-2 text-sm font-medium rounded-md transition-colors ${type === 'lists' ? 'bg-slate-800 bg-stone-800 text-stone-900 text-white shadow-sm' : 'text-stone-500 hover:text-stone-700 hover:text-stone-300'}`}
               >
                 Lists
               </button>
@@ -107,30 +107,30 @@ export function LoremIpsumGenerator() {
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-stone-700 dark:text-stone-300 mb-2">Count</label>
+            <label className="block text-sm font-semibold text-stone-700 text-stone-300 mb-2">Count</label>
             <div className="flex items-center">
               <button 
                 onClick={() => setCount(Math.max(1, count - 1))}
-                className="w-10 h-10 flex items-center justify-center bg-stone-100 dark:bg-stone-900 text-stone-600 dark:text-stone-400 rounded-l-lg hover:bg-stone-200 dark:hover:bg-stone-800 transition-colors"
+                className="w-10 h-10 flex items-center justify-center bg-stone-100 bg-stone-900 text-stone-600 text-stone-400 rounded-l-lg hover:bg-stone-200 hover:bg-stone-800 transition-colors"
               >
-                <Minus className="w-5 h-5" />
+                <Minus className="w-5 h-5 text-purple-500" />
               </button>
               <input 
                 type="number" 
                 value={count} 
                 onChange={(e) => setCount(Math.max(1, parseInt(e.target.value) || 1))}
-                className="h-10 w-24 text-center border-y border-stone-100 dark:border-stone-900 bg-stone-50 dark:bg-stone-950 font-medium focus:outline-none"
+                className="h-10 w-24 text-center border-y border-stone-100 border-stone-900 bg-stone-50 bg-stone-950 font-medium focus:outline-none"
               />
               <button 
                 onClick={() => setCount(count + 1)}
-                className="w-10 h-10 flex items-center justify-center bg-stone-100 dark:bg-stone-900 text-stone-600 dark:text-stone-400 rounded-r-lg hover:bg-stone-200 dark:hover:bg-stone-800 transition-colors"
+                className="w-10 h-10 flex items-center justify-center bg-stone-100 bg-stone-900 text-stone-600 text-stone-400 rounded-r-lg hover:bg-stone-200 hover:bg-stone-800 transition-colors"
               >
-                <Plus className="w-5 h-5" />
+                <Plus className="w-5 h-5 text-purple-500" />
               </button>
               
               <button 
                 onClick={generate}
-                className="ml-4 px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg shadow-sm transition-colors"
+                className="ml-4 px-6 py-2 bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-lg shadow-sm transition-colors"
               >
                 Generate
               </button>
@@ -142,13 +142,13 @@ export function LoremIpsumGenerator() {
           <div className="absolute top-4 right-4 z-10 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
             <button
               onClick={handleCopy}
-              className="flex items-center gap-2 px-3 py-1.5 bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-md shadow-sm text-sm font-medium hover:bg-stone-50 dark:hover:bg-stone-700 transition-colors"
+              className="flex items-center gap-2 px-3 py-1.5 bg-slate-800 bg-stone-800 border border-stone-200 border-stone-700 rounded-md shadow-sm text-sm font-medium hover:bg-stone-50 hover:bg-stone-700 transition-colors"
             >
               {copied ? <Check className="w-4 h-4 text-emerald-500" /> : <Copy className="w-4 h-4 text-stone-500" />}
               {copied ? "Copied!" : "Copy Text"}
             </button>
           </div>
-          <div className="w-full min-h-[300px] max-h-[500px] overflow-y-auto p-6 bg-stone-50 dark:bg-stone-900/50 rounded-xl border border-stone-200 dark:border-stone-800 text-stone-700 dark:text-stone-300 font-serif leading-relaxed whitespace-pre-wrap select-all">
+          <div className="w-full min-h-[300px] max-h-[500px] overflow-y-auto p-6 bg-stone-50 bg-stone-900/50 rounded-xl border border-stone-200 border-stone-800 text-stone-700 text-stone-300 font-serif leading-relaxed whitespace-pre-wrap select-all">
             {output}
           </div>
         </div>

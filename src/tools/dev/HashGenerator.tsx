@@ -58,18 +58,18 @@ function HashDisplay({ label, value }: { label: string, value: string }) {
   };
 
   return (
-    <div className="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-4 flex flex-col md:flex-row md:items-center group transition-colors">
-      <span className="text-xs font-bold text-slate-400 dark:text-slate-500 w-24 uppercase tracking-wider mb-2 md:mb-0 shrink-0">{label}</span>
-      <div className="font-mono text-sm text-slate-800 dark:text-slate-200 break-all flex-1 select-all font-medium pr-4">
-        {value || <span className="text-slate-300 dark:text-slate-600">Awaiting input...</span>}
+    <div className="bg-slate-900 bg-slate-800 border border-slate-700 border-slate-700 rounded-xl p-4 flex flex-col md:flex-row md:items-center group transition-colors">
+      <span className="text-xs font-bold text-slate-400 text-slate-50 w-24 uppercase tracking-wider mb-2 md:mb-0 shrink-0">{label}</span>
+      <div className="font-mono text-sm text-slate-50 text-slate-50 break-all flex-1 select-all font-medium pr-4">
+        {value || <span className="text-slate-300 text-slate-50">Awaiting input...</span>}
       </div>
       {value && (
         <button 
           onClick={handleCopy}
-          className={`p-2 rounded-lg transition-colors shrink-0 mt-2 md:mt-0 ${copied ? 'text-green-600 bg-green-50 dark:bg-green-900/30' : 'text-slate-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-slate-800'}`}
+          className={`p-2 rounded-lg transition-colors shrink-0 mt-2 md:mt-0 ${copied ? 'text-green-600 bg-green-50 bg-green-900/30' : 'text-slate-400 hover:text-blue-600 hover:bg-blue-50 hover:bg-slate-700'}`}
           title="Copy Hash"
         >
-          {copied ? <Check className="w-5 h-5" /> : <Copy className="w-5 h-5" />}
+          {copied ? <Check className="w-5 h-5 text-purple-500" /> : <Copy className="w-5 h-5 text-purple-500" />}
         </button>
       )}
     </div>

@@ -36,8 +36,8 @@ export function Base64Decoder() {
       />
 
       {error && (
-        <div className="p-4 bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-900/50 rounded-xl flex items-center text-sm font-medium">
-          <AlertCircle className="w-5 h-5 mr-3 shrink-0" /> {error}
+        <div className="p-4 bg-red-50 bg-red-900/20 text-red-700 text-red-400 border border-red-200 border-red-900/50 rounded-xl flex items-center text-sm font-medium">
+          <AlertCircle className="w-5 h-5 mr-3 shrink-0 text-purple-500" /> {error}
         </div>
       )}
 

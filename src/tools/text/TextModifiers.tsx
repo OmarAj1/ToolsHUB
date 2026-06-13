@@ -3,10 +3,17 @@ import { TextToolBase } from "./TextToolBase";
 
 export function RemoveDuplicateLines() {
   const process = (input: string) => {
+    if (!input.trim()) return "Error: Please paste something first.";
     const lines = input.split('\n');
     return Array.from(new Set(lines)).join('\n');
   };
-  return <TextToolBase title="Remove Duplicate Lines" description="Remove all duplicate lines from your text." actionButtonText="Remove Duplicates" onProcess={process} />;
+  return <TextToolBase 
+    title="Remove Duplicate Lines" 
+    description="Remove all duplicate lines from your text." 
+    actionButtonText="Remove Duplicates" 
+    onProcess={process} 
+    exampleData={`apple\nbanana\napple\norange\nbanana\ngrape`}
+  />;
 }
 
 export function SortLines() {
@@ -41,7 +48,7 @@ export function CaseConverter() {
     };
   
     const extraControls = (
-      <select value={mode} onChange={(e) => setMode(e.target.value)} className="px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200">
+      <select value={mode} onChange={(e) => setMode(e.target.value)} className="px-4 py-3 rounded-xl border border-slate-700 border-slate-700 bg-slate-800 bg-slate-800 text-slate-50 text-slate-50">
         <option value="upper">UPPERCASE</option>
         <option value="lower">lowercase</option>
         <option value="title">Title Case</option>

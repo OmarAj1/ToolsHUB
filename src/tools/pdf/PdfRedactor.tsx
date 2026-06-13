@@ -1,8 +1,9 @@
+import { withPdfSafeBoundary } from "../../components/pdf/PdfSafeBoundary";
 import React, { useState } from 'react';
 import { PDFDocument, rgb } from 'pdf-lib';
 import { Upload, Download, EyeOff } from 'lucide-react';
 
-export function PdfRedactor() {
+function PdfRedactorBase() {
   const [file, setFile] = useState<File | null>(null);
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -68,25 +69,25 @@ export function PdfRedactor() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-4 sm:p-6 text-slate-800 dark:text-slate-200">
-       <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 p-4 rounded-xl text-sm mb-8 flex gap-3 text-red-800 dark:text-red-300">
-         <EyeOff className="w-5 h-5 shrink-0" />
+    <div className="max-w-4xl mx-auto p-4 sm:p-6 text-slate-50 text-slate-50">
+       <div className="bg-red-50 bg-red-900/20 border border-red-200 border-red-800 p-4 rounded-xl text-sm mb-8 flex gap-3 text-red-800 text-red-300">
+         <EyeOff className="w-5 h-5 shrink-0 text-purple-500" />
          <div>
            <strong>Blind Redactor (Offline):</strong> Places a solid black box on all pages at the specified height. This destroys the underlying vector text locally in your browser.
          </div>
        </div>
 
        {!file ? (
-         <label className="border-2 border-dashed border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 rounded-2xl h-64 flex flex-col items-center justify-center cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors shadow-sm">
+         <label className="border-2 border-dashed border-slate-700 border-slate-700 bg-slate-800 bg-slate-800 rounded-2xl h-64 flex flex-col items-center justify-center cursor-pointer hover:bg-slate-900 hover:bg-slate-700 transition-colors shadow-sm">
            <input type="file" accept="application/pdf" className="hidden" onChange={handleFileUpload} />
-           <Upload className="w-12 h-12 text-indigo-500 mb-4" />
+           <Upload className="w-12 h-12 text-blue-500 mb-4" />
            <span className="font-bold text-lg">Select PDF to Redact</span>
-           <span className="text-sm text-slate-500 mt-1">100% Offline Processing</span>
+           <span className="text-sm text-slate-400 mt-1">100% Offline Processing</span>
          </label>
        ) : (
          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-           <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 rounded-2xl shadow-sm text-center">
-             <div className="w-full aspect-[1/1.4] bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 relative shadow-inner overflow-hidden flex flex-col">
+           <div className="bg-slate-800 bg-slate-800 border border-slate-700 border-slate-700 p-6 rounded-2xl shadow-sm text-center">
+             <div className="w-full aspect-[1/1.4] bg-slate-800 bg-slate-900 border border-slate-700 border-slate-700 relative shadow-inner overflow-hidden flex flex-col">
                 <span className="mt-4 font-bold opacity-50">{file.name}</span>
                 <span className="text-xs opacity-50">{pageCount} pages</span>
                 
@@ -103,12 +104,12 @@ export function PdfRedactor() {
                    <span className="absolute inset-0 flex items-center justify-center text-red-500 text-[10px] font-black uppercase tracking-widest leading-none">Redacted</span>
                 </div>
              </div>
-             <button onClick={() => { setFile(null); setDownloadUrl(null); }} className="mt-4 text-sm text-slate-500 font-bold hover:underline">
+             <button onClick={() => { setFile(null); setDownloadUrl(null); }} className="mt-4 text-sm text-slate-400 font-bold hover:underline">
                Deselect File
              </button>
            </div>
 
-           <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 rounded-2xl shadow-sm flex flex-col justify-center">
+           <div className="bg-slate-800 bg-slate-800 border border-slate-700 border-slate-700 p-6 rounded-2xl shadow-sm flex flex-col justify-center">
               <h3 className="font-bold text-lg mb-6">Redaction Zone</h3>
               
               <div className="space-y-6">
@@ -125,7 +126,7 @@ export function PdfRedactor() {
               <div className="mt-8">
                  {downloadUrl ? (
                    <a href={downloadUrl} download={`redacted_${file.name}`} className="w-full flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-lg transition-colors">
-                     <Download className="w-5 h-5" /> Download Redacted PDF
+                     <Download className="w-5 h-5 text-purple-500" /> Download Redacted PDF
                    </a>
                  ) : (
                    <button 
@@ -133,7 +134,7 @@ export function PdfRedactor() {
                      disabled={isProcessing}
                      className="w-full flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-lg transition-colors disabled:opacity-50"
                    >
-                     {isProcessing ? <div className="animate-spin w-5 h-5 border-2 border-white border-t-transparent rounded-full"></div> : <EyeOff className="w-5 h-5" />}
+                     {isProcessing ? <div className="animate-spin w-5 h-5 border-2 border-white border-t-transparent rounded-full"></div> : <EyeOff className="w-5 h-5 text-purple-500" />}
                      Apply Redaction
                    </button>
                  )}
@@ -144,3 +145,5 @@ export function PdfRedactor() {
     </div>
   );
 }
+
+export const PdfRedactor = withPdfSafeBoundary(PdfRedactorBase);

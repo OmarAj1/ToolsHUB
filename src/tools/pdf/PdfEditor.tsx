@@ -1,3 +1,4 @@
+import { withPdfSafeBoundary } from "../../components/pdf/PdfSafeBoundary";
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import { Upload, Download, PenTool, Type, MousePointer, Trash2, ArrowUp, ArrowDown, RotateCw, Loader2, FileSignature, Move } from "lucide-react";
 import * as pdfjsLib from "pdfjs-dist";
@@ -55,7 +56,7 @@ type Annotation = TextAnn | DrawAnn | ImageAnn;
 const colors = ["#000000", "#dc2626", "#2563eb", "#16a34a", "#d97706", "#94a3b8", "#ffffff"];
 const fontSizes = [10, 12, 14, 16, 18, 20, 24, 32, 48, 64];
 
-export function PdfEditor() {
+function PdfEditorBase() {
   const [file, setFile] = useState<File | null>(null);
   const [fileBytes, setFileBytes] = useState<Uint8Array | null>(null);
   const [pdfDocProxy, setPdfDocProxy] = useState<any>(null);
@@ -247,13 +248,13 @@ export function PdfEditor() {
   // Initial State Screen
   if (!file || !pdfDocProxy) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[600px] bg-slate-50 dark:bg-slate-900 border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl p-8">
-        <Upload className="w-16 h-16 text-indigo-500 mb-6" />
-        <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-100 mb-2">Advanced PDF Editor</h2>
-        <p className="text-slate-500 dark:text-slate-400 mb-8 max-w-md text-center">
+      <div className="flex flex-col items-center justify-center min-h-[600px] bg-slate-900 bg-slate-800 border-2 border-dashed border-slate-700 border-slate-700 rounded-xl p-8">
+        <Upload className="w-16 h-16 text-blue-500 mb-6" />
+        <h2 className="text-2xl font-bold text-slate-50 text-slate-50 mb-2">Advanced PDF Editor</h2>
+        <p className="text-slate-400 text-slate-50 mb-8 max-w-md text-center">
            Add text, digitally sign, reorder pages, and fill forms. Everything runs 100% locally in your browser to process your documents securely.
         </p>
-        <label className="cursor-pointer bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-3 rounded-xl font-medium transition-colors shadow-lg">
+        <label className="cursor-pointer bg-blue-500 hover:bg-blue-600 text-white px-8 py-3 rounded-xl font-medium transition-colors shadow-lg">
           {isLoading ? "Loading..." : "Select PDF Document"}
           <input type="file" className="hidden" accept="application/pdf" onChange={handleFileUpload} disabled={isLoading} />
         </label>
@@ -263,32 +264,32 @@ export function PdfEditor() {
   }
 
   return (
-    <div className="flex flex-col h-[800px] border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden bg-slate-100 dark:bg-slate-900/50 shadow-sm">
+    <div className="flex flex-col h-[800px] border border-slate-700 border-slate-700 rounded-xl overflow-hidden bg-slate-800 bg-slate-800/50 shadow-sm">
       
       {/* Top Toolbar */}
-      <div className="h-16 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 flex items-center justify-between px-4 shrink-0">
+      <div className="h-16 border-b border-slate-700 border-slate-700 bg-slate-800 bg-slate-800 flex items-center justify-between px-4 shrink-0">
          <div className="flex items-center gap-2">
-            <div className="flex bg-slate-100 dark:bg-slate-800 p-1 rounded-lg">
+            <div className="flex bg-slate-800 bg-slate-800 p-1 rounded-lg">
                 <button 
                   onClick={() => setActiveTool("select")}
-                  className={`p-2 rounded-md transition-colors ${activeTool === 'select' ? 'bg-white shadow dark:bg-slate-700 text-indigo-600' : 'text-slate-600 hover:bg-slate-200 dark:hover:bg-slate-700'}`}
+                  className={`p-2 rounded-md transition-colors ${activeTool === 'select' ? 'bg-slate-800 shadow bg-slate-800 text-blue-600' : 'text-slate-50 hover:bg-slate-200 hover:bg-slate-700'}`}
                   title="Select & Move Objects"
                 >
-                    <MousePointer className="w-5 h-5" />
+                    <MousePointer className="w-5 h-5 text-purple-500" />
                 </button>
                 <button 
                   onClick={() => { setActiveTool("text"); setSelectedAnnId(null); }}
-                  className={`p-2 rounded-md transition-colors ${activeTool === 'text' ? 'bg-white shadow dark:bg-slate-700 text-indigo-600' : 'text-slate-600 hover:bg-slate-200 dark:hover:bg-slate-700'}`}
+                  className={`p-2 rounded-md transition-colors ${activeTool === 'text' ? 'bg-slate-800 shadow bg-slate-800 text-blue-600' : 'text-slate-50 hover:bg-slate-200 hover:bg-slate-700'}`}
                   title="Add Text"
                 >
-                    <Type className="w-5 h-5" />
+                    <Type className="w-5 h-5 text-purple-500" />
                 </button>
                 <button 
                   onClick={() => { setActiveTool("draw"); setSelectedAnnId(null); }}
-                  className={`p-2 rounded-md transition-colors ${activeTool === 'draw' ? 'bg-white shadow dark:bg-slate-700 text-indigo-600' : 'text-slate-600 hover:bg-slate-200 dark:hover:bg-slate-700'}`}
+                  className={`p-2 rounded-md transition-colors ${activeTool === 'draw' ? 'bg-slate-800 shadow bg-slate-800 text-blue-600' : 'text-slate-50 hover:bg-slate-200 hover:bg-slate-700'}`}
                   title="Freehand Draw"
                 >
-                    <PenTool className="w-5 h-5" />
+                    <PenTool className="w-5 h-5 text-purple-500" />
                 </button>
                 <button 
                   onClick={() => { 
@@ -299,14 +300,14 @@ export function PdfEditor() {
                         setActiveTool("sign");
                      }
                   }}
-                  className={`p-2 rounded-md transition-colors ${activeTool === 'sign' ? 'bg-white shadow dark:bg-slate-700 text-indigo-600' : 'text-slate-600 hover:bg-slate-200 dark:hover:bg-slate-700'}`}
+                  className={`p-2 rounded-md transition-colors ${activeTool === 'sign' ? 'bg-slate-800 shadow bg-slate-800 text-blue-600' : 'text-slate-50 hover:bg-slate-200 hover:bg-slate-700'}`}
                   title="Sign Document"
                 >
-                    <FileSignature className="w-5 h-5" />
+                    <FileSignature className="w-5 h-5 text-purple-500" />
                 </button>
             </div>
 
-            <div className="w-px h-8 bg-slate-300 dark:bg-slate-700 mx-2" />
+            <div className="w-px h-8 bg-slate-300 bg-slate-800 mx-2" />
 
             {/* Colors */}
             <div className="flex items-center gap-1.5">
@@ -317,18 +318,18 @@ export function PdfEditor() {
                          setActiveColor(c); 
                          if (selectedAnnId) handleUpdateAnn(selectedAnnId, { color: c });
                      }}
-                     className={`w-6 h-6 rounded-full border-2 transition-transform ${activeColor === c ? 'scale-125 border-indigo-500 shadow-sm' : 'border-slate-300 dark:border-slate-600 hover:scale-110'}`}
+                     className={`w-6 h-6 rounded-full border-2 transition-transform ${activeColor === c ? 'scale-125 border-blue-500 shadow-sm' : 'border-slate-700 border-slate-700 hover:scale-110'}`}
                      style={{ backgroundColor: c }}
                    />
                ))}
             </div>
 
-            <div className="w-px h-8 bg-slate-300 dark:bg-slate-700 mx-2" />
+            <div className="w-px h-8 bg-slate-300 bg-slate-800 mx-2" />
 
             {/* Typography */}
             <div className="flex items-center gap-2">
                <select 
-                 className="h-9 px-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm font-medium focus:ring-2 focus:ring-indigo-500 outline-none"
+                 className="h-9 px-2 rounded-lg border border-slate-700 border-slate-700 bg-slate-800 bg-slate-800 text-sm font-medium focus:ring-2 focus:ring-blue-500 outline-none"
                  value={activeFontSize}
                  onChange={(e) => {
                     const size = Number(e.target.value);
@@ -352,16 +353,16 @@ export function PdfEditor() {
              </button>
              <button
                onClick={() => setFile(null)}
-               className="text-sm font-medium text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"
+               className="text-sm font-medium text-slate-400 hover:text-slate-50 hover:text-slate-200"
              >
                Close
              </button>
              <button
                onClick={handleExport}
                disabled={isExporting || pages.length === 0}
-               className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white px-5 py-2 rounded-lg font-semibold transition-colors shadow"
+               className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 disabled:opacity-50 text-white px-5 py-2 rounded-lg font-semibold transition-colors shadow"
              >
-               {isExporting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
+               {isExporting ? <Loader2 className="w-4 h-4 animate-spin text-purple-500" /> : <Download className="w-4 h-4 text-purple-500" />}
                Save PDF
              </button>
          </div>
@@ -369,38 +370,38 @@ export function PdfEditor() {
 
       <div className="flex-1 flex overflow-hidden">
           {/* Sidebar - Pages Management */}
-          <div className="w-56 shrink-0 border-r border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 flex flex-col pt-4 overflow-y-auto">
-             <div className="px-4 pb-2 text-xs font-bold text-slate-400 uppercase tracking-wider sticky top-0 bg-slate-50 dark:bg-slate-900 z-10">Pages</div>
+          <div className="w-56 shrink-0 border-r border-slate-700 border-slate-700 bg-slate-900 bg-slate-800 flex flex-col pt-4 overflow-y-auto">
+             <div className="px-4 pb-2 text-xs font-bold text-slate-400 uppercase tracking-wider sticky top-0 bg-slate-900 bg-slate-800 z-10">Pages</div>
              <div className="flex flex-col gap-3 px-4 pb-12 pt-2">
                  {pages.map((p, idx) => (
                     <div key={p.id} className="relative group">
                        <div 
                          onClick={() => setActivePageIndex(idx)} 
-                         className={`w-full relative aspect-[1/1.4] bg-white dark:bg-slate-800 border-2 flex items-center justify-center text-slate-300 transition-all cursor-pointer rounded-sm overflow-hidden ${activePageIndex === idx ? 'border-indigo-500 shadow-md ring-2 ring-indigo-500/20' : 'border-slate-200 dark:border-slate-700 hover:border-slate-400'}`}
+                         className={`w-full relative aspect-[1/1.4] bg-slate-800 bg-slate-800 border-2 flex items-center justify-center text-slate-300 transition-all cursor-pointer rounded-sm overflow-hidden ${activePageIndex === idx ? 'border-blue-500 shadow-md ring-2 ring-blue-500/20' : 'border-slate-700 border-slate-700 hover:border-slate-700'}`}
                        >
                           <ThumbnailRenderer pdfDoc={pdfDocProxy} originalIndex={p.originalIndex} rotation={p.rotation} />
                           <span className="absolute top-1 right-1 bg-slate-900/60 text-white text-[10px] px-1.5 py-0.5 rounded shadow group-hover:opacity-0 transition-opacity">{idx + 1}</span>
-                          {p.rotation !== 0 && <RotateCw className="absolute top-1 left-1 w-4 h-4 text-slate-800 dark:text-slate-200 bg-white/80 rounded" />}
+                          {p.rotation !== 0 && <RotateCw className="absolute top-1 left-1 w-4 h-4 text-slate-50 text-slate-50 bg-slate-800/80 rounded" />}
                        </div>
                        
                        {/* Floating Actions on Hover */}
                        <div className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col gap-1 z-20 shadow-sm pointer-events-none group-hover:pointer-events-auto">
-                          <button onClick={(e) => { e.stopPropagation(); rotatePage(p.id) }} className="p-1 bg-white/90 border border-slate-200 rounded hover:bg-slate-50 text-slate-600 shadow-sm"><RotateCw className="w-3.5 h-3.5" /></button>
-                          <button onClick={(e) => { e.stopPropagation(); deletePage(p.id) }} disabled={pages.length <= 1} className="p-1 bg-white/90 border border-slate-200 rounded hover:bg-red-50 text-red-500 disabled:opacity-50 shadow-sm"><Trash2 className="w-3.5 h-3.5" /></button>
-                          <button onClick={(e) => { e.stopPropagation(); movePage(idx, -1) }} disabled={idx === 0} className="p-1 bg-white/90 border border-slate-200 rounded hover:bg-slate-50 text-slate-600 disabled:opacity-50 shadow-sm"><ArrowUp className="w-3.5 h-3.5" /></button>
-                          <button onClick={(e) => { e.stopPropagation(); movePage(idx, 1) }} disabled={idx === pages.length - 1} className="p-1 bg-white/90 border border-slate-200 rounded hover:bg-slate-50 text-slate-600 disabled:opacity-50 shadow-sm"><ArrowDown className="w-3.5 h-3.5" /></button>
+                          <button onClick={(e) => { e.stopPropagation(); rotatePage(p.id) }} className="p-1 bg-slate-800/90 border border-slate-700 rounded hover:bg-slate-900 text-slate-50 shadow-sm"><RotateCw className="w-3.5 h-3.5" /></button>
+                          <button onClick={(e) => { e.stopPropagation(); deletePage(p.id) }} disabled={pages.length <= 1} className="p-1 bg-slate-800/90 border border-slate-700 rounded hover:bg-red-50 text-red-500 disabled:opacity-50 shadow-sm"><Trash2 className="w-3.5 h-3.5" /></button>
+                          <button onClick={(e) => { e.stopPropagation(); movePage(idx, -1) }} disabled={idx === 0} className="p-1 bg-slate-800/90 border border-slate-700 rounded hover:bg-slate-900 text-slate-50 disabled:opacity-50 shadow-sm"><ArrowUp className="w-3.5 h-3.5" /></button>
+                          <button onClick={(e) => { e.stopPropagation(); movePage(idx, 1) }} disabled={idx === pages.length - 1} className="p-1 bg-slate-800/90 border border-slate-700 rounded hover:bg-slate-900 text-slate-50 disabled:opacity-50 shadow-sm"><ArrowDown className="w-3.5 h-3.5" /></button>
                        </div>
                     </div>
                  ))}
                  {pages.length === 0 && (
-                     <div className="text-slate-500 text-sm italic text-center py-4">No pages left.</div>
+                     <div className="text-slate-400 text-sm italic text-center py-4">No pages left.</div>
                  )}
              </div>
           </div>
 
           {/* Main Viewer */}
           <div 
-              className="flex-1 bg-slate-200/50 dark:bg-slate-950 overflow-auto relative p-8 flex justify-center custom-scrollbar" 
+              className="flex-1 bg-slate-200/50 bg-slate-900 overflow-auto relative p-8 flex justify-center custom-scrollbar" 
               onPointerDown={(e) => {
                  if (e.target === e.currentTarget) {
                     setSelectedAnnId(null);
@@ -496,17 +497,17 @@ const SignatureModal = ({ onClose, onSave }: { onClose: () => void, onSave: (dat
 
     return (
         <div className="fixed inset-0 bg-slate-900/50 z-50 flex items-center justify-center p-4">
-            <div className="bg-white dark:bg-slate-900 rounded-xl shadow-xl w-full max-w-lg overflow-hidden flex flex-col">
-                <div className="p-4 border-b dark:border-slate-800 flex justify-between items-center">
+            <div className="bg-slate-800 bg-slate-800 rounded-xl shadow-xl w-full max-w-lg overflow-hidden flex flex-col">
+                <div className="p-4 border-b border-slate-700 flex justify-between items-center">
                     <h3 className="font-bold">Create Signature</h3>
-                    <button onClick={onClose} className="text-slate-500 hover:text-slate-800">Close</button>
+                    <button onClick={onClose} className="text-slate-400 hover:text-slate-50">Close</button>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-slate-800/50">
+                <div className="p-4 bg-slate-900 bg-slate-800/50">
                     <canvas 
                         ref={canvasRef}
                         width={400}
                         height={200}
-                        className="bg-white border dark:border-slate-700 rounded-lg w-full cursor-crosshair touch-none"
+                        className="bg-slate-800 border border-slate-700 rounded-lg w-full cursor-crosshair touch-none"
                         onContextMenu={(e) => e.preventDefault()}
                         onDragStart={(e) => e.preventDefault()}
                         onPointerDown={onPointerDown}
@@ -515,18 +516,18 @@ const SignatureModal = ({ onClose, onSave }: { onClose: () => void, onSave: (dat
                         onPointerCancel={onPointerUp}
                     />
                 </div>
-                <div className="p-4 flex justify-between border-t dark:border-slate-800">
+                <div className="p-4 flex justify-between border-t border-slate-700">
                     <button onClick={() => {
                         const canvas = canvasRef.current;
                         if (!canvas) return;
                         const ctx = canvas.getContext('2d');
                         if (ctx) ctx.clearRect(0,0,400,200);
-                    }} className="text-slate-600 hover:text-slate-900">Clear</button>
+                    }} className="text-slate-50 hover:text-slate-50">Clear</button>
                     <button onClick={() => {
                         const canvas = canvasRef.current;
                         if (!canvas) return;
                         onSave(canvas.toDataURL('image/png'));
-                    }} className="bg-indigo-600 text-white px-4 py-2 rounded-lg font-medium">Save & Use</button>
+                    }} className="bg-blue-500 text-white px-4 py-2 rounded-lg font-medium">Save & Use</button>
                 </div>
             </div>
         </div>
@@ -576,7 +577,7 @@ const PdfPageRenderer = ({ pdfDoc, originalIndex, rotation, renderScale }: any) 
     }
   }, [pdfDoc, originalIndex, rotation, renderScale]);
 
-  return <canvas ref={canvasRef} className="block shadow-xl bg-white select-none" />;
+  return <canvas ref={canvasRef} className="block shadow-xl bg-slate-800 select-none" />;
 };
 
 const ThumbnailRenderer = ({ pdfDoc, originalIndex, rotation }: any) => {
@@ -651,26 +652,26 @@ const DraggableText = ({ ann, scale, isSelected, onSelect, onUpdate, onRemove }:
 
   return (
     <div 
-      className={`absolute select-none ${isSelected ? 'ring-2 ring-indigo-500 bg-indigo-50/20 z-30' : 'hover:ring-1 hover:ring-slate-400/50 z-20'}`}
+      className={`absolute select-none ${isSelected ? 'ring-2 ring-blue-500 bg-blue-50/20 z-30' : 'hover:ring-1 hover:ring-slate-400/50 z-20'}`}
       style={{ left: ann.x * scale, top: ann.y * scale }}
       onPointerDown={(e) => { e.stopPropagation(); onSelect(); }}
     >
       {isSelected && (
         <div 
-           className="absolute -top-3 -left-3 w-6 h-6 bg-white border border-slate-300 rounded-full shadow flex items-center justify-center cursor-move text-slate-400 hover:text-indigo-600 hover:border-indigo-400 hover:bg-slate-50 z-40 transition-colors"
+           className="absolute -top-3 -left-3 w-6 h-6 bg-slate-800 border border-slate-700 rounded-full shadow flex items-center justify-center cursor-move text-slate-400 hover:text-blue-600 hover:border-blue-400 hover:bg-slate-900 z-40 transition-colors"
            onPointerDown={handlePointerDown}
            onPointerMove={handlePointerMove}
            onPointerUp={handlePointerUp}
            onPointerCancel={handlePointerUp}
         >
-           <Move className="w-3 h-3" />
+           <Move className="w-3 h-3 text-purple-500" />
         </div>
       )}
       
       {isSelected && (
-           <div className="absolute -top-12 left-0 flex bg-white shadow-xl rounded-lg p-1 gap-1 z-40 border border-slate-200">
+           <div className="absolute -top-12 left-0 flex bg-slate-800 shadow-xl rounded-lg p-1 gap-1 z-40 border border-slate-700">
                <button className="p-1.5 hover:bg-red-50 rounded-md text-red-500 transition-colors" onClick={(e) => { e.stopPropagation(); onRemove(); }} title="Delete Text">
-                 <Trash2 className="w-4 h-4"/>
+                 <Trash2 className="w-4 h-4 text-purple-500"/>
                </button>
            </div>
       )}
@@ -741,26 +742,26 @@ const DraggableImage = ({ ann, scale, isSelected, onSelect, onUpdate, onRemove }
 
   return (
     <div 
-      className={`absolute select-none ${isSelected ? 'ring-2 ring-indigo-500 bg-indigo-50/20 z-30' : 'hover:ring-1 hover:ring-slate-400/50 z-20'}`}
+      className={`absolute select-none ${isSelected ? 'ring-2 ring-blue-500 bg-blue-50/20 z-30' : 'hover:ring-1 hover:ring-slate-400/50 z-20'}`}
       style={{ left: ann.x * scale, top: ann.y * scale, width: ann.width * scale, height: ann.height * scale }}
       onPointerDown={(e) => { e.stopPropagation(); onSelect(); }}
     >
       {isSelected && (
         <div 
-           className="absolute -top-3 -left-3 w-6 h-6 bg-white border border-slate-300 rounded-full shadow flex items-center justify-center cursor-move text-slate-400 hover:text-indigo-600 hover:border-indigo-400 hover:bg-slate-50 z-40 transition-colors"
+           className="absolute -top-3 -left-3 w-6 h-6 bg-slate-800 border border-slate-700 rounded-full shadow flex items-center justify-center cursor-move text-slate-400 hover:text-blue-600 hover:border-blue-400 hover:bg-slate-900 z-40 transition-colors"
            onPointerDown={handlePointerDown}
            onPointerMove={handlePointerMove}
            onPointerUp={handlePointerUp}
            onPointerCancel={handlePointerUp}
         >
-           <Move className="w-3 h-3" />
+           <Move className="w-3 h-3 text-purple-500" />
         </div>
       )}
       
       {isSelected && (
-           <div className="absolute -top-12 left-0 flex bg-white shadow-xl rounded-lg p-1 gap-1 z-40 border border-slate-200">
+           <div className="absolute -top-12 left-0 flex bg-slate-800 shadow-xl rounded-lg p-1 gap-1 z-40 border border-slate-700">
                <button className="p-1.5 hover:bg-red-50 rounded-md text-red-500 transition-colors" onClick={(e) => { e.stopPropagation(); onRemove(); }} title="Delete Image">
-                 <Trash2 className="w-4 h-4"/>
+                 <Trash2 className="w-4 h-4 text-purple-500"/>
                </button>
            </div>
       )}
@@ -911,3 +912,5 @@ const AnnotationsOverlay = ({
     </div>
   )
 }
+
+export const PdfEditor = withPdfSafeBoundary(PdfEditorBase);

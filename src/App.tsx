@@ -4,7 +4,6 @@ import { HelmetProvider } from "react-helmet-async";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import { Layout } from "./components/layout/Layout";
 import { ToolLayout } from "./components/layout/ToolLayout";
-import { DebugPanel } from "./components/DebugPanel";
 
 // Pages
 import { Home } from "./pages/Home";
@@ -71,6 +70,56 @@ const NoteFormatter = lazy(() => import("./tools/student/Formatters").then(m => 
 
 // PDF Tools
 const MergePdf = lazy(() => import("./tools/pdf/MergePdf").then(m => ({ default: m.MergePdf })));
+const ColorPicker = lazy(() => import("./tools/design/ColorPicker").then(m => ({ default: m.ColorPicker })));
+const SplitPdf = lazy(() => import("./tools/pdf/PdfAdvanced").then(m => ({ default: m.SplitPdf })));
+const CompressPdf = lazy(() => import("./tools/pdf/PdfConverters").then(m => ({ default: m.CompressPdf })));
+const RotatePdf = lazy(() => import("./tools/pdf/PdfModifiers1").then(m => ({ default: m.RotatePdf })));
+const ReorderPdf = lazy(() => import("./tools/pdf/PdfModifiers2").then(m => ({ default: m.ReorderPdf })));
+const ExtractPagesPdf = lazy(() => import("./tools/pdf/PdfModifiers1").then(m => ({ default: m.ExtractPagesPdf })));
+const DeletePagesPdf = lazy(() => import("./tools/pdf/PdfModifiers1").then(m => ({ default: m.DeletePagesPdf })));
+const AddWatermarkPdf = lazy(() => import("./tools/pdf/PdfModifiers2").then(m => ({ default: m.AddWatermarkPdf })));
+const AddPageNumbersPdf = lazy(() => import("./tools/pdf/PdfModifiers2").then(m => ({ default: m.AddPageNumbersPdf })));
+const ProtectPdf = lazy(() => import("./tools/pdf/PdfConverters").then(m => ({ default: m.ProtectPdf })));
+const UnlockPdf = lazy(() => import("./tools/pdf/PdfConverters").then(m => ({ default: m.UnlockPdf })));
+const PdfToJpg = lazy(() => import("./tools/pdf/PdfConverters").then(m => ({ default: m.PdfToJpg })));
+const JpgToPdf = lazy(() => import("./tools/pdf/PdfConverters").then(m => ({ default: m.JpgToPdf })));
+const PngToPdf = lazy(() => import("./tools/pdf/PdfConverters").then(m => ({ default: m.PngToPdf })));
+const PdfToPng = lazy(() => import("./tools/pdf/PdfConverters").then(m => ({ default: m.PdfToPng })));
+const PdfToText = lazy(() => import("./tools/pdf/PdfConverters").then(m => ({ default: m.PdfToText })));
+const PdfMetadataViewer = lazy(() => import("./tools/pdf/PdfAdvanced").then(m => ({ default: m.PdfMetadataViewer })));
+const AlternateMixPdf = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.AlternateMixPdf })));
+const SplitPdfByPages = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.SplitPdfByPages })));
+const SplitPdfByBookmarks = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.SplitPdfByBookmarks })));
+const SplitPdfInHalf = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.SplitPdfInHalf })));
+const SplitPdfBySize = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.SplitPdfBySize })));
+const SplitPdfByText = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.SplitPdfByText })));
+const EditPdf = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.EditPdf })));
+const FillSignPdf = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.FillSignPdf })));
+const CreateFormsPdf = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.CreateFormsPdf })));
+const FlattenPdf = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.FlattenPdf })));
+const PdfToExcel = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.PdfToExcel })));
+const PdfToPpt = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.PdfToPpt })));
+const PdfToWord = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.PdfToWord })));
+const HtmlToPdf = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.HtmlToPdf })));
+const WordToPdf = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.WordToPdf })));
+const BatesNumbering = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.BatesNumbering })));
+const CreateBookmarksPdf = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.CreateBookmarksPdf })));
+const CropPdf = lazy(() => import("./tools/pdf/CropPdf").then(m => ({ default: m.CropPdf })));
+const ExtractImagesPdf = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.ExtractImagesPdf })));
+const GrayscalePdf = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.GrayscalePdf })));
+const HeaderFooterPdf = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.HeaderFooterPdf })));
+const NUpPdf = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.NUpPdf })));
+const RenamePdf = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.RenamePdf })));
+const RepairPdf = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.RepairPdf })));
+const ResizePdf = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.ResizePdf })));
+const RemoveAnnotationsPdf = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.RemoveAnnotationsPdf })));
+const DeskewPdf = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.DeskewPdf })));
+const OcrPdf = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.OcrPdf })));
+const AutomatePdf = lazy(() => import("./tools/pdf/PdfPlaceholders").then(m => ({ default: m.AutomatePdf })));
+const PdfMetadataEditor = lazy(() => import("./tools/pdf/PdfMetadataEditor").then(m => ({ default: m.PdfMetadataEditor })));
+const PdfRedactor = lazy(() => import("./tools/pdf/PdfRedactor").then(m => ({ default: m.PdfRedactor })));
+const ComparePdfs = lazy(() => import("./tools/pdf/ComparePdfs").then(m => ({ default: m.ComparePdfs })));
+const PdfEditor = lazy(() => import("./tools/pdf/PdfEditor").then(m => ({ default: m.PdfEditor })));
 
 // Creator & Gaming
 const YoutubeTitleChecker = lazy(() => import("./tools/creator/CreatorTools").then(m => ({ default: m.YoutubeTitleChecker })));
@@ -102,6 +151,7 @@ const ReactionTimeTester = lazy(() => import("./tools/gaming/ReactionTimeTester"
 const PomodoroTimer = lazy(() => import("./tools/productivity/PomodoroTimer").then(m => ({ default: m.PomodoroTimer })));
 const SynonymSwapper = lazy(() => import("./tools/education/SynonymSwapper").then(m => ({ default: m.SynonymSwapper })));
 const InteractiveFlashcards = lazy(() => import("./tools/education/InteractiveFlashcards").then(m => ({ default: m.InteractiveFlashcards })));
+const UnitConverters = lazy(() => import("./tools/student/UnitConverters").then(m => ({ default: m.UnitConverters })));
 
 const LocalInvoiceGenerator = lazy(() => import("./tools/business/LocalInvoiceGenerator").then(m => ({ default: m.LocalInvoiceGenerator })));
 const QrBarcodeGenerator = lazy(() => import("./tools/business/QrBarcodeGenerator").then(m => ({ default: m.QrBarcodeGenerator })));
@@ -145,9 +195,9 @@ export default function App() {
     <Router>
       <ErrorBoundary>
         <Suspense fallback={
-        <div className="flex h-screen w-full items-center justify-center text-slate-500 font-medium">
+        <div className="flex h-screen w-full items-center justify-center text-slate-400 font-medium">
           <div className="flex items-center gap-2">
-            <svg className="animate-spin h-5 w-5 text-indigo-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+            <svg className="animate-spin h-5 w-5 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
             Loading toolkit...
           </div>
         </div>
@@ -217,6 +267,56 @@ export default function App() {
 
           {/* PDF Routes */}
           <Route path="tool/merge-pdf" element={<ToolLayout toolId="merge-pdf"><MergePdf /></ToolLayout>} />
+          <Route path="tool/color-picker" element={<ToolLayout toolId="color-picker"><ColorPicker /></ToolLayout>} />
+          <Route path="tool/split-pdf" element={<ToolLayout toolId="split-pdf"><SplitPdf /></ToolLayout>} />
+          <Route path="tool/compress-pdf" element={<ToolLayout toolId="compress-pdf"><CompressPdf /></ToolLayout>} />
+          <Route path="tool/rotate-pdf" element={<ToolLayout toolId="rotate-pdf"><RotatePdf /></ToolLayout>} />
+          <Route path="tool/reorder-pdf" element={<ToolLayout toolId="reorder-pdf"><ReorderPdf /></ToolLayout>} />
+          <Route path="tool/extract-pdf" element={<ToolLayout toolId="extract-pdf"><ExtractPagesPdf /></ToolLayout>} />
+          <Route path="tool/delete-pdf" element={<ToolLayout toolId="delete-pdf"><DeletePagesPdf /></ToolLayout>} />
+          <Route path="tool/watermark-pdf" element={<ToolLayout toolId="watermark-pdf"><AddWatermarkPdf /></ToolLayout>} />
+          <Route path="tool/page-numbers-pdf" element={<ToolLayout toolId="page-numbers-pdf"><AddPageNumbersPdf /></ToolLayout>} />
+          <Route path="tool/protect-pdf" element={<ToolLayout toolId="protect-pdf"><ProtectPdf /></ToolLayout>} />
+          <Route path="tool/unlock-pdf" element={<ToolLayout toolId="unlock-pdf"><UnlockPdf /></ToolLayout>} />
+          <Route path="tool/pdf-to-jpg" element={<ToolLayout toolId="pdf-to-jpg"><PdfToJpg /></ToolLayout>} />
+          <Route path="tool/jpg-to-pdf" element={<ToolLayout toolId="jpg-to-pdf"><JpgToPdf /></ToolLayout>} />
+          <Route path="tool/png-to-pdf" element={<ToolLayout toolId="png-to-pdf"><PngToPdf /></ToolLayout>} />
+          <Route path="tool/pdf-to-png" element={<ToolLayout toolId="pdf-to-png"><PdfToPng /></ToolLayout>} />
+          <Route path="tool/pdf-to-text" element={<ToolLayout toolId="pdf-to-text"><PdfToText /></ToolLayout>} />
+          <Route path="tool/pdf-metadata" element={<ToolLayout toolId="pdf-metadata"><PdfMetadataViewer /></ToolLayout>} />
+          <Route path="tool/alternate-mix-pdf" element={<ToolLayout toolId="alternate-mix-pdf"><AlternateMixPdf /></ToolLayout>} />
+          <Route path="tool/split-by-pages" element={<ToolLayout toolId="split-by-pages"><SplitPdfByPages /></ToolLayout>} />
+          <Route path="tool/split-by-bookmarks" element={<ToolLayout toolId="split-by-bookmarks"><SplitPdfByBookmarks /></ToolLayout>} />
+          <Route path="tool/split-in-half" element={<ToolLayout toolId="split-in-half"><SplitPdfInHalf /></ToolLayout>} />
+          <Route path="tool/split-by-size" element={<ToolLayout toolId="split-by-size"><SplitPdfBySize /></ToolLayout>} />
+          <Route path="tool/split-by-text" element={<ToolLayout toolId="split-by-text"><SplitPdfByText /></ToolLayout>} />
+          <Route path="tool/edit-pdf" element={<ToolLayout toolId="edit-pdf"><EditPdf /></ToolLayout>} />
+          <Route path="tool/fill-sign-pdf" element={<ToolLayout toolId="fill-sign-pdf"><FillSignPdf /></ToolLayout>} />
+          <Route path="tool/create-forms-pdf" element={<ToolLayout toolId="create-forms-pdf"><CreateFormsPdf /></ToolLayout>} />
+          <Route path="tool/flatten-pdf" element={<ToolLayout toolId="flatten-pdf"><FlattenPdf /></ToolLayout>} />
+          <Route path="tool/pdf-to-excel" element={<ToolLayout toolId="pdf-to-excel"><PdfToExcel /></ToolLayout>} />
+          <Route path="tool/pdf-to-ppt" element={<ToolLayout toolId="pdf-to-ppt"><PdfToPpt /></ToolLayout>} />
+          <Route path="tool/pdf-to-word" element={<ToolLayout toolId="pdf-to-word"><PdfToWord /></ToolLayout>} />
+          <Route path="tool/html-to-pdf" element={<ToolLayout toolId="html-to-pdf"><HtmlToPdf /></ToolLayout>} />
+          <Route path="tool/word-to-pdf" element={<ToolLayout toolId="word-to-pdf"><WordToPdf /></ToolLayout>} />
+          <Route path="tool/bates-numbering" element={<ToolLayout toolId="bates-numbering"><BatesNumbering /></ToolLayout>} />
+          <Route path="tool/create-bookmarks" element={<ToolLayout toolId="create-bookmarks"><CreateBookmarksPdf /></ToolLayout>} />
+          <Route path="tool/crop-pdf" element={<ToolLayout toolId="crop-pdf"><CropPdf /></ToolLayout>} />
+          <Route path="tool/extract-images-pdf" element={<ToolLayout toolId="extract-images-pdf"><ExtractImagesPdf /></ToolLayout>} />
+          <Route path="tool/grayscale-pdf" element={<ToolLayout toolId="grayscale-pdf"><GrayscalePdf /></ToolLayout>} />
+          <Route path="tool/header-footer-pdf" element={<ToolLayout toolId="header-footer-pdf"><HeaderFooterPdf /></ToolLayout>} />
+          <Route path="tool/n-up-pdf" element={<ToolLayout toolId="n-up-pdf"><NUpPdf /></ToolLayout>} />
+          <Route path="tool/rename-pdf" element={<ToolLayout toolId="rename-pdf"><RenamePdf /></ToolLayout>} />
+          <Route path="tool/repair-pdf" element={<ToolLayout toolId="repair-pdf"><RepairPdf /></ToolLayout>} />
+          <Route path="tool/resize-pdf" element={<ToolLayout toolId="resize-pdf"><ResizePdf /></ToolLayout>} />
+          <Route path="tool/remove-annotations-pdf" element={<ToolLayout toolId="remove-annotations-pdf"><RemoveAnnotationsPdf /></ToolLayout>} />
+          <Route path="tool/deskew-pdf" element={<ToolLayout toolId="deskew-pdf"><DeskewPdf /></ToolLayout>} />
+          <Route path="tool/ocr-pdf" element={<ToolLayout toolId="ocr-pdf"><OcrPdf /></ToolLayout>} />
+          <Route path="tool/automate-pdf" element={<ToolLayout toolId="automate-pdf"><AutomatePdf /></ToolLayout>} />
+          <Route path="tool/pdf-metadata-editor" element={<ToolLayout toolId="pdf-metadata-editor"><PdfMetadataEditor /></ToolLayout>} />
+          <Route path="tool/pdf-redactor" element={<ToolLayout toolId="pdf-redactor"><PdfRedactor /></ToolLayout>} />
+          <Route path="tool/compare-pdfs" element={<ToolLayout toolId="compare-pdfs"><ComparePdfs /></ToolLayout>} />
+          <Route path="tool/pdf-editor" element={<ToolLayout toolId="pdf-editor"><PdfEditor /></ToolLayout>} />
 
           {/* Creator Toolkit Routes */}
           <Route path="tool/youtube-title-checker" element={<ToolLayout toolId="youtube-title-checker"><YoutubeTitleChecker /></ToolLayout>} />
@@ -255,6 +355,7 @@ export default function App() {
           <Route path="tool/pomodoro-timer" element={<ToolLayout toolId="pomodoro-timer"><PomodoroTimer /></ToolLayout>} />
           <Route path="tool/synonym-swapper" element={<ToolLayout toolId="synonym-swapper"><SynonymSwapper /></ToolLayout>} />
           <Route path="tool/interactive-flashcards" element={<ToolLayout toolId="interactive-flashcards"><InteractiveFlashcards /></ToolLayout>} />
+          <Route path="tool/unit-converters" element={<ToolLayout toolId="unit-converters"><UnitConverters /></ToolLayout>} />
 
           {/* Seller Tools */}
           <Route path="tool/local-invoice-generator" element={<ToolLayout toolId="local-invoice-generator"><LocalInvoiceGenerator /></ToolLayout>} />
@@ -299,7 +400,6 @@ export default function App() {
       </Routes>
         </Suspense>
       </ErrorBoundary>
-      <DebugPanel />
     </Router>
     </HelmetProvider>
   );

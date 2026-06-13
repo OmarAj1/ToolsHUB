@@ -7,7 +7,7 @@ export function QrPatternsTab({ state, setters }: any) {
   return (
      <div className="space-y-10 max-w-4xl animate-in fade-in zoom-in-95 duration-400">
         <div>
-          <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-4 ml-1">Matrix Style</label>
+          <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 text-slate-50 mb-4 ml-1">Matrix Style</label>
           <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4">
              {[
                { id: 'square', icon: <rect x="3" y="3" width="18" height="18" rx="2" fill="currentColor"/>, label: 'Square' },
@@ -29,7 +29,7 @@ export function QrPatternsTab({ state, setters }: any) {
                  <button
                    key={pat.id}
                    onClick={() => setCustomPattern(pat.id as any)}
-                   className={`flex items-center justify-center p-4 md:p-5 rounded-[1.5rem] border-[2px] transition-all duration-300 group outline-none hover:-translate-y-1 hover:shadow-lg ${customPattern === pat.id ? 'border-indigo-600 bg-indigo-50 shadow-indigo-500/20 text-indigo-600 dark:border-indigo-500 dark:bg-indigo-500/10 dark:text-indigo-400 scale-[1.05]' : 'border-slate-100 dark:border-[#2A2A2A] bg-[#FAFAFA] dark:bg-[#161616] hover:border-slate-300 dark:hover:border-[#444] text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'}`}
+                   className={`flex items-center justify-center p-4 md:p-5 rounded-[1.5rem] border-[2px] transition-all duration-300 group outline-none hover:-translate-y-1 hover:shadow-lg ${customPattern === pat.id ? 'border-blue-600 bg-blue-50 shadow-blue-500/20 text-blue-600 border-blue-500 bg-blue-500/10 text-blue-400 scale-[1.05]' : 'border-slate-700 border-[#2A2A2A] bg-[#FAFAFA] bg-[#161616] hover:border-slate-700 hover:border-[#444] text-slate-400 text-slate-50 hover:text-slate-50 hover:text-slate-200'}`}
                 >
                    <svg viewBox="0 0 24 24" className="w-8 h-8 md:w-10 md:h-10 drop-shadow-sm transition-transform group-hover:scale-110">
                       {pat.icon}
@@ -39,7 +39,7 @@ export function QrPatternsTab({ state, setters }: any) {
           </div>
         </div>
         <div>
-          <label className="flex items-center gap-2 text-[13px] font-extrabold uppercase text-slate-800 dark:text-slate-200 mb-5 tracking-widest pl-2 mt-6">Outer Eye</label>
+          <label className="flex items-center gap-2 text-[13px] font-extrabold uppercase text-slate-50 text-slate-50 mb-5 tracking-widest pl-2 mt-6">Outer Eye</label>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
              {[
                { id: 'square', icon: <path d="M3 3h18v18H3V3zm4 4v10h10V7H7z" fill="currentColor"/>, label: 'Square' },
@@ -59,7 +59,7 @@ export function QrPatternsTab({ state, setters }: any) {
                  <button
                    key={cor.id}
                    onClick={() => setCustomEyeFrame(cor.id)}
-                   className={`flex items-center justify-center p-4 md:p-5 rounded-[1.5rem] border-[2px] transition-all duration-300 group outline-none hover:-translate-y-1 hover:shadow-lg ${customEyeFrame === cor.id ? 'border-indigo-600 bg-indigo-50 shadow-indigo-500/20 text-indigo-600 dark:border-indigo-500 dark:bg-indigo-500/10 dark:text-indigo-400 scale-[1.05]' : 'border-slate-100 dark:border-[#2A2A2A] bg-[#FAFAFA] dark:bg-[#161616] hover:border-slate-300 dark:hover:border-[#444] text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'}`}
+                   className={`flex items-center justify-center p-4 md:p-5 rounded-[1.5rem] border-[2px] transition-all duration-300 group outline-none hover:-translate-y-1 hover:shadow-lg ${customEyeFrame === cor.id ? 'border-blue-600 bg-blue-50 shadow-blue-500/20 text-blue-600 border-blue-500 bg-blue-500/10 text-blue-400 scale-[1.05]' : 'border-slate-700 border-[#2A2A2A] bg-[#FAFAFA] bg-[#161616] hover:border-slate-700 hover:border-[#444] text-slate-400 text-slate-50 hover:text-slate-50 hover:text-slate-200'}`}
                 >
                    <svg viewBox="0 0 24 24" className="w-8 h-8 md:w-10 md:h-10 flex-shrink-0 drop-shadow-sm transition-transform group-hover:scale-110">
                       {cor.icon}
@@ -69,7 +69,7 @@ export function QrPatternsTab({ state, setters }: any) {
           </div>
         </div>
         <div>
-          <label className="flex items-center gap-2 text-[13px] font-extrabold uppercase text-slate-800 dark:text-slate-200 mb-5 tracking-widest pl-2 mt-6">Inner Eye</label>
+          <label className="flex items-center gap-2 text-[13px] font-extrabold uppercase text-slate-50 text-slate-50 mb-5 tracking-widest pl-2 mt-6">Inner Eye</label>
           <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4">
              {[
                { id: 'square', icon: <path d="M6 6h12v12H6z" fill="currentColor"/>, label: 'Square' },
@@ -95,7 +95,7 @@ export function QrPatternsTab({ state, setters }: any) {
                  <button
                    key={cor.id}
                    onClick={() => setCustomEyeBall(cor.id)}
-                   className={`flex items-center justify-center p-4 md:p-5 rounded-[1.5rem] border-[2px] transition-all duration-300 group outline-none hover:-translate-y-1 hover:shadow-lg ${customEyeBall === cor.id ? 'border-indigo-600 bg-indigo-50 shadow-indigo-500/20 text-indigo-600 dark:border-indigo-500 dark:bg-indigo-500/10 dark:text-indigo-400 scale-[1.05]' : 'border-slate-100 dark:border-[#2A2A2A] bg-[#FAFAFA] dark:bg-[#161616] hover:border-slate-300 dark:hover:border-[#444] text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'}`}
+                   className={`flex items-center justify-center p-4 md:p-5 rounded-[1.5rem] border-[2px] transition-all duration-300 group outline-none hover:-translate-y-1 hover:shadow-lg ${customEyeBall === cor.id ? 'border-blue-600 bg-blue-50 shadow-blue-500/20 text-blue-600 border-blue-500 bg-blue-500/10 text-blue-400 scale-[1.05]' : 'border-slate-700 border-[#2A2A2A] bg-[#FAFAFA] bg-[#161616] hover:border-slate-700 hover:border-[#444] text-slate-400 text-slate-50 hover:text-slate-50 hover:text-slate-200'}`}
                 >
                    <svg viewBox="0 0 24 24" className="w-8 h-8 md:w-10 md:h-10 drop-shadow-sm transition-transform group-hover:scale-110">
                       {cor.icon}

@@ -1,3 +1,4 @@
+import { GenericToolWrapper } from "../../components/ui/GenericToolWrapper";
 import React, { useState, useEffect } from 'react';
 import { Copy, Check } from 'lucide-react';
 
@@ -15,7 +16,7 @@ function colorLuminance(hex: string, lum: number) {
   return rgb;
 }
 
-export function NeumorphismGenerator() {
+function NeumorphismGeneratorBase() {
   const [size, setSize] = useState(200);
   const [radius, setRadius] = useState(50);
   const [distance, setDistance] = useState(20);
@@ -54,7 +55,7 @@ box-shadow: ${boxShadow};`;
   };
 
   return (
-    <div className="flex flex-col md:flex-row min-h-[60vh] text-slate-800 dark:text-slate-200">
+    <div className="flex flex-col md:flex-row min-h-[60vh] text-slate-50 text-slate-50">
       {/* Visual Editor (Preview) */}
       <div 
         className="flex-1 p-8 flex items-center justify-center relative overflow-hidden transition-colors duration-300"
@@ -73,7 +74,7 @@ box-shadow: ${boxShadow};`;
       </div>
 
       {/* Controls */}
-      <div className="w-full md:w-96 bg-white dark:bg-slate-900 border-l border-slate-200 dark:border-slate-800 p-6 flex flex-col gap-5 overflow-y-auto max-h-[calc(100vh-4rem)]">
+      <div className="w-full md:w-96 bg-slate-800 bg-slate-800 border-l border-slate-700 border-slate-700 p-6 flex flex-col gap-5 overflow-y-auto max-h-[calc(100vh-4rem)]">
         <div>
           <label className="text-sm font-bold block mb-2">Base Color</label>
           <div className="flex items-center gap-4">
@@ -88,7 +89,7 @@ box-shadow: ${boxShadow};`;
               <button
                 key={s}
                 onClick={() => setShape(s as any)}
-                className={`py-2 rounded border transition-colors ${shape === s ? 'bg-indigo-50 border-indigo-200 text-indigo-700 dark:bg-indigo-900/30 dark:border-indigo-800 dark:text-indigo-400 font-bold' : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-400'}`}
+                className={`py-2 rounded border transition-colors ${shape === s ? 'bg-blue-50 border-blue-200 text-blue-700 bg-blue-900/30 border-blue-800 text-blue-400 font-bold' : 'bg-slate-800 border-slate-700 text-slate-50 hover:bg-slate-900 bg-slate-800 border-slate-700 text-slate-50'}`}
               >
                 {s.charAt(0).toUpperCase() + s.slice(1)}
               </button>
@@ -98,41 +99,41 @@ box-shadow: ${boxShadow};`;
 
         <div>
           <label className="text-sm font-bold block mb-2">Size</label>
-          <input type="range" min="10" max="400" value={size} onChange={(e) => setSize(Number(e.target.value))} className="w-full accent-indigo-500" />
+          <input type="range" min="10" max="400" value={size} onChange={(e) => setSize(Number(e.target.value))} className="w-full accent-blue-500" />
         </div>
 
         <div>
           <label className="text-sm font-bold block mb-2">Radius</label>
-          <input type="range" min="0" max="200" value={radius} onChange={(e) => setRadius(Number(e.target.value))} className="w-full accent-indigo-500" />
+          <input type="range" min="0" max="200" value={radius} onChange={(e) => setRadius(Number(e.target.value))} className="w-full accent-blue-500" />
         </div>
 
         <div>
           <label className="text-sm font-bold block mb-2">Distance</label>
-          <input type="range" min="1" max="50" value={distance} onChange={(e) => setDistance(Number(e.target.value))} className="w-full accent-indigo-500" />
+          <input type="range" min="1" max="50" value={distance} onChange={(e) => setDistance(Number(e.target.value))} className="w-full accent-blue-500" />
         </div>
 
         <div>
           <label className="text-sm font-bold block mb-2">Intensity</label>
-          <input type="range" min="0.01" max="0.6" step="0.01" value={intensity} onChange={(e) => setIntensity(Number(e.target.value))} className="w-full accent-indigo-500" />
+          <input type="range" min="0.01" max="0.6" step="0.01" value={intensity} onChange={(e) => setIntensity(Number(e.target.value))} className="w-full accent-blue-500" />
         </div>
 
         <div>
           <label className="text-sm font-bold block mb-2">Blur</label>
-          <input type="range" min="0" max="100" value={blur} onChange={(e) => setBlur(Number(e.target.value))} className="w-full accent-indigo-500" />
+          <input type="range" min="0" max="100" value={blur} onChange={(e) => setBlur(Number(e.target.value))} className="w-full accent-blue-500" />
         </div>
 
         <div className="mt-4 flex-1">
-          <label className="text-sm font-bold block mb-2 text-indigo-600 dark:text-indigo-400">CSS Code</label>
+          <label className="text-sm font-bold block mb-2 text-blue-600 text-blue-400">CSS Code</label>
           <div className="relative group">
-            <pre className="p-4 bg-slate-100 dark:bg-slate-950 rounded-lg text-sm font-mono text-slate-700 dark:text-slate-300 overflow-x-auto border border-slate-200 dark:border-slate-800">
+            <pre className="p-4 bg-slate-800 bg-slate-900 rounded-lg text-sm font-mono text-slate-50 text-slate-50 overflow-x-auto border border-slate-700 border-slate-700">
               <code>{cssString}</code>
             </pre>
             <button
               onClick={handleCopy}
-              className="absolute top-2 right-2 p-2 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 rounded-md shadow-sm border border-slate-200 dark:border-slate-700 transition-colors"
+              className="absolute top-2 right-2 p-2 bg-slate-800 bg-slate-800 text-slate-50 text-slate-50 hover:text-blue-600 hover:text-blue-400 rounded-md shadow-sm border border-slate-700 border-slate-700 transition-colors"
               title="Copy to clipboard"
             >
-              {copied ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4" />}
+              {copied ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4 text-purple-500" />}
             </button>
           </div>
         </div>
@@ -140,3 +141,5 @@ box-shadow: ${boxShadow};`;
     </div>
   );
 }
+
+export const NeumorphismGenerator = () => <GenericToolWrapper toolName="NeumorphismGenerator"><NeumorphismGeneratorBase /></GenericToolWrapper>;

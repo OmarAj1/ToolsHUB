@@ -1,7 +1,8 @@
+import { GenericToolWrapper } from "../../components/ui/GenericToolWrapper";
 import React, { useState } from 'react';
 import { Copy, Plus, Shuffle } from 'lucide-react';
 
-export function ColorPaletteGenerator() {
+function ColorPaletteGeneratorBase() {
   const [baseColor, setBaseColor] = useState('#3b82f6'); // default tailwind blue-500
   const [copied, setCopied] = useState<string | null>(null);
 
@@ -62,13 +63,13 @@ export function ColorPaletteGenerator() {
   };
 
   return (
-    <div className="p-6 md:p-8 text-slate-800 dark:text-slate-200">
+    <div className="p-6 md:p-8 text-slate-50 text-slate-50">
       <div className="max-w-4xl mx-auto space-y-12">
         {/* Header Controls */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 rounded-2xl shadow-sm">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 bg-slate-800 bg-slate-800 border border-slate-700 border-slate-700 p-6 rounded-2xl shadow-sm">
           <div>
             <h2 className="text-xl font-bold mb-1">Base Color</h2>
-            <p className="text-sm text-slate-500 dark:text-slate-400">Select a color to generate harmonies.</p>
+            <p className="text-sm text-slate-400 text-slate-50">Select a color to generate harmonies.</p>
           </div>
           
           <div className="flex items-center gap-4">
@@ -76,17 +77,17 @@ export function ColorPaletteGenerator() {
               type="color" 
               value={baseColor} 
               onChange={(e) => setBaseColor(e.target.value)} 
-              className="w-16 h-12 rounded cursor-pointer p-0 border border-slate-200 dark:border-slate-700" 
+              className="w-16 h-12 rounded cursor-pointer p-0 border border-slate-700 border-slate-700" 
             />
-            <div className="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-4 py-2.5 rounded font-mono font-bold uppercase text-lg">
+            <div className="bg-slate-900 bg-slate-800 border border-slate-700 border-slate-700 px-4 py-2.5 rounded font-mono font-bold uppercase text-lg">
               {baseColor}
             </div>
             <button 
               onClick={generateRandom}
-              className="p-3 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 rounded transition-colors text-slate-600 dark:text-slate-400"
+              className="p-3 bg-slate-800 hover:bg-slate-200 bg-slate-800 hover:bg-slate-700 rounded transition-colors text-slate-50 text-slate-50"
               title="Random Color"
             >
-              <Shuffle className="w-5 h-5" />
+              <Shuffle className="w-5 h-5 text-purple-500" />
             </button>
           </div>
         </div>
@@ -108,8 +109,8 @@ function PaletteSection({ title, description, colors, copied, onCopy }: { title:
   return (
     <div>
       <h3 className="font-bold text-lg mb-1">{title}</h3>
-      <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">{description}</p>
-      <div className="flex flex-col sm:flex-row rounded-2xl overflow-hidden shadow-sm border border-slate-200 dark:border-slate-800 h-48">
+      <p className="text-sm text-slate-400 text-slate-50 mb-4">{description}</p>
+      <div className="flex flex-col sm:flex-row rounded-2xl overflow-hidden shadow-sm border border-slate-700 border-slate-700 h-48">
         {colors.map((c, i) => (
           <div key={i} className="flex-1 min-w-0 transition-all hover:flex-[1.2] relative group cursor-pointer" style={{ backgroundColor: c }} onClick={() => onCopy(c)}>
             <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex justify-center items-end">
@@ -119,7 +120,7 @@ function PaletteSection({ title, description, colors, copied, onCopy }: { title:
             </div>
             {copied === c && (
               <div className="absolute inset-0 flex items-center justify-center bg-black/20">
-                <span className="bg-white text-slate-900 px-3 py-1 rounded text-sm font-bold shadow-lg">Copied!</span>
+                <span className="bg-slate-800 text-slate-50 px-3 py-1 rounded text-sm font-bold shadow-lg">Copied!</span>
               </div>
             )}
           </div>
@@ -170,3 +171,5 @@ function hslToHex(h: number, s: number, l: number) {
   
   return `#${toHex(f(0))}${toHex(f(8))}${toHex(f(4))}`;
 }
+
+export const ColorPaletteGenerator = () => <GenericToolWrapper toolName="ColorPaletteGenerator"><ColorPaletteGeneratorBase /></GenericToolWrapper>;

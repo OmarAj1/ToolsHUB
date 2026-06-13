@@ -1,8 +1,9 @@
+import { withPdfSafeBoundary } from "../../components/pdf/PdfSafeBoundary";
 import { useState } from "react";
 import { PDFDocument, rgb, StandardFonts, degrees } from "pdf-lib";
 import { PdfActionContainer, downloadFile } from "../../components/pdf/PdfToolsBuilder";
 
-export function AddWatermarkPdf() {
+function AddWatermarkPdfBase() {
   const [watermark, setWatermark] = useState("CONFIDENTIAL");
   const [opacity, setOpacity] = useState(0.3);
 
@@ -39,18 +40,18 @@ export function AddWatermarkPdf() {
         downloadFile(pdfBytes, `watermarked_${files[0].name}`, "application/pdf");
       }}
       optionsComponent={() => (
-        <div className="bg-white p-6 rounded-2xl border border-slate-200 space-y-4">
+        <div className="bg-slate-800 p-6 rounded-2xl border border-slate-700 space-y-4">
           <div>
-            <label className="block font-bold text-slate-800 mb-2">Watermark Text</label>
+            <label className="block font-bold text-slate-50 mb-2">Watermark Text</label>
             <input 
               type="text" 
               value={watermark}
               onChange={(e) => setWatermark(e.target.value)}
-              className="w-full border-2 border-slate-200 rounded-xl px-4 py-2 focus:border-blue-500 focus:outline-none"
+              className="w-full border-2 border-slate-700 rounded-xl px-4 py-2 focus:border-blue-500 focus:outline-none"
             />
           </div>
           <div>
-            <label className="block font-bold text-slate-800 mb-2">Opacity ({Math.round(opacity * 100)}%)</label>
+            <label className="block font-bold text-slate-50 mb-2">Opacity ({Math.round(opacity * 100)}%)</label>
             <input 
               type="range" 
               min="0.1" max="1" step="0.1"
@@ -65,7 +66,7 @@ export function AddWatermarkPdf() {
   );
 }
 
-export function AddPageNumbersPdf() {
+function AddPageNumbersPdfBase() {
   const [position, setPosition] = useState<"bottom-right" | "bottom-center" | "top-right">("bottom-center");
 
   return (
@@ -103,20 +104,20 @@ export function AddPageNumbersPdf() {
         downloadFile(pdfBytes, `numbered_${files[0].name}`, "application/pdf");
       }}
       optionsComponent={() => (
-        <div className="bg-white p-6 rounded-2xl border border-slate-200">
-          <label className="block font-bold text-slate-800 mb-4">Position</label>
+        <div className="bg-slate-800 p-6 rounded-2xl border border-slate-700">
+          <label className="block font-bold text-slate-50 mb-4">Position</label>
           <div className="flex space-x-4">
             <label className="flex items-center space-x-2 cursor-pointer">
               <input type="radio" checked={position === "bottom-center"} onChange={() => setPosition("bottom-center")} className="text-blue-600 focus:ring-blue-500" />
-              <span className="text-sm font-medium text-slate-700">Bottom Center</span>
+              <span className="text-sm font-medium text-slate-50">Bottom Center</span>
             </label>
             <label className="flex items-center space-x-2 cursor-pointer">
               <input type="radio" checked={position === "bottom-right"} onChange={() => setPosition("bottom-right")} className="text-blue-600 focus:ring-blue-500" />
-              <span className="text-sm font-medium text-slate-700">Bottom Right</span>
+              <span className="text-sm font-medium text-slate-50">Bottom Right</span>
             </label>
             <label className="flex items-center space-x-2 cursor-pointer">
               <input type="radio" checked={position === "top-right"} onChange={() => setPosition("top-right")} className="text-blue-600 focus:ring-blue-500" />
-              <span className="text-sm font-medium text-slate-700">Top Right</span>
+              <span className="text-sm font-medium text-slate-50">Top Right</span>
             </label>
           </div>
         </div>
@@ -125,7 +126,7 @@ export function AddPageNumbersPdf() {
   );
 }
 
-export function ReorderPdf() {
+function ReorderPdfBase() {
   return (
     <PdfActionContainer
       title="Upload PDF to reorder"
@@ -146,3 +147,9 @@ export function ReorderPdf() {
     />
   );
 }
+
+export const AddWatermarkPdf = withPdfSafeBoundary(AddWatermarkPdfBase);
+
+export const AddPageNumbersPdf = withPdfSafeBoundary(AddPageNumbersPdfBase);
+
+export const ReorderPdf = withPdfSafeBoundary(ReorderPdfBase);

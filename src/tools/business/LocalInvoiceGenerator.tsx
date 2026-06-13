@@ -54,17 +54,17 @@ export function LocalInvoiceGenerator() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto p-4 sm:p-6 text-slate-800 dark:text-slate-200">
+    <div className="max-w-6xl mx-auto p-4 sm:p-6 text-slate-50 text-slate-50">
       <div className="flex justify-between items-center mb-6 print:hidden">
-        <div className="text-sm text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700">
+        <div className="text-sm text-slate-400 text-slate-50 bg-slate-800 bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700 border-slate-700">
           <strong>Privacy:</strong> No data is saved to a server. PDF is generated locally in your browser.
         </div>
         <button 
           onClick={printDocument}
           disabled={isGenerating}
-          className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded-lg transition-colors disabled:opacity-50"
+          className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-lg transition-colors disabled:opacity-50"
         >
-          {isGenerating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />} 
+          {isGenerating ? <Loader2 className="w-4 h-4 animate-spin text-purple-500" /> : <Download className="w-4 h-4 text-purple-500" />} 
           {isGenerating ? 'Generating...' : 'Download PDF'}
         </button>
       </div>
@@ -138,7 +138,7 @@ export function LocalInvoiceGenerator() {
                  <tr className="print:hidden">
                    <td colSpan={5} className="py-3">
                      <button onClick={addItem} style={{ color: '#4f46e5' }} className="flex items-center gap-1 text-xs font-bold px-2 py-1 transition-colors">
-                       <Plus className="w-3 h-3" /> Add Item
+                       <Plus className="w-3 h-3 text-purple-500" /> Add Item
                      </button>
                    </td>
                  </tr>
@@ -160,7 +160,7 @@ export function LocalInvoiceGenerator() {
           @media print {
             body { background: white !important; color: black !important; }
             .print\\:hidden { display: none !important; }
-            .bg-white { background: white !important; }
+            .bg-slate-800 { background: white !important; }
             * { text-shadow: none !important; box-shadow: none !important; }
           }
         `}</style>

@@ -16,16 +16,16 @@ export function UrlEncoderDecoder() {
 
   return (
     <ToolContainer>
-      <div className="flex bg-slate-100 dark:bg-slate-800 p-1 rounded-xl w-fit">
+      <div className="flex bg-slate-800 bg-slate-800 p-1 rounded-xl w-fit">
         <button
           onClick={() => setMode("encode")}
-          className={`px-6 py-2 text-sm font-bold rounded-lg transition-all ${mode === "encode" ? 'bg-white dark:bg-slate-700 text-blue-600 dark:text-blue-400 shadow-sm' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'}`}
+          className={`px-6 py-2 text-sm font-bold rounded-lg transition-all ${mode === "encode" ? 'bg-slate-800 bg-slate-800 text-blue-600 text-blue-400 shadow-sm' : 'text-slate-400 text-slate-50 hover:text-slate-50 hover:text-slate-300'}`}
         >
           Encode
         </button>
         <button
           onClick={() => setMode("decode")}
-          className={`px-6 py-2 text-sm font-bold rounded-lg transition-all ${mode === "decode" ? 'bg-white dark:bg-slate-700 text-blue-600 dark:text-blue-400 shadow-sm' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'}`}
+          className={`px-6 py-2 text-sm font-bold rounded-lg transition-all ${mode === "decode" ? 'bg-slate-800 bg-slate-800 text-blue-600 text-blue-400 shadow-sm' : 'text-slate-400 text-slate-50 hover:text-slate-50 hover:text-slate-300'}`}
         >
           Decode
         </button>

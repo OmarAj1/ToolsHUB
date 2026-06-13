@@ -1,7 +1,8 @@
+import { GenericToolWrapper } from "../../components/ui/GenericToolWrapper";
 import React, { useState } from "react";
 import { Crosshair, Mouse, Settings2, TrendingUp, Monitor } from "lucide-react";
 
-export function KdCalculator() {
+function KdCalculatorBase() {
   const [kills, setKills] = useState<number | "">("");
   const [deaths, setDeaths] = useState<number | "">("");
   const [assists, setAssists] = useState<number | "">("");
@@ -15,24 +16,24 @@ export function KdCalculator() {
 
   return (
     <div className="p-6 md:p-8">
-      <div className="w-full max-w-2xl mx-auto bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 md:p-10 transition-colors">
-        <h2 className="text-xl font-bold text-slate-800 dark:text-white mb-6 flex items-center gap-2"><Crosshair className="w-6 h-6 text-indigo-500" /> K/D Ratio Calculator</h2>
+      <div className="w-full max-w-2xl mx-auto bg-slate-900 bg-slate-800 border border-slate-700 border-slate-700 rounded-3xl p-6 md:p-10 transition-colors">
+        <h2 className="text-xl font-bold text-slate-50 text-white mb-6 flex items-center gap-2"><Crosshair className="w-6 h-6 text-blue-500" /> K/D Ratio Calculator</h2>
         <div className="grid grid-cols-3 gap-4 mb-8">
            <div>
-             <label className="text-xs font-bold text-slate-500 uppercase">Kills</label>
-             <input type="number" value={kills} onChange={e => setKills(e.target.value === "" ? "" : Number(e.target.value))} className="w-full mt-2 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-slate-900 dark:text-white" placeholder="0" />
+             <label className="text-xs font-bold text-slate-400 uppercase">Kills</label>
+             <input type="number" value={kills} onChange={e => setKills(e.target.value === "" ? "" : Number(e.target.value))} className="w-full mt-2 bg-slate-800 bg-slate-900 border border-slate-700 border-slate-700 rounded-xl px-4 py-3 text-slate-50 text-white" placeholder="0" />
            </div>
            <div>
-             <label className="text-xs font-bold text-slate-500 uppercase">Deaths</label>
-             <input type="number" value={deaths} onChange={e => setDeaths(e.target.value === "" ? "" : Number(e.target.value))} className="w-full mt-2 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-slate-900 dark:text-white" placeholder="0" />
+             <label className="text-xs font-bold text-slate-400 uppercase">Deaths</label>
+             <input type="number" value={deaths} onChange={e => setDeaths(e.target.value === "" ? "" : Number(e.target.value))} className="w-full mt-2 bg-slate-800 bg-slate-900 border border-slate-700 border-slate-700 rounded-xl px-4 py-3 text-slate-50 text-white" placeholder="0" />
            </div>
            <div>
-             <label className="text-xs font-bold text-slate-500 uppercase">Assists</label>
-             <input type="number" value={assists} onChange={e => setAssists(e.target.value === "" ? "" : Number(e.target.value))} className="w-full mt-2 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-slate-900 dark:text-white" placeholder="0" />
+             <label className="text-xs font-bold text-slate-400 uppercase">Assists</label>
+             <input type="number" value={assists} onChange={e => setAssists(e.target.value === "" ? "" : Number(e.target.value))} className="w-full mt-2 bg-slate-800 bg-slate-900 border border-slate-700 border-slate-700 rounded-xl px-4 py-3 text-slate-50 text-white" placeholder="0" />
            </div>
         </div>
         <div className="grid grid-cols-2 gap-4">
-           <div className="bg-indigo-600 text-white rounded-2xl p-6 text-center">
+           <div className="bg-blue-500 text-white rounded-2xl p-6 text-center">
               <span className="opacity-80 text-sm font-medium">K/D Ratio</span>
               <div className="text-4xl font-black mt-2">{kd}</div>
            </div>
@@ -46,7 +47,7 @@ export function KdCalculator() {
   );
 }
 
-export function EdpiCalculator() {
+function EdpiCalculatorBase() {
   const [dpi, setDpi] = useState<number | "">("");
   const [sens, setSens] = useState<number | "">("");
 
@@ -56,19 +57,19 @@ export function EdpiCalculator() {
 
   return (
     <div className="p-6 md:p-8">
-      <div className="w-full max-w-2xl mx-auto bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 md:p-10 transition-colors">
-        <h2 className="text-xl font-bold text-slate-800 dark:text-white mb-6 flex items-center gap-2"><Mouse className="w-6 h-6 text-indigo-500" /> eDPI Calculator</h2>
+      <div className="w-full max-w-2xl mx-auto bg-slate-900 bg-slate-800 border border-slate-700 border-slate-700 rounded-3xl p-6 md:p-10 transition-colors">
+        <h2 className="text-xl font-bold text-slate-50 text-white mb-6 flex items-center gap-2"><Mouse className="w-6 h-6 text-blue-500" /> eDPI Calculator</h2>
         <div className="grid grid-cols-2 gap-4 mb-8">
            <div>
-             <label className="text-xs font-bold text-slate-500 uppercase">Mouse DPI</label>
-             <input type="number" value={dpi} onChange={e => setDpi(e.target.value === "" ? "" : Number(e.target.value))} className="w-full mt-2 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-slate-900 dark:text-white" placeholder="800" />
+             <label className="text-xs font-bold text-slate-400 uppercase">Mouse DPI</label>
+             <input type="number" value={dpi} onChange={e => setDpi(e.target.value === "" ? "" : Number(e.target.value))} className="w-full mt-2 bg-slate-800 bg-slate-900 border border-slate-700 border-slate-700 rounded-xl px-4 py-3 text-slate-50 text-white" placeholder="800" />
            </div>
            <div>
-             <label className="text-xs font-bold text-slate-500 uppercase">In-Game Sensitivity</label>
-             <input type="number" step="0.01" value={sens} onChange={e => setSens(e.target.value === "" ? "" : Number(e.target.value))} className="w-full mt-2 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-slate-900 dark:text-white" placeholder="1.5" />
+             <label className="text-xs font-bold text-slate-400 uppercase">In-Game Sensitivity</label>
+             <input type="number" step="0.01" value={sens} onChange={e => setSens(e.target.value === "" ? "" : Number(e.target.value))} className="w-full mt-2 bg-slate-800 bg-slate-900 border border-slate-700 border-slate-700 rounded-xl px-4 py-3 text-slate-50 text-white" placeholder="1.5" />
            </div>
         </div>
-        <div className="bg-slate-900 dark:bg-slate-950 text-white rounded-2xl p-6 text-center shadow-xl">
+        <div className="bg-slate-900 bg-slate-900 text-white rounded-2xl p-6 text-center shadow-xl">
            <span className="text-slate-400 text-sm font-bold uppercase tracking-wider">Effective DPI (eDPI)</span>
            <div className="text-5xl font-black mt-3">{edpi.toFixed(2)}</div>
         </div>
@@ -77,7 +78,7 @@ export function EdpiCalculator() {
   );
 }
 
-export function SensConverter() {
+function SensConverterBase() {
   const [fromGame, setFromGame] = useState("valorant");
   const [toGame, setToGame] = useState("cs2");
   const [sens, setSens] = useState<number | "">("");
@@ -100,13 +101,13 @@ export function SensConverter() {
 
   return (
     <div className="p-6 md:p-8">
-      <div className="w-full max-w-2xl mx-auto bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 md:p-10 transition-colors">
-        <h2 className="text-xl font-bold text-slate-800 dark:text-white mb-6 flex items-center gap-2"><Settings2 className="w-6 h-6 text-indigo-500" /> Sensitivity Converter</h2>
+      <div className="w-full max-w-2xl mx-auto bg-slate-900 bg-slate-800 border border-slate-700 border-slate-700 rounded-3xl p-6 md:p-10 transition-colors">
+        <h2 className="text-xl font-bold text-slate-50 text-white mb-6 flex items-center gap-2"><Settings2 className="w-6 h-6 text-blue-500" /> Sensitivity Converter</h2>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
           <div>
-            <label className="text-xs font-bold text-slate-500 uppercase block mb-2">Convert From</label>
-            <select value={fromGame} onChange={e => setFromGame(e.target.value)} className="w-full bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-slate-900 dark:text-white">
+            <label className="text-xs font-bold text-slate-400 uppercase block mb-2">Convert From</label>
+            <select value={fromGame} onChange={e => setFromGame(e.target.value)} className="w-full bg-slate-800 bg-slate-900 border border-slate-700 border-slate-700 rounded-xl px-4 py-3 text-slate-50 text-white">
               <option value="valorant">Valorant</option>
               <option value="cs2">CS:GO / CS2</option>
               <option value="apex">Apex Legends</option>
@@ -116,8 +117,8 @@ export function SensConverter() {
             </select>
           </div>
           <div>
-            <label className="text-xs font-bold text-slate-500 uppercase block mb-2">Convert To</label>
-             <select value={toGame} onChange={e => setToGame(e.target.value)} className="w-full bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-slate-900 dark:text-white">
+            <label className="text-xs font-bold text-slate-400 uppercase block mb-2">Convert To</label>
+             <select value={toGame} onChange={e => setToGame(e.target.value)} className="w-full bg-slate-800 bg-slate-900 border border-slate-700 border-slate-700 rounded-xl px-4 py-3 text-slate-50 text-white">
               <option value="cs2">CS:GO / CS2</option>
               <option value="valorant">Valorant</option>
               <option value="apex">Apex Legends</option>
@@ -129,11 +130,11 @@ export function SensConverter() {
         </div>
         
         <div className="mb-8">
-           <label className="text-xs font-bold text-slate-500 uppercase block mb-2">Original Sensitivity</label>
-           <input type="number" step="0.01" value={sens} onChange={e => setSens(e.target.value === "" ? "" : Number(e.target.value))} className="w-full bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-4 text-center font-mono text-xl text-slate-900 dark:text-white" placeholder="1.0" />
+           <label className="text-xs font-bold text-slate-400 uppercase block mb-2">Original Sensitivity</label>
+           <input type="number" step="0.01" value={sens} onChange={e => setSens(e.target.value === "" ? "" : Number(e.target.value))} className="w-full bg-slate-800 bg-slate-900 border border-slate-700 border-slate-700 rounded-xl px-4 py-4 text-center font-mono text-xl text-slate-50 text-white" placeholder="1.0" />
         </div>
 
-        <div className="bg-indigo-600 text-white rounded-2xl p-6 text-center shadow-xl">
+        <div className="bg-blue-500 text-white rounded-2xl p-6 text-center shadow-xl">
            <span className="opacity-80 text-sm font-bold uppercase tracking-wider">Converted Sensitivity</span>
            <div className="text-5xl font-black mt-3 font-mono">{convert() || "0.000"}</div>
         </div>
@@ -142,7 +143,7 @@ export function SensConverter() {
   );
 }
 
-export function XpCalculator() {
+function XpCalculatorBase() {
   const [current, setCurrent] = useState<number | "">("");
   const [target, setTarget] = useState<number | "">("");
   const [xpPerLevel, setXpPerLevel] = useState<number | "">("");
@@ -159,39 +160,39 @@ export function XpCalculator() {
 
   return (
     <div className="p-6 md:p-8">
-      <div className="w-full max-w-2xl mx-auto bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 md:p-10 transition-colors">
-        <h2 className="text-xl font-bold text-slate-800 dark:text-white mb-6 flex items-center gap-2"><TrendingUp className="w-6 h-6 text-indigo-500" /> XP Goal Calculator</h2>
+      <div className="w-full max-w-2xl mx-auto bg-slate-900 bg-slate-800 border border-slate-700 border-slate-700 rounded-3xl p-6 md:p-10 transition-colors">
+        <h2 className="text-xl font-bold text-slate-50 text-white mb-6 flex items-center gap-2"><TrendingUp className="w-6 h-6 text-blue-500" /> XP Goal Calculator</h2>
         
         <div className="grid grid-cols-2 gap-4 mb-6">
           <div>
-            <label className="text-xs font-bold text-slate-500 uppercase block mb-2">Current Level</label>
-            <input type="number" value={current} onChange={e => setCurrent(e.target.value === "" ? "" : Number(e.target.value))} className="w-full bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-slate-900 dark:text-white" placeholder="1" />
+            <label className="text-xs font-bold text-slate-400 uppercase block mb-2">Current Level</label>
+            <input type="number" value={current} onChange={e => setCurrent(e.target.value === "" ? "" : Number(e.target.value))} className="w-full bg-slate-800 bg-slate-900 border border-slate-700 border-slate-700 rounded-xl px-4 py-3 text-slate-50 text-white" placeholder="1" />
           </div>
           <div>
-            <label className="text-xs font-bold text-slate-500 uppercase block mb-2">Target Level</label>
-            <input type="number" value={target} onChange={e => setTarget(e.target.value === "" ? "" : Number(e.target.value))} className="w-full bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-slate-900 dark:text-white" placeholder="100" />
+            <label className="text-xs font-bold text-slate-400 uppercase block mb-2">Target Level</label>
+            <input type="number" value={target} onChange={e => setTarget(e.target.value === "" ? "" : Number(e.target.value))} className="w-full bg-slate-800 bg-slate-900 border border-slate-700 border-slate-700 rounded-xl px-4 py-3 text-slate-50 text-white" placeholder="100" />
           </div>
           <div>
-            <label className="text-xs font-bold text-slate-500 uppercase block mb-2">XP Per Level</label>
-            <input type="number" value={xpPerLevel} onChange={e => setXpPerLevel(e.target.value === "" ? "" : Number(e.target.value))} className="w-full bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-slate-900 dark:text-white" placeholder="10000" />
+            <label className="text-xs font-bold text-slate-400 uppercase block mb-2">XP Per Level</label>
+            <input type="number" value={xpPerLevel} onChange={e => setXpPerLevel(e.target.value === "" ? "" : Number(e.target.value))} className="w-full bg-slate-800 bg-slate-900 border border-slate-700 border-slate-700 rounded-xl px-4 py-3 text-slate-50 text-white" placeholder="10000" />
           </div>
           <div>
-            <label className="text-xs font-bold text-slate-500 uppercase block mb-2">Avg XP Per Match</label>
-            <input type="number" value={xpPerMatch} onChange={e => setXpPerMatch(e.target.value === "" ? "" : Number(e.target.value))} className="w-full bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-slate-900 dark:text-white" placeholder="250" />
+            <label className="text-xs font-bold text-slate-400 uppercase block mb-2">Avg XP Per Match</label>
+            <input type="number" value={xpPerMatch} onChange={e => setXpPerMatch(e.target.value === "" ? "" : Number(e.target.value))} className="w-full bg-slate-800 bg-slate-900 border border-slate-700 border-slate-700 rounded-xl px-4 py-3 text-slate-50 text-white" placeholder="250" />
           </div>
         </div>
 
-        <div className="bg-slate-900 dark:bg-slate-950 text-white rounded-2xl p-6 text-center shadow-xl border border-slate-800">
+        <div className="bg-slate-900 bg-slate-900 text-white rounded-2xl p-6 text-center shadow-xl border border-slate-800">
            <span className="text-slate-400 text-sm font-bold uppercase tracking-wider">Estimated Matches Required</span>
-           <div className="text-5xl font-black mt-3 text-indigo-400">{matchesNeeded}</div>
-           <div className="text-sm font-medium text-slate-500 mt-2">({totalXpNeeded.toLocaleString()} total XP needed)</div>
+           <div className="text-5xl font-black mt-3 text-blue-400">{matchesNeeded}</div>
+           <div className="text-sm font-medium text-slate-400 mt-2">({totalXpNeeded.toLocaleString()} total XP needed)</div>
         </div>
       </div>
     </div>
   );
 }
 
-export function AspectRatioCalc() {
+function AspectRatioCalcBase() {
   const [w1, setW1] = useState<number | "">(1920);
   const [h1, setH1] = useState<number | "">(1080);
   const [w2, setW2] = useState<number | "">("");
@@ -218,41 +219,41 @@ export function AspectRatioCalc() {
 
   return (
     <div className="p-6 md:p-8">
-      <div className="w-full max-w-2xl mx-auto bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 md:p-10 transition-colors">
-        <h2 className="text-xl font-bold text-slate-800 dark:text-white mb-6 flex items-center gap-2"><Monitor className="w-6 h-6 text-indigo-500" /> Aspect Ratio Calculator</h2>
+      <div className="w-full max-w-2xl mx-auto bg-slate-900 bg-slate-800 border border-slate-700 border-slate-700 rounded-3xl p-6 md:p-10 transition-colors">
+        <h2 className="text-xl font-bold text-slate-50 text-white mb-6 flex items-center gap-2"><Monitor className="w-6 h-6 text-blue-500" /> Aspect Ratio Calculator</h2>
         
-        <div className="mb-4 text-center font-bold text-slate-800 dark:text-white text-lg">
-          Current Ratio: <span className="text-indigo-500">{calculateRatio()}</span>
+        <div className="mb-4 text-center font-bold text-slate-50 text-white text-lg">
+          Current Ratio: <span className="text-blue-500">{calculateRatio()}</span>
         </div>
 
         <div className="grid grid-cols-2 gap-8 items-center mb-8">
            <div className="space-y-4">
              <div>
-               <label className="text-xs font-bold text-slate-500 uppercase block mb-1">Base Width (W1)</label>
-               <input type="number" value={w1} onChange={e => setW1(e.target.value === "" ? "" : Number(e.target.value))} className="w-full bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-slate-900 dark:text-white" />
+               <label className="text-xs font-bold text-slate-400 uppercase block mb-1">Base Width (W1)</label>
+               <input type="number" value={w1} onChange={e => setW1(e.target.value === "" ? "" : Number(e.target.value))} className="w-full bg-slate-800 bg-slate-900 border border-slate-700 border-slate-700 rounded-xl px-4 py-3 text-slate-50 text-white" />
              </div>
              <div>
-               <label className="text-xs font-bold text-slate-500 uppercase block mb-1">Base Height (H1)</label>
-               <input type="number" value={h1} onChange={e => setH1(e.target.value === "" ? "" : Number(e.target.value))} className="w-full bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-slate-900 dark:text-white" />
+               <label className="text-xs font-bold text-slate-400 uppercase block mb-1">Base Height (H1)</label>
+               <input type="number" value={h1} onChange={e => setH1(e.target.value === "" ? "" : Number(e.target.value))} className="w-full bg-slate-800 bg-slate-900 border border-slate-700 border-slate-700 rounded-xl px-4 py-3 text-slate-50 text-white" />
              </div>
            </div>
            
            <div className="space-y-4">
              <div>
-               <label className="text-xs font-bold text-slate-500 uppercase block mb-1">Target Width (W2)</label>
+               <label className="text-xs font-bold text-slate-400 uppercase block mb-1">Target Width (W2)</label>
                <input type="number" value={w2} onChange={e => {
                  const v = e.target.value === "" ? "" : Number(e.target.value);
                  setW2(v);
                  if (v !== "") updateH2(v);
-               }} className="w-full bg-indigo-50 dark:bg-indigo-900/10 border-2 border-indigo-200 dark:border-indigo-800 rounded-xl px-4 py-3 text-indigo-900 dark:text-indigo-300 font-bold" placeholder="Calculate..." />
+               }} className="w-full bg-blue-50 bg-blue-900/10 border-2 border-blue-200 border-blue-800 rounded-xl px-4 py-3 text-blue-900 text-blue-300 font-bold" placeholder="Calculate..." />
              </div>
              <div>
-               <label className="text-xs font-bold text-slate-500 uppercase block mb-1">Target Height (H2)</label>
+               <label className="text-xs font-bold text-slate-400 uppercase block mb-1">Target Height (H2)</label>
                <input type="number" value={h2} onChange={e => {
                  const v = e.target.value === "" ? "" : Number(e.target.value);
                  setH2(v);
                  if (v !== "") updateW2(v);
-               }} className="w-full bg-indigo-50 dark:bg-indigo-900/10 border-2 border-indigo-200 dark:border-indigo-800 rounded-xl px-4 py-3 text-indigo-900 dark:text-indigo-300 font-bold" placeholder="Calculate..." />
+               }} className="w-full bg-blue-50 bg-blue-900/10 border-2 border-blue-200 border-blue-800 rounded-xl px-4 py-3 text-blue-900 text-blue-300 font-bold" placeholder="Calculate..." />
              </div>
            </div>
         </div>
@@ -261,3 +262,13 @@ export function AspectRatioCalc() {
   );
 }
 
+
+export const KdCalculator = () => <GenericToolWrapper toolName="KdCalculator"><KdCalculatorBase /></GenericToolWrapper>;
+
+export const EdpiCalculator = () => <GenericToolWrapper toolName="EdpiCalculator"><EdpiCalculatorBase /></GenericToolWrapper>;
+
+export const SensConverter = () => <GenericToolWrapper toolName="SensConverter"><SensConverterBase /></GenericToolWrapper>;
+
+export const XpCalculator = () => <GenericToolWrapper toolName="XpCalculator"><XpCalculatorBase /></GenericToolWrapper>;
+
+export const AspectRatioCalc = () => <GenericToolWrapper toolName="AspectRatioCalc"><AspectRatioCalcBase /></GenericToolWrapper>;

@@ -47,8 +47,8 @@ function SortablePage({ page, index, onRemove, onToggleExclude }: SortablePagePr
     <div
       ref={setNodeRef}
       style={style}
-      className={`relative group bg-white dark:bg-stone-800 rounded-lg p-2 border-2 ${
-        isDragging ? 'border-blue-500 shadow-xl scale-105' : 'border-stone-200 dark:border-stone-700 shadow-sm'
+      className={`relative group bg-slate-800 bg-stone-800 rounded-lg p-2 border-2 ${
+        isDragging ? 'border-blue-500 shadow-xl scale-105' : 'border-stone-200 border-stone-700 shadow-sm'
       } transition-transform cursor-grab active:cursor-grabbing flex flex-col items-center ${page.isExcluded ? 'grayscale' : ''}`}
       {...attributes}
       {...listeners}
@@ -62,7 +62,7 @@ function SortablePage({ page, index, onRemove, onToggleExclude }: SortablePagePr
           e.stopPropagation();
           onToggleExclude(page.id);
         }}
-        className="absolute top-2 right-8 bg-white dark:bg-stone-800 rounded-full shadow hover:scale-110 transition-transform z-10 p-0.5"
+        className="absolute top-2 right-8 bg-slate-800 bg-stone-800 rounded-full shadow hover:scale-110 transition-transform z-10 p-0.5"
       >
         {page.isExcluded ? (
           <Circle className="w-5 h-5 text-stone-400" />
@@ -78,10 +78,10 @@ function SortablePage({ page, index, onRemove, onToggleExclude }: SortablePagePr
         }}
         className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-600 z-10"
       >
-        <Trash2 className="w-3 h-3" />
+        <Trash2 className="w-3 h-3 text-purple-500" />
       </button>
       
-      <div className="w-full aspect-[1/1.4] relative overflow-hidden rounded border border-stone-100 dark:border-stone-600 bg-stone-50 dark:bg-stone-900 pointer-events-none">
+      <div className="w-full aspect-[1/1.4] relative overflow-hidden rounded border border-stone-100 border-stone-600 bg-stone-50 bg-stone-900 pointer-events-none">
         <img
           src={page.thumbnailUrl}
           alt={`Page ${page.pageIndex + 1}`}
@@ -137,17 +137,17 @@ export function PdfPageGrid({ pages, setPages, isLoading, progress }: PdfPageGri
 
   if (isLoading) {
     return (
-      <div className="w-full py-12 flex flex-col items-center justify-center border-2 border-dashed border-stone-200 dark:border-stone-700 rounded-2xl bg-stone-50 dark:bg-stone-900/50 mb-6">
+      <div className="w-full py-12 flex flex-col items-center justify-center border-2 border-dashed border-stone-200 border-stone-700 rounded-2xl bg-stone-50 bg-stone-900/50 mb-6">
         <div className="w-64 max-w-full mb-6">
-          <div className="flex justify-between text-sm text-stone-600 dark:text-stone-400 mb-2 font-medium">
+          <div className="flex justify-between text-sm text-stone-600 text-stone-400 mb-2 font-medium">
             <span>Extracting Pages...</span>
             <span>{progress}%</span>
           </div>
-          <div className="w-full bg-stone-200 dark:bg-stone-700 rounded-full h-2.5 overflow-hidden">
-            <div className="bg-blue-600 h-2.5 rounded-full transition-all duration-300 ease-out" style={{ width: `${progress}%` }}></div>
+          <div className="w-full bg-stone-200 bg-stone-700 rounded-full h-2.5 overflow-hidden">
+            <div className="bg-blue-500 h-2.5 rounded-full transition-all duration-300 ease-out" style={{ width: `${progress}%` }}></div>
           </div>
         </div>
-        <p className="text-stone-500 dark:text-stone-500 text-sm">Parsing PDF document layers securely in browser</p>
+        <p className="text-stone-500 text-stone-500 text-sm">Parsing PDF document layers securely in browser</p>
       </div>
     );
   }
@@ -163,17 +163,17 @@ export function PdfPageGrid({ pages, setPages, isLoading, progress }: PdfPageGri
   }[zoomLevel];
 
   return (
-    <div className="w-full bg-stone-50 dark:bg-stone-900/50 rounded-2xl p-6 border border-stone-200 dark:border-stone-800 mb-6">
+    <div className="w-full bg-stone-50 bg-stone-900/50 rounded-2xl p-6 border border-stone-200 border-stone-800 mb-6">
       <div className="mb-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h3 className="font-bold text-stone-900 dark:text-white flex items-center">
+          <h3 className="font-bold text-stone-900 text-white flex items-center">
             Arrange Pages ({pages.length})
           </h3>
-          <p className="text-sm text-stone-500 dark:text-stone-400">
+          <p className="text-sm text-stone-500 text-stone-400">
             Drag to reorder. Uncheck or delete pages you want to exclude.
           </p>
         </div>
-        <div className="flex items-center space-x-3 bg-white dark:bg-stone-800 px-3 py-2 rounded-xl border border-stone-200 dark:border-stone-700 shadow-sm shrink-0">
+        <div className="flex items-center space-x-3 bg-slate-800 bg-stone-800 px-3 py-2 rounded-xl border border-stone-200 border-stone-700 shadow-sm shrink-0">
           <ZoomOut className="w-4 h-4 text-stone-400" />
           <input 
             type="range" 
@@ -196,7 +196,7 @@ export function PdfPageGrid({ pages, setPages, isLoading, progress }: PdfPageGri
           items={pages.map(p => p.id)}
           strategy={rectSortingStrategy}
         >
-          <div className={`grid ${gridColumnsClass} gap-4 max-h-[600px] overflow-y-auto p-2 scrollbar-thin scrollbar-thumb-stone-300 dark:scrollbar-thumb-stone-600`}>
+          <div className={`grid ${gridColumnsClass} gap-4 max-h-[600px] overflow-y-auto p-2 scrollbar-thin scrollbar-thumb-stone-300 scrollbar-thumb-stone-600`}>
             {pages.map((page, idx) => (
               <SortablePage 
                 key={page.id} 

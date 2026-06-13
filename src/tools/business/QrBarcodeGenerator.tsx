@@ -1327,41 +1327,41 @@ export function QrBarcodeGenerator() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FDFDFD] dark:bg-[#0A0A0A] p-2 md:p-6 lg:p-10 flex flex-col font-sans transition-colors duration-500 selection:bg-indigo-500/30">
+    <div className="min-h-screen bg-[#FDFDFD] bg-[#0A0A0A] p-2 md:p-6 lg:p-10 flex flex-col font-sans transition-colors duration-500 selection:bg-blue-500/30">
       
-      <div className="w-full max-w-[1800px] w-[95vw] mx-auto bg-white dark:bg-[#121212] rounded-[3rem] shadow-[0_12px_60px_-10px_rgba(0,0,0,0.05)] dark:shadow-[0_20px_60px_-10px_rgba(0,0,0,0.5)] border border-slate-100 dark:border-[#222] flex flex-col xl:flex-row overflow-hidden relative backdrop-blur-xl">
+      <div className="w-full max-w-[1800px] w-[95vw] mx-auto bg-slate-800 bg-[#121212] rounded-[3rem] shadow-[0_12px_60px_-10px_rgba(0,0,0,0.05)] shadow-[0_20px_60px_-10px_rgba(0,0,0,0.5)] border border-slate-700 border-[#222] flex flex-col xl:flex-row overflow-hidden relative backdrop-blur-xl">
         
         {/* LEFT PANEL: Customize Options */}
-        <div className="w-full xl:w-[70%] flex flex-col border-b xl:border-b-0 xl:border-r border-slate-100 dark:border-[#222] bg-white/50 dark:bg-transparent z-10 relative">
+        <div className="w-full xl:w-[70%] flex flex-col border-b xl:border-b-0 xl:border-r border-slate-700 border-[#222] bg-slate-800/50 bg-transparent z-10 relative">
            
            {/* HEADER / BRANDING */}
            <div className="px-6 md:px-12 pt-10 pb-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
               <div>
-                 <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white flex items-center gap-3 tracking-tight">
-                    <Sparkles className="w-8 h-8 text-indigo-500 drop-shadow-sm" /> Matrix QR Studio
+                 <h1 className="text-3xl md:text-4xl font-extrabold text-slate-50 text-white flex items-center gap-3 tracking-tight">
+                    <Sparkles className="w-8 h-8 text-blue-500 drop-shadow-sm" /> Matrix QR Studio
                  </h1>
               </div>
            </div>
 
            {/* SCROLLABLE PILL TABS */}
-           <div className="px-6 md:px-12 py-3 border-b border-slate-100 dark:border-[#222] bg-slate-50/50 dark:bg-[#0c0c0c]/50">
+           <div className="px-6 md:px-12 py-3 border-b border-slate-700 border-[#222] bg-slate-900/50 bg-[#0c0c0c]/50">
               <div className="flex items-center gap-2">
-                 <button onClick={() => scrollTabs('left')} className="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-[#222] text-slate-500 dark:text-slate-400 transition-colors shrink-0">
-                    <ChevronLeft className="w-5 h-5" />
+                 <button onClick={() => scrollTabs('left')} className="p-2 rounded-full hover:bg-slate-200 hover:bg-[#222] text-slate-400 text-slate-50 transition-colors shrink-0">
+                    <ChevronLeft className="w-5 h-5 text-purple-500" />
                  </button>
                  <div ref={tabsScrollRef} className="flex overflow-x-auto gap-3 pb-2 scrollbar-hide items-center flex-1">
                     {['DATA', 'PRESETS', 'COLORS', 'PATTERNS', 'QR SHAPES', 'LOGOS'].map(t => (
                        <button 
                           key={t}
                           onClick={() => setActiveTab(t)}
-                          className={`px-6 py-2.5 text-[13px] font-bold rounded-full whitespace-nowrap transition-all duration-300 tracking-wide border ${activeTab === t ? 'bg-indigo-600 text-white border-indigo-600 shadow-lg shadow-indigo-500/25 scale-105' : 'bg-white dark:bg-[#1A1A1A] text-slate-600 dark:text-slate-400 border-slate-200 dark:border-[#2A2A2A] hover:bg-slate-50 dark:hover:bg-[#222] hover:scale-105'}`}
+                          className={`px-6 py-2.5 text-[13px] font-bold rounded-full whitespace-nowrap transition-all duration-300 tracking-wide border ${activeTab === t ? 'bg-blue-500 text-white border-blue-600 shadow-lg shadow-blue-500/25 scale-105' : 'bg-slate-800 bg-[#1A1A1A] text-slate-50 text-slate-50 border-slate-700 border-[#2A2A2A] hover:bg-slate-900 hover:bg-[#222] hover:scale-105'}`}
                        >
                           {t}
                        </button>
                     ))}
                  </div>
-                 <button onClick={() => scrollTabs('right')} className="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-[#222] text-slate-500 dark:text-slate-400 transition-colors shrink-0">
-                    <ChevronRight className="w-5 h-5" />
+                 <button onClick={() => scrollTabs('right')} className="p-2 rounded-full hover:bg-slate-200 hover:bg-[#222] text-slate-400 text-slate-50 transition-colors shrink-0">
+                    <ChevronRight className="w-5 h-5 text-purple-500" />
                  </button>
               </div>
            </div>
@@ -1411,18 +1411,18 @@ export function QrBarcodeGenerator() {
         </div>
 
         {/* RIGHT PANEL: Live Preview */}
-        <div className="w-full xl:w-[30%] bg-slate-50/80 dark:bg-[#0A0A0A] border-l border-slate-100 dark:border-[#222] p-8 md:p-12 flex flex-col items-center justify-center relative overflow-hidden">
+        <div className="w-full xl:w-[30%] bg-slate-900/80 bg-[#0A0A0A] border-l border-slate-700 border-[#222] p-8 md:p-12 flex flex-col items-center justify-center relative overflow-hidden">
            
            {/* Decorative background grid and gradients */}
            <div className="absolute top-0 left-0 w-full h-[500px] bg-[radial-gradient(ellipse_100%_100%_at_50%_-20%,rgba(99,102,241,0.15),transparent)] z-0 pointer-events-none" />
-           <div className="absolute inset-0 z-0 bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)] bg-[size:32px_32px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,#000_20%,transparent_100%)] dark:bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] pointer-events-none" />
+           <div className="absolute inset-0 z-0 bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)] bg-[size:32px_32px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,#000_20%,transparent_100%)] bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] pointer-events-none" />
 
            <div className="sticky top-12 w-full flex flex-col items-center z-10 space-y-8 overflow-y-auto pb-4 max-h-screen">
               
               {/* STAGE & QR CANVAS */}
-              <div className="w-fit h-fit relative flex justify-center items-center rounded-[3rem] bg-white dark:bg-[#161616] p-6 shadow-[0_20px_50px_rgba(0,0,0,0.08)] dark:shadow-[0_20px_60px_rgba(0,0,0,0.6)] border border-slate-100 dark:border-[#333] transition-transform duration-500 hover:scale-[1.03] group mx-auto max-w-full">
+              <div className="w-fit h-fit relative flex justify-center items-center rounded-[3rem] bg-slate-800 bg-[#161616] p-6 shadow-[0_20px_50px_rgba(0,0,0,0.08)] shadow-[0_20px_60px_rgba(0,0,0,0.6)] border border-slate-700 border-[#333] transition-transform duration-500 hover:scale-[1.03] group mx-auto max-w-full">
                  {/* Internal grid to show transparency clearly */}
-                 <div className="absolute inset-6 rounded-[2.5rem] z-0 opacity-[0.04] dark:opacity-[0.08] overflow-hidden pointer-events-none" style={{ backgroundImage: 'linear-gradient(45deg, #000 25%, transparent 25%), linear-gradient(-45deg, #000 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #000 75%), linear-gradient(-45deg, transparent 75%, #000 75%)', backgroundSize: '24px 24px', backgroundPosition: '0 0, 0 12px, 12px -12px, -12px 0px' }} />
+                 <div className="absolute inset-6 rounded-[2.5rem] z-0 opacity-[0.04] opacity-[0.08] overflow-hidden pointer-events-none" style={{ backgroundImage: 'linear-gradient(45deg, #000 25%, transparent 25%), linear-gradient(-45deg, #000 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #000 75%), linear-gradient(-45deg, transparent 75%, #000 75%)', backgroundSize: '24px 24px', backgroundPosition: '0 0, 0 12px, 12px -12px, -12px 0px' }} />
                  <div className="max-w-full max-h-[600px] overflow-auto relative z-10 rounded-[2rem] bg-transparent">
                     <div ref={qrRef} className="relative flex justify-center items-center pointer-events-none drop-shadow-2xl transition-all duration-300 group-hover:drop-shadow-[0_20px_30px_rgba(79,70,229,0.2)]" />
                  </div>
@@ -1431,14 +1431,14 @@ export function QrBarcodeGenerator() {
               {/* Controls */}
               <div className="w-full max-w-[420px] space-y-4 pt-2">
                  {/* Transparency Toggle */}
-                 <label className="group relative flex items-center justify-between p-4 rounded-3xl bg-white dark:bg-[#161616] border border-slate-100 dark:border-[#222] cursor-pointer hover:border-indigo-200 dark:hover:border-indigo-500/50 transition-all shadow-sm">
+                 <label className="group relative flex items-center justify-between p-4 rounded-3xl bg-slate-800 bg-[#161616] border border-slate-700 border-[#222] cursor-pointer hover:border-blue-200 hover:border-blue-500/50 transition-all shadow-sm">
                     <div className="flex flex-col text-left mr-4 relative z-10">
-                       <span className="text-[13px] font-bold text-slate-800 dark:text-slate-200">Transparent Base</span>
+                       <span className="text-[13px] font-bold text-slate-50 text-slate-50">Transparent Base</span>
                     </div>
-                    <div className="relative inline-block w-12 h-6 rounded-full bg-slate-200 dark:bg-slate-700 transition duration-300 ease-in-out shrink-0">
+                    <div className="relative inline-block w-12 h-6 rounded-full bg-slate-200 bg-slate-800 transition duration-300 ease-in-out shrink-0">
                        <input type="checkbox" checked={useTransparentBg} onChange={e => setUseTransparentBg(e.target.checked)} className="peer absolute left-0 w-full h-full opacity-0 z-10 cursor-pointer" />
-                       <span className={`absolute left-0 w-full h-full rounded-full transition-colors duration-300 ${useTransparentBg ? 'bg-indigo-600' : 'bg-slate-200 dark:bg-[#333]'}`}></span>
-                       <span className={`absolute top-1 left-1 w-4 h-4 bg-white rounded-full transition-transform duration-300 shadow-sm ${useTransparentBg ? 'transform translate-x-6' : ''}`}></span>
+                       <span className={`absolute left-0 w-full h-full rounded-full transition-colors duration-300 ${useTransparentBg ? 'bg-blue-500' : 'bg-slate-200 bg-[#333]'}`}></span>
+                       <span className={`absolute top-1 left-1 w-4 h-4 bg-slate-800 rounded-full transition-transform duration-300 shadow-sm ${useTransparentBg ? 'transform translate-x-6' : ''}`}></span>
                     </div>
                  </label>
 
@@ -1446,10 +1446,10 @@ export function QrBarcodeGenerator() {
                  <button 
                     onClick={onDownload}
                     disabled={!data}
-                    className="w-full flex items-center justify-center gap-3 bg-slate-900 hover:bg-slate-800 dark:bg-indigo-600 dark:hover:bg-indigo-500 text-white font-bold py-4 md:py-5 px-6 rounded-3xl transition-all shadow-xl shadow-slate-900/10 dark:shadow-indigo-500/20 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed text-sm overflow-hidden relative group"
+                    className="w-full flex items-center justify-center gap-3 bg-slate-900 hover:bg-slate-800 bg-blue-500 hover:bg-blue-500 text-white font-bold py-4 md:py-5 px-6 rounded-3xl transition-all shadow-xl shadow-slate-900/10 shadow-blue-500/20 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed text-sm overflow-hidden relative group"
                  >
                     <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 pointer-events-none" />
-                    <Download className="w-5 h-5 flex-shrink-0 relative z-10 stroke-[2.5]" /> 
+                    <Download className="w-5 h-5 flex-shrink-0 relative z-10 stroke-[2.5] text-purple-500" /> 
                     <span className="relative z-10 tracking-widest text-[13px]">EXPORT</span>
                  </button>
               </div>

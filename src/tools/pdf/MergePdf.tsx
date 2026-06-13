@@ -1,8 +1,9 @@
+import { withPdfSafeBoundary } from "../../components/pdf/PdfSafeBoundary";
 import React from "react";
 import { PDFDocument } from "pdf-lib";
 import { PdfActionContainer, downloadFile } from "../../components/pdf/PdfToolsBuilder";
 
-export function MergePdf() {
+function MergePdfBase() {
   return (
     <PdfActionContainer
       title="Upload PDFs to merge"
@@ -21,3 +22,5 @@ export function MergePdf() {
     />
   );
 }
+
+export const MergePdf = withPdfSafeBoundary(MergePdfBase);

@@ -1,7 +1,8 @@
+import { GenericToolWrapper } from "../../components/ui/GenericToolWrapper";
 import React, { useState, useEffect } from 'react';
 import { Copy, Check, RefreshCw } from 'lucide-react';
 
-export function SvgBlobGenerator() {
+function SvgBlobGeneratorBase() {
   const [complexity, setComplexity] = useState(5);
   const [contrast, setContrast] = useState(5);
   const [color, setColor] = useState('#3b82f6');
@@ -60,9 +61,9 @@ export function SvgBlobGenerator() {
   };
 
   return (
-    <div className="flex flex-col md:flex-row min-h-[60vh] text-slate-800 dark:text-slate-200">
+    <div className="flex flex-col md:flex-row min-h-[60vh] text-slate-50 text-slate-50">
       {/* Visual Editor (Preview) */}
-      <div className="flex-1 p-8 flex items-center justify-center relative overflow-hidden bg-slate-50 dark:bg-slate-950/50 shadow-inner">
+      <div className="flex-1 p-8 flex items-center justify-center relative overflow-hidden bg-slate-900 bg-slate-900/50 shadow-inner">
          <div className="w-full max-w-sm aspect-square">
             <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" className="w-full h-full drop-shadow-xl transition-all duration-300 ease-in-out">
               <path fill={color} d={svgPath} className="transition-all duration-500 ease-in-out" />
@@ -71,13 +72,13 @@ export function SvgBlobGenerator() {
       </div>
 
       {/* Controls */}
-      <div className="w-full md:w-96 bg-white dark:bg-slate-900 border-l border-slate-200 dark:border-slate-800 p-6 flex flex-col gap-6">
+      <div className="w-full md:w-96 bg-slate-800 bg-slate-800 border-l border-slate-700 border-slate-700 p-6 flex flex-col gap-6">
         
         <div className="flex justify-between items-center mb-2">
            <h3 className="font-bold">Generator Controls</h3>
            <button 
              onClick={generateBlob}
-             className="flex items-center gap-2 px-3 py-1.5 text-xs font-bold bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 rounded-md transition-colors"
+             className="flex items-center gap-2 px-3 py-1.5 text-xs font-bold bg-slate-800 hover:bg-slate-200 bg-slate-800 hover:bg-slate-700 rounded-md transition-colors"
            >
               <RefreshCw className="w-3.5 h-3.5" /> Randomize
            </button>
@@ -85,12 +86,12 @@ export function SvgBlobGenerator() {
 
         <div>
           <label className="text-sm font-bold block mb-2">Complexity: {complexity}</label>
-          <input type="range" min="3" max="20" value={complexity} onChange={(e) => setComplexity(Number(e.target.value))} className="w-full accent-indigo-500" />
+          <input type="range" min="3" max="20" value={complexity} onChange={(e) => setComplexity(Number(e.target.value))} className="w-full accent-blue-500" />
         </div>
 
         <div>
           <label className="text-sm font-bold block mb-2">Contrast: {contrast}</label>
-          <input type="range" min="1" max="10" value={contrast} onChange={(e) => setContrast(Number(e.target.value))} className="w-full accent-indigo-500" />
+          <input type="range" min="1" max="10" value={contrast} onChange={(e) => setContrast(Number(e.target.value))} className="w-full accent-blue-500" />
         </div>
 
         <div>
@@ -101,17 +102,17 @@ export function SvgBlobGenerator() {
         </div>
 
         <div className="mt-4 flex-1">
-          <label className="text-sm font-bold block mb-2 text-indigo-600 dark:text-indigo-400">SVG Code</label>
+          <label className="text-sm font-bold block mb-2 text-blue-600 text-blue-400">SVG Code</label>
           <div className="relative group">
-            <pre className="p-4 bg-slate-100 dark:bg-slate-950 rounded-lg text-sm font-mono text-slate-700 dark:text-slate-300 overflow-auto max-h-48 border border-slate-200 dark:border-slate-800">
+            <pre className="p-4 bg-slate-800 bg-slate-900 rounded-lg text-sm font-mono text-slate-50 text-slate-50 overflow-auto max-h-48 border border-slate-700 border-slate-700">
               <code>{svgCode}</code>
             </pre>
             <button
               onClick={handleCopy}
-              className="absolute top-2 right-2 p-2 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 rounded-md shadow-sm border border-slate-200 dark:border-slate-700 transition-colors"
+              className="absolute top-2 right-2 p-2 bg-slate-800 bg-slate-800 text-slate-50 text-slate-50 hover:text-blue-600 hover:text-blue-400 rounded-md shadow-sm border border-slate-700 border-slate-700 transition-colors"
               title="Copy to clipboard"
             >
-              {copied ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4" />}
+              {copied ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4 text-purple-500" />}
             </button>
           </div>
         </div>
@@ -119,3 +120,5 @@ export function SvgBlobGenerator() {
     </div>
   );
 }
+
+export const SvgBlobGenerator = () => <GenericToolWrapper toolName="SvgBlobGenerator"><SvgBlobGeneratorBase /></GenericToolWrapper>;

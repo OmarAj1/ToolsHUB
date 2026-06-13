@@ -1,6 +1,7 @@
+import { GenericToolWrapper } from "../../components/ui/GenericToolWrapper";
 import React, { useState, useEffect } from 'react';
 
-export function ColorContrastChecker() {
+function ColorContrastCheckerBase() {
   const [color1, setColor1] = useState('#ffffff');
   const [color2, setColor2] = useState('#000000');
   const [contrastRatio, setContrastRatio] = useState(21);
@@ -37,21 +38,21 @@ export function ColorContrastChecker() {
   const passesAAALarge = contrastRatio >= 4.5;
 
   return (
-    <div className="flex flex-col md:flex-row min-h-[60vh] text-slate-800 dark:text-slate-200">
+    <div className="flex flex-col md:flex-row min-h-[60vh] text-slate-50 text-slate-50">
       {/* Editor Controls */}
-      <div className="w-full md:w-96 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 p-6 flex flex-col gap-6">
+      <div className="w-full md:w-96 bg-slate-800 bg-slate-800 border-r border-slate-700 border-slate-700 p-6 flex flex-col gap-6">
         <div>
           <label className="text-sm font-bold block mb-2">Foreground Color</label>
           <div className="flex items-center gap-4">
             <input 
               type="color" value={color1} 
               onChange={(e) => setColor1(e.target.value)} 
-              className="h-10 w-24 rounded border border-slate-200 dark:border-slate-800 cursor-pointer p-0" 
+              className="h-10 w-24 rounded border border-slate-700 border-slate-700 cursor-pointer p-0" 
             />
             <input 
               type="text" value={color1} 
               onChange={(e) => setColor1(e.target.value)}
-              className="flex-1 w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-3 py-2 rounded uppercase font-mono text-sm" 
+              className="flex-1 w-full bg-slate-900 bg-slate-800 border border-slate-700 border-slate-700 px-3 py-2 rounded uppercase font-mono text-sm" 
             />
           </div>
         </div>
@@ -62,19 +63,19 @@ export function ColorContrastChecker() {
             <input 
               type="color" value={color2} 
               onChange={(e) => setColor2(e.target.value)} 
-              className="h-10 w-24 rounded border border-slate-200 dark:border-slate-800 cursor-pointer p-0" 
+              className="h-10 w-24 rounded border border-slate-700 border-slate-700 cursor-pointer p-0" 
             />
             <input 
               type="text" value={color2} 
               onChange={(e) => setColor2(e.target.value)}
-              className="flex-1 w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-3 py-2 rounded uppercase font-mono text-sm" 
+              className="flex-1 w-full bg-slate-900 bg-slate-800 border border-slate-700 border-slate-700 px-3 py-2 rounded uppercase font-mono text-sm" 
             />
           </div>
         </div>
 
-        <div className="mt-4 pt-6 border-t border-slate-200 dark:border-slate-800">
+        <div className="mt-4 pt-6 border-t border-slate-700 border-slate-700">
           <div className="text-center mb-6">
-            <div className="text-5xl font-black text-indigo-600 dark:text-indigo-400 font-mono tracking-tight">
+            <div className="text-5xl font-black text-blue-600 text-blue-400 font-mono tracking-tight">
               {contrastRatio.toFixed(2)}
             </div>
             <div className="text-sm font-bold text-slate-400 mt-1 uppercase tracking-widest">Contrast Ratio</div>
@@ -113,9 +114,9 @@ export function ColorContrastChecker() {
 
 function ResultRow({ label, pass }: { label: string, pass: boolean }) {
   return (
-    <div className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800 rounded-lg">
+    <div className="flex items-center justify-between p-3 bg-slate-900 bg-slate-800 rounded-lg">
       <span className="font-medium text-sm">{label}</span>
-      <span className={`px-2 py-0.5 rounded text-xs font-bold ${pass ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'}`}>
+      <span className={`px-2 py-0.5 rounded text-xs font-bold ${pass ? 'bg-green-100 text-green-700 bg-green-900/30 text-green-400' : 'bg-red-100 text-red-700 bg-red-900/30 text-red-400'}`}>
         {pass ? 'PASS' : 'FAIL'}
       </span>
     </div>
@@ -130,3 +131,5 @@ function hexToRgb(hex: string) {
     b: parseInt(result[3], 16)
   } : null;
 }
+
+export const ColorContrastChecker = () => <GenericToolWrapper toolName="ColorContrastChecker"><ColorContrastCheckerBase /></GenericToolWrapper>;

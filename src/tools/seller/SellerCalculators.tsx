@@ -1,7 +1,8 @@
+import { GenericToolWrapper } from "../../components/ui/GenericToolWrapper";
 import React, { useState } from "react";
 import { DollarSign, Percent, TrendingUp, ShoppingCart, Tag, Receipt, PieChart, Info } from "lucide-react";
 
-export function RoiCalculator() {
+function RoiCalculatorBase() {
   const [investment, setInvestment] = useState<number | "">("");
   const [returnAmount, setReturnAmount] = useState<number | "">("");
 
@@ -23,7 +24,7 @@ export function RoiCalculator() {
   );
 }
 
-export function MarketplaceFeeCalculator() {
+function MarketplaceFeeCalculatorBase() {
   const [price, setPrice] = useState<number | "">("");
   const [feePercent, setFeePercent] = useState<number | "">("");
 
@@ -45,7 +46,7 @@ export function MarketplaceFeeCalculator() {
   );
 }
 
-export function PricingCalculator() {
+function PricingCalculatorBase() {
   const [cost, setCost] = useState<number | "">("");
   const [margin, setMargin] = useState<number | "">("");
 
@@ -68,7 +69,7 @@ export function PricingCalculator() {
   );
 }
 
-export function BreakEvenCalculator() {
+function BreakEvenCalculatorBase() {
   const [fixedCosts, setFixedCosts] = useState<number | "">("");
   const [variableCost, setVariableCost] = useState<number | "">("");
   const [price, setPrice] = useState<number | "">("");
@@ -95,7 +96,7 @@ export function BreakEvenCalculator() {
   );
 }
 
-export function MarginCalculator() {
+function MarginCalculatorBase() {
   const [cost, setCost] = useState<number | "">("");
   const [revenue, setRevenue] = useState<number | "">("");
 
@@ -117,7 +118,7 @@ export function MarginCalculator() {
   );
 }
 
-export function DiscountCalculator() {
+function DiscountCalculatorBase() {
   const [price, setPrice] = useState<number | "">("");
   const [discount, setDiscount] = useState<number | "">("");
 
@@ -139,7 +140,7 @@ export function DiscountCalculator() {
   );
 }
 
-export function SalesTaxCalculator() {
+function SalesTaxCalculatorBase() {
   const [price, setPrice] = useState<number | "">("");
   const [taxRate, setTaxRate] = useState<number | "">("");
 
@@ -161,7 +162,7 @@ export function SalesTaxCalculator() {
   );
 }
 
-export function RevenueForecastTool() {
+function RevenueForecastToolBase() {
   const [currentRev, setCurrentRev] = useState<number | "">("");
   const [growthRate, setGrowthRate] = useState<number | "">("");
   const [months, setMonths] = useState<number | "">("");
@@ -187,7 +188,7 @@ export function RevenueForecastTool() {
   );
 }
 
-export function ProductCostCalculator() {
+function ProductCostCalculatorBase() {
   const [manufacturing, setManufacturing] = useState<number | "">("");
   const [shipping, setShipping] = useState<number | "">("");
   const [customs, setCustoms] = useState<number | "">("");
@@ -220,14 +221,14 @@ export function ProductCostCalculator() {
 function InputGroup({ label, icon, value, setValue }: { label: string, icon: React.ReactNode, value: number | "", setValue: (v: number | "") => void }) {
   return (
     <div>
-      <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">{label}</label>
+      <label className="block text-sm font-medium text-slate-50 text-slate-50 mb-2">{label}</label>
       <div className="relative">
         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
           {icon}
         </div>
         <input
           type="number"
-          className="block w-full pl-10 pr-4 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors text-slate-900 dark:text-white"
+          className="block w-full pl-10 pr-4 py-3 bg-slate-800 bg-slate-800 border border-slate-700 border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-slate-50 text-white"
           placeholder="0.00"
           value={value}
           onChange={(e) => setValue(e.target.value === "" ? "" : Number(e.target.value))}
@@ -239,9 +240,9 @@ function InputGroup({ label, icon, value, setValue }: { label: string, icon: Rea
 
 function ResultCard({ title, value, secondaryLabel, secondaryValue }: { title: string, value: string, secondaryLabel: string, secondaryValue: string }) {
   return (
-    <div className="bg-slate-900 dark:bg-slate-950 rounded-2xl p-6 text-white shadow-xl flex flex-col justify-center relative overflow-hidden transition-colors">
-      <div className="absolute -top-12 -right-12 w-40 h-40 bg-indigo-500 rounded-full blur-3xl opacity-20"></div>
-      <div className="absolute -bottom-12 -left-12 w-40 h-40 bg-emerald-500 rounded-full blur-3xl opacity-20"></div>
+    <div className="bg-slate-900 bg-slate-900 rounded-2xl p-6 text-white shadow-xl flex flex-col justify-center relative overflow-hidden transition-colors">
+      <div className="absolute -top-12 -right-12 w-40 h-40 bg-blue-500 rounded-full blur-3xl opacity-20"></div>
+      <div className="absolute -bottom-12 -left-12 w-40 h-40 bg-emerald-500/100 rounded-full blur-3xl opacity-20"></div>
       
       <div className="relative z-10">
         <h3 className="text-slate-400 font-medium tracking-wide text-sm mb-2 uppercase">{title}</h3>
@@ -251,7 +252,7 @@ function ResultCard({ title, value, secondaryLabel, secondaryValue }: { title: s
 
         <div className="border-t border-slate-800 pt-6">
           <div className="flex items-center text-slate-400 text-sm mb-1">
-            <Info className="w-4 h-4 mr-1.5" /> {secondaryLabel}
+            <Info className="w-4 h-4 mr-1.5 text-purple-500" /> {secondaryLabel}
           </div>
           <div className="text-2xl font-bold text-white">{secondaryValue}</div>
         </div>
@@ -259,3 +260,21 @@ function ResultCard({ title, value, secondaryLabel, secondaryValue }: { title: s
     </div>
   );
 }
+
+export const RoiCalculator = () => <GenericToolWrapper toolName="RoiCalculator"><RoiCalculatorBase /></GenericToolWrapper>;
+
+export const MarketplaceFeeCalculator = () => <GenericToolWrapper toolName="MarketplaceFeeCalculator"><MarketplaceFeeCalculatorBase /></GenericToolWrapper>;
+
+export const PricingCalculator = () => <GenericToolWrapper toolName="PricingCalculator"><PricingCalculatorBase /></GenericToolWrapper>;
+
+export const BreakEvenCalculator = () => <GenericToolWrapper toolName="BreakEvenCalculator"><BreakEvenCalculatorBase /></GenericToolWrapper>;
+
+export const MarginCalculator = () => <GenericToolWrapper toolName="MarginCalculator"><MarginCalculatorBase /></GenericToolWrapper>;
+
+export const DiscountCalculator = () => <GenericToolWrapper toolName="DiscountCalculator"><DiscountCalculatorBase /></GenericToolWrapper>;
+
+export const SalesTaxCalculator = () => <GenericToolWrapper toolName="SalesTaxCalculator"><SalesTaxCalculatorBase /></GenericToolWrapper>;
+
+export const RevenueForecastTool = () => <GenericToolWrapper toolName="RevenueForecastTool"><RevenueForecastToolBase /></GenericToolWrapper>;
+
+export const ProductCostCalculator = () => <GenericToolWrapper toolName="ProductCostCalculator"><ProductCostCalculatorBase /></GenericToolWrapper>;

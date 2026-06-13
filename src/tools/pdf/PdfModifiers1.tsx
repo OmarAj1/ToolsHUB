@@ -1,8 +1,9 @@
+import { withPdfSafeBoundary } from "../../components/pdf/PdfSafeBoundary";
 import { useState } from "react";
 import { PDFDocument, degrees } from "pdf-lib";
 import { PdfActionContainer, downloadFile } from "../../components/pdf/PdfToolsBuilder";
 
-export function RotatePdf() {
+function RotatePdfBase() {
   const [rotation, setRotation] = useState<number>(90);
 
   return (
@@ -22,20 +23,20 @@ export function RotatePdf() {
         downloadFile(pdfBytes, `rotated_${files[0].name}`, "application/pdf");
       }}
       optionsComponent={() => (
-        <div className="bg-white p-6 rounded-2xl border border-slate-200">
-          <h4 className="font-bold text-slate-800 mb-4">Rotation Option</h4>
+        <div className="bg-slate-800 p-6 rounded-2xl border border-slate-700">
+          <h4 className="font-bold text-slate-50 mb-4">Rotation Option</h4>
           <div className="flex space-x-4">
             <label className="flex items-center space-x-2 cursor-pointer">
               <input type="radio" checked={rotation === 90} onChange={() => setRotation(90)} className="text-blue-600 focus:ring-blue-500" />
-              <span className="text-sm font-medium text-slate-700">Right (90°)</span>
+              <span className="text-sm font-medium text-slate-50">Right (90°)</span>
             </label>
             <label className="flex items-center space-x-2 cursor-pointer">
               <input type="radio" checked={rotation === -90} onChange={() => setRotation(-90)} className="text-blue-600 focus:ring-blue-500" />
-              <span className="text-sm font-medium text-slate-700">Left (-90°)</span>
+              <span className="text-sm font-medium text-slate-50">Left (-90°)</span>
             </label>
             <label className="flex items-center space-x-2 cursor-pointer">
               <input type="radio" checked={rotation === 180} onChange={() => setRotation(180)} className="text-blue-600 focus:ring-blue-500" />
-              <span className="text-sm font-medium text-slate-700">Upside down (180°)</span>
+              <span className="text-sm font-medium text-slate-50">Upside down (180°)</span>
             </label>
           </div>
         </div>
@@ -44,7 +45,7 @@ export function RotatePdf() {
   );
 }
 
-export function DeletePagesPdf() {
+function DeletePagesPdfBase() {
   return (
     <PdfActionContainer
       title="Upload PDF to remove pages"
@@ -65,7 +66,7 @@ export function DeletePagesPdf() {
   );
 }
 
-export function ExtractPagesPdf() {
+function ExtractPagesPdfBase() {
   return (
     <PdfActionContainer
       title="Upload PDF to extract pages"
@@ -78,10 +79,16 @@ export function ExtractPagesPdf() {
         downloadFile(buffer, `extracted_${files[0].name}`, "application/pdf");
       }}
       optionsComponent={() => (
-        <div className="bg-emerald-50 text-emerald-700 p-4 rounded-xl border border-emerald-200">
+        <div className="bg-emerald-500/10 text-emerald-500 p-4 rounded-xl border border-emerald-200">
           <p className="text-sm font-medium">✨ Delete the pages you don't want using the trash icon in the interactive grid. The remaining pages will be extracted and saved!</p>
         </div>
       )}
     />
   );
 }
+
+export const RotatePdf = withPdfSafeBoundary(RotatePdfBase);
+
+export const DeletePagesPdf = withPdfSafeBoundary(DeletePagesPdfBase);
+
+export const ExtractPagesPdf = withPdfSafeBoundary(ExtractPagesPdfBase);

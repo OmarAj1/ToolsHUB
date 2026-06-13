@@ -46,15 +46,15 @@ export function CidrSubnetCalculator() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-4 sm:p-6 text-slate-800 dark:text-slate-200">
-      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm p-6 mb-8 flex flex-col md:flex-row gap-6">
+    <div className="max-w-4xl mx-auto p-4 sm:p-6 text-slate-50 text-slate-50">
+      <div className="bg-slate-800 bg-slate-800 border border-slate-700 border-slate-700 rounded-2xl shadow-sm p-6 mb-8 flex flex-col md:flex-row gap-6">
          <div className="flex-1">
            <label className="block text-sm font-bold mb-2">IP Address</label>
            <input 
              type="text" 
              value={ip} 
              onChange={(e) => setIp(e.target.value)} 
-             className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-4 py-3 rounded-xl font-mono focus:outline-none focus:ring-2 focus:ring-indigo-500"
+             className="w-full bg-slate-900 bg-slate-800 border border-slate-700 border-slate-700 px-4 py-3 rounded-xl font-mono focus:outline-none focus:ring-2 focus:ring-blue-500"
            />
          </div>
          <div className="w-full md:w-48">
@@ -64,48 +64,48 @@ export function CidrSubnetCalculator() {
              min="0" max="32" 
              value={cidr} 
              onChange={(e) => setCidr(Number(e.target.value))} 
-             className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-4 py-3 rounded-xl font-mono focus:outline-none focus:ring-2 focus:ring-indigo-500"
+             className="w-full bg-slate-900 bg-slate-800 border border-slate-700 border-slate-700 px-4 py-3 rounded-xl font-mono focus:outline-none focus:ring-2 focus:ring-blue-500"
            />
          </div>
       </div>
 
       {results ? (
-        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm overflow-hidden">
+        <div className="bg-slate-800 bg-slate-800 border border-slate-700 border-slate-700 rounded-2xl shadow-sm overflow-hidden">
           <table className="w-full text-left font-mono text-sm">
              <tbody>
-               <tr className="border-b border-slate-100 dark:border-slate-800">
-                 <td className="p-4 bg-slate-50 dark:bg-slate-800/50 font-bold w-1/3">Network Address</td>
+               <tr className="border-b border-slate-700 border-slate-700">
+                 <td className="p-4 bg-slate-900 bg-slate-800/50 font-bold w-1/3">Network Address</td>
                  <td className="p-4">{results.networkAddress} <span className="text-slate-400">/{cidr}</span></td>
                </tr>
-               <tr className="border-b border-slate-100 dark:border-slate-800">
-                 <td className="p-4 bg-slate-50 dark:bg-slate-800/50 font-bold">Subnet Mask</td>
+               <tr className="border-b border-slate-700 border-slate-700">
+                 <td className="p-4 bg-slate-900 bg-slate-800/50 font-bold">Subnet Mask</td>
                  <td className="p-4">{results.subnetMask}</td>
                </tr>
-               <tr className="border-b border-slate-100 dark:border-slate-800">
-                 <td className="p-4 bg-slate-50 dark:bg-slate-800/50 font-bold">Wildcard Mask</td>
+               <tr className="border-b border-slate-700 border-slate-700">
+                 <td className="p-4 bg-slate-900 bg-slate-800/50 font-bold">Wildcard Mask</td>
                  <td className="p-4">{results.wildcardMask}</td>
                </tr>
-               <tr className="border-b border-slate-100 dark:border-slate-800">
-                 <td className="p-4 bg-slate-50 dark:bg-slate-800/50 font-bold">First Assignable Host</td>
-                 <td className="p-4 text-green-600 dark:text-green-400 font-bold">{results.firstHost}</td>
+               <tr className="border-b border-slate-700 border-slate-700">
+                 <td className="p-4 bg-slate-900 bg-slate-800/50 font-bold">First Assignable Host</td>
+                 <td className="p-4 text-green-600 text-green-400 font-bold">{results.firstHost}</td>
                </tr>
-               <tr className="border-b border-slate-100 dark:border-slate-800">
-                 <td className="p-4 bg-slate-50 dark:bg-slate-800/50 font-bold">Last Assignable Host</td>
-                 <td className="p-4 text-green-600 dark:text-green-400 font-bold">{results.lastHost}</td>
+               <tr className="border-b border-slate-700 border-slate-700">
+                 <td className="p-4 bg-slate-900 bg-slate-800/50 font-bold">Last Assignable Host</td>
+                 <td className="p-4 text-green-600 text-green-400 font-bold">{results.lastHost}</td>
                </tr>
-               <tr className="border-b border-slate-100 dark:border-slate-800">
-                 <td className="p-4 bg-slate-50 dark:bg-slate-800/50 font-bold">Broadcast Address</td>
+               <tr className="border-b border-slate-700 border-slate-700">
+                 <td className="p-4 bg-slate-900 bg-slate-800/50 font-bold">Broadcast Address</td>
                  <td className="p-4 text-red-500">{results.broadcastAddress}</td>
                </tr>
                <tr>
-                 <td className="p-4 bg-slate-50 dark:bg-slate-800/50 font-bold">Total Usable Hosts</td>
-                 <td className="p-4 font-bold text-indigo-600 dark:text-indigo-400">{results.totalHosts.toLocaleString()}</td>
+                 <td className="p-4 bg-slate-900 bg-slate-800/50 font-bold">Total Usable Hosts</td>
+                 <td className="p-4 font-bold text-blue-600 text-blue-400">{results.totalHosts.toLocaleString()}</td>
                </tr>
              </tbody>
           </table>
         </div>
       ) : (
-        <div className="bg-red-50 text-red-600 dark:bg-red-900/20 dark:text-red-400 p-4 rounded-xl font-bold text-center">
+        <div className="bg-red-50 text-red-600 bg-red-900/20 text-red-400 p-4 rounded-xl font-bold text-center">
           Invalid IPv4 Address Format
         </div>
       )}

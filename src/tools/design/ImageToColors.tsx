@@ -1,7 +1,8 @@
+import { GenericToolWrapper } from "../../components/ui/GenericToolWrapper";
 import React, { useState, useRef } from 'react';
 import { Copy, Upload, Image as ImageIcon, Check } from 'lucide-react';
 
-export function ImageToColors() {
+function ImageToColorsBase() {
   const [imageSrc, setImageSrc] = useState<string | null>(null);
   const [colors, setColors] = useState<{ hex: string, percentage: number }[]>([]);
   const [copied, setCopied] = useState<string | null>(null);
@@ -109,19 +110,19 @@ export function ImageToColors() {
   };
 
   return (
-    <div className="p-6 md:p-8 text-slate-800 dark:text-slate-200">
+    <div className="p-6 md:p-8 text-slate-50 text-slate-50">
       <div className="max-w-4xl mx-auto space-y-8">
         {/* Header Controls */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 rounded-2xl shadow-sm">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 bg-slate-800 bg-slate-800 border border-slate-700 border-slate-700 p-6 rounded-2xl shadow-sm">
           <div>
             <h2 className="text-xl font-bold mb-1">Image to Colors</h2>
-            <p className="text-sm text-slate-500 dark:text-slate-400">Extract dominant colors from an image fully offline.</p>
+            <p className="text-sm text-slate-400 text-slate-50">Extract dominant colors from an image fully offline.</p>
           </div>
           
           <label className="relative cursor-pointer group">
             <input type="file" className="hidden" accept="image/*" onChange={handleImageUpload} />
-            <div className="flex items-center gap-2 px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-lg transition-colors">
-              <Upload className="w-4 h-4" />
+            <div className="flex items-center gap-2 px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-lg transition-colors">
+              <Upload className="w-4 h-4 text-purple-500" />
               Upload Image
             </div>
           </label>
@@ -129,7 +130,7 @@ export function ImageToColors() {
 
         {imageSrc ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-             <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-4 rounded-2xl shadow-sm flex items-center justify-center min-h-[300px]">
+             <div className="bg-slate-800 bg-slate-800 border border-slate-700 border-slate-700 p-4 rounded-2xl shadow-sm flex items-center justify-center min-h-[300px]">
                <img 
                  src={imageSrc} 
                  alt="Uploaded preview" 
@@ -139,7 +140,7 @@ export function ImageToColors() {
                <canvas ref={canvasRef} className="hidden" />
              </div>
 
-             <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 rounded-2xl shadow-sm">
+             <div className="bg-slate-800 bg-slate-800 border border-slate-700 border-slate-700 p-6 rounded-2xl shadow-sm">
                 <h3 className="font-bold mb-6 text-lg">Dominant Colors</h3>
                 {colors.length > 0 ? (
                   <div className="space-y-4">
@@ -149,10 +150,10 @@ export function ImageToColors() {
                           <span className="font-mono font-bold uppercase">{c.hex}</span>
                           <span className="text-xs font-bold text-slate-400">{c.percentage}%</span>
                         </div>
-                        <div className="flex items-stretch h-12 rounded-lg overflow-hidden border border-slate-200 dark:border-slate-700 shadow-sm relative group cursor-pointer" onClick={() => copyToClipboard(c.hex)}>
+                        <div className="flex items-stretch h-12 rounded-lg overflow-hidden border border-slate-700 border-slate-700 shadow-sm relative group cursor-pointer" onClick={() => copyToClipboard(c.hex)}>
                            <div className="flex-1 transition-opacity group-hover:opacity-90" style={{ backgroundColor: c.hex }}></div>
-                           <button className="flex items-center justify-center w-12 bg-slate-50 dark:bg-slate-800 border-l border-slate-200 dark:border-slate-700 text-slate-400 group-hover:text-indigo-500 transition-colors">
-                             {copied === c.hex ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4" />}
+                           <button className="flex items-center justify-center w-12 bg-slate-900 bg-slate-800 border-l border-slate-700 border-slate-700 text-slate-400 group-hover:text-blue-500 transition-colors">
+                             {copied === c.hex ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4 text-purple-500" />}
                            </button>
                         </div>
                       </div>
@@ -160,17 +161,17 @@ export function ImageToColors() {
                   </div>
                 ) : (
                   <div className="h-full min-h-[200px] flex flex-col items-center justify-center text-slate-400 gap-3">
-                    <div className="w-8 h-8 border-4 border-slate-200 border-t-indigo-500 rounded-full animate-spin"></div>
+                    <div className="w-8 h-8 border-4 border-slate-700 border-t-blue-500 rounded-full animate-spin"></div>
                     <span className="text-sm font-bold animate-pulse">Extracting colors...</span>
                   </div>
                 )}
              </div>
           </div>
         ) : (
-          <div className="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-2xl h-[40vh] flex flex-col items-center justify-center text-slate-400 gap-4">
-             <ImageIcon className="w-16 h-16 opacity-50" />
+          <div className="border-2 border-dashed border-slate-700 border-slate-700 rounded-2xl h-[40vh] flex flex-col items-center justify-center text-slate-400 gap-4">
+             <ImageIcon className="w-16 h-16 opacity-50 text-purple-500" />
              <div className="text-center">
-               <p className="font-bold text-lg text-slate-500 dark:text-slate-400">No image selected</p>
+               <p className="font-bold text-lg text-slate-400 text-slate-50">No image selected</p>
                <p className="text-sm mt-1">Upload an image to extract its color palette.</p>
              </div>
           </div>
@@ -183,3 +184,5 @@ export function ImageToColors() {
 function rgbToHex(r: number, g: number, b: number) {
   return "#" + (1 << 24 | r << 16 | g << 8 | b).toString(16).slice(1);
 }
+
+export const ImageToColors = () => <GenericToolWrapper toolName="ImageToColors"><ImageToColorsBase /></GenericToolWrapper>;

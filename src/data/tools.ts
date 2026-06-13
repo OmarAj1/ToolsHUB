@@ -15,6 +15,9 @@ export const RAW_TOOLS = [
   { id: "xp-calculator", name: "XP Goal Calculator", description: "Calculate exactly how many matches you need to level up.", categoryId: "gaming", path: "/gaming/xp-calculator", icon: "TrendingUp" },
   { id: "aspect-ratio-calc", name: "Aspect Ratio Calculator", description: "Calculate screen resolutions and aspect ratios.", categoryId: "gaming", path: "/gaming/aspect-ratio", icon: "Monitor" },
 
+  // General Toolkit
+  { id: "unit-converters", name: "Unit Converters", description: "Convert length, weight, temperature, and data units.", categoryId: "student", path: "/student/unit-converters", icon: "Scale" },
+
   { id: "remove-duplicate-lines", name: "Remove Duplicate Lines", description: "Remove all duplicate lines from your text.", categoryId: "text", path: "/text/remove-duplicate-lines", icon: "ListMinus" },
   { id: "sort-lines", name: "Sort Lines", description: "Sort lines alphabetically A-Z.", categoryId: "text", path: "/text/sort-lines", icon: "ArrowDownAZ" },
   { id: "reverse-lines", name: "Reverse Lines", description: "Reverse the order of lines.", categoryId: "text", path: "/text/reverse-lines", icon: "ArrowDownUp" },
@@ -203,6 +206,7 @@ export const RAW_TOOLS = [
   { id: "gradient-text-generator", name: "Gradient Text Generator", description: "Generate beautiful CSS gradient text effects.", categoryId: "design", path: "/design/gradient-text", icon: "Type" },
   { id: "glassmorphism-generator", name: "Glassmorphism Generator", description: "Generate CSS glassmorphism effect.", categoryId: "design", path: "/design/glassmorphism", icon: "BoxSelect" },
   { id: "neumorphism-generator", name: "Neumorphism Generator", description: "Generate CSS neumorphism effect.", categoryId: "design", path: "/design/neumorphism", icon: "Box" },
+  { id: "color-picker", name: "Color Picker", description: "Pick Hex/RGB/HSL with live preview.", categoryId: "design", path: "/design/color-picker", icon: "Palette" },
   { id: "css-triangle-generator", name: "CSS Triangle Generator", description: "Generate CSS triangles easily.", categoryId: "design", path: "/design/css-triangle", icon: "Triangle" },
   { id: "svg-blob-generator", name: "SVG Blob Generator", description: "Generate organic SVG blobs.", categoryId: "design", path: "/design/svg-blob", icon: "Hexagon" },
   { id: "css-gradient-generator", name: "Gradient Generator", description: "Visual builder for complex CSS gradients.", categoryId: "design", path: "/design/css-gradient", icon: "Paintbrush" },
